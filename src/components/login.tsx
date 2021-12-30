@@ -22,12 +22,12 @@ function Login() {
             })
             .catch(error => { 
                 console.error('GoogleAuthProvider', error);
-                navigate(RoutesPathes.NOT_FOUND, { replace: true });
+                navigate(RoutesPathes.NOT_FOUND, { replace: false });
             });
     };
 
     return (
-        <div className='login-outer'>
+        <div className='screen-bounds'>
             <div className='login-dialog'>
                 <button type="button" onClick={login}>Log in</button>
             </div>

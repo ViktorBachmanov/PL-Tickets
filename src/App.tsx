@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 // import { Counter } from './features/counter/Counter';
 import './App.css';
 import Login from "./components/login";
+import NotFound from "./components/notFound";
 import { RoutesPathes } from "./constants";
 
 
@@ -12,6 +13,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
+        <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
       </Routes>
     </div>
   );
