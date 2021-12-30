@@ -1,4 +1,5 @@
 export enum RoutesPathes {
     LOGIN = '/',
-    NOT_FOUND = 'not_found'
+    NOT_FOUND = 'not_found',
+    DASHBOARD = '/dashboard'
 }
