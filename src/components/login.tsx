@@ -10,7 +10,7 @@ import { RoutesPathes } from "../constants";
 function Login() {
     const {auth} = useContext(FireContext);
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const login = () => {
         const provider = new GoogleAuthProvider();
