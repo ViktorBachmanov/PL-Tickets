@@ -25,21 +25,21 @@ const kitTheme = createTheme({
     },
   });*/
 
-const KitListItemButton = styled(ListItemButton)`
+const SideListItemButton = styled(ListItemButton)`
   :hover {
     background: #9fa2b414;
   }
 `;
 
-const KitListItemText = styled(ListItemText)`
+const SideListItemText = styled(ListItemText)`
   color: #A4A6B3;
 `;
 
-const KitListItemIcon = styled(ListItemIcon)`
+const SideListItemIcon = styled(ListItemIcon)`
   color: #A4A6B3;
 `;
 
-export default function KitMui() {
+export default function SideBar() {
     return (
     
         <Box css={css`
@@ -49,15 +49,15 @@ export default function KitMui() {
             background: #363740;
         `}>
             <List component="nav">
-                <KitListItemButton>
-                    <KitListItemIcon>
+                <SideListItemButton>
+                    <SideListItemIcon>
                         <PieChartIcon/>
-                    </KitListItemIcon>
+                    </SideListItemIcon>
 
-                    <KitListItemText primary="Dashboard" />
+                    <SideListItemText primary="Dashboard" />
 
 
-                </KitListItemButton>
+                </SideListItemButton>
                 
             </List>
         </Box>

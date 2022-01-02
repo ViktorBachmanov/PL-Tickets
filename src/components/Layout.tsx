@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 
 import { css } from '@emotion/react'
 
-import KitMui from "./KitMui";
+import SideBar from "./SideBar";
 import AppBarTickets  from "./AppBarTickets";
 
 
@@ -18,7 +18,7 @@ export default function Layout() {
             display: flex;
         `}
         >
-            <KitMui/>
+            <SideBar/>
 
             <Box css={css`
                     overflow: auto;
