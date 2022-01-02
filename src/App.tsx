@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './components/Tickets';
+import CreateTicket  from './components/CreateTicket';
 
 
 const mainTheme = createTheme({
@@ -37,6 +38,7 @@ function App() {
         <Route path={RoutesPathes.DASHBOARD} element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
+          <Route path={RoutesPathes.CREATE} element={<CreateTicket />} />
         </Route>
       </Routes>
     </div>
