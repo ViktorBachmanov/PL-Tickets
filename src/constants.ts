@@ -6,4 +6,3 @@ export enum RoutesPathes {
     CREATE = "tickets/new"
 };
 
-export enum Priority { LOW, NORMAL, HIGH };

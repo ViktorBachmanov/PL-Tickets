@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { connect } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Priority, IFormInput } from "./types";
 
-import { Priority } from "../constants";
+import { saveInDatabase } from './ticketsSlice';
 
-
-interface IFormInput {
-    title: string;
-    priority: Priority;
-    description: string;    
-}
+import { FireContext } from "../../index";
 
 
-export default function TicketForm() {
+
+function TicketForm(props: any) {
     const { control, handleSubmit } = useForm<IFormInput>({
         defaultValues: {
           title: "Title *",
@@ -21,12 +19,19 @@ export default function TicketForm() {
         },
       });
 
+    const { db } = useContext(FireContext);
+
     const onSubmit: SubmitHandler<IFormInput> = data => {
-        console.log(data)
+        console.log(data);
+
+        props.saveInDatabase(db);
     };
 
     return(
-        <form style={{marginTop: "30px"}}>
+        <form 
+            onSubmit={handleSubmit(onSubmit)}
+            style={{marginTop: "30px"}}
+        >
             <Controller
                 name="title"
                 control={control}
@@ -59,3 +64,6 @@ export default function TicketForm() {
         </form>
     );     
 };
+
+
+export default connect(null, { saveInDatabase })(TicketForm);

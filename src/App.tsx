@@ -10,7 +10,7 @@ import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './components/Tickets';
-import CreateTicket  from './components/CreateTicket';
+import CreateTicket  from './features/tickets/CreateTicket';
 
 
 const mainTheme = createTheme({
