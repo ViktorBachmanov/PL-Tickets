@@ -13,9 +13,9 @@ export default function AppBarTickets() {
             position='sticky'
             css={css`
                 background: #F7F8FC;
+                height: 30px;
             `}
         >
-            <Button variant="contained" >Create</Button>
         </AppBar>
     )
 }

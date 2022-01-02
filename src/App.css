@@ -1,3 +1,4 @@
+/*
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +6,7 @@
 
 ol, ul {
   list-style: none;
-}
+}*/
 
 
 .screen-bounds {
@@ -23,12 +24,4 @@ ol, ul {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.kit__menu-item {
-  color: #9FA2B4;
-}
-
-.kit__menu-item:hover {
-  color: #DDE2FF;
 }

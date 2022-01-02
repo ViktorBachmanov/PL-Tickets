@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
+import Tickets  from './components/Tickets';
 
 
 const mainTheme = createTheme({
@@ -35,6 +36,7 @@ function App() {
         <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
         <Route path={RoutesPathes.DASHBOARD} element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
         </Route>
       </Routes>
     </div>
