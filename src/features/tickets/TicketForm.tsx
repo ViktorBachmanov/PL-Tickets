@@ -24,7 +24,7 @@ function TicketForm(props: any) {
     const onSubmit: SubmitHandler<IFormInput> = data => {
         console.log(data);
 
-        props.saveInDatabase(db);
+        props.saveInDatabase({ db, data });
     };
 
     return(

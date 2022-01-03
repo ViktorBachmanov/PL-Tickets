@@ -14,6 +14,12 @@ const initialState = {
 };*/
 
 
+interface DbAndData {
+  db: any;
+  data: IFormInput;
+}
+
+
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -22,15 +28,13 @@ const initialState = {
 // typically used to make async requests.
 export const saveInDatabase = createAsyncThunk(
     'tickets/saveInDatabase',
-    async (db: any) => {
+    async (db_data: DbAndData) => {
       
-      const docRef = await addDoc(collection(db, "collection-1"), {
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
-      });
+      const docRef = await addDoc(collection(db_data.db, "collection-1"), db_data.data);
       // The value we return becomes the `fulfilled` action payload
-      return docRef;
+      console.log(docRef);
+      console.log(docRef.id);
+      return docRef.id;
     }
 );
 
