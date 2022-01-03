@@ -2,7 +2,8 @@
 /** @jsxImportSource @emotion/react */
 
 import * as React from 'react';
-import { css } from '@emotion/react'
+import { css } from '@emotion/react';
+import { NavLink } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -11,7 +12,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PieChartIcon from '@mui/icons-material/PieChart';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { styled } from '@mui/material/styles';
+import { RoutesPathes } from "../constants";
 /*
 const kitTheme = createTheme({
     palette: {
@@ -24,6 +27,7 @@ const kitTheme = createTheme({
       }
     },
   });*/
+
 
 const SideListItemButton = styled(ListItemButton)`
   :hover {
@@ -49,7 +53,9 @@ export default function SideBar() {
             background: #363740;
         `}>
             <List component="nav">
-                <SideListItemButton>
+              <NavLink to={RoutesPathes.DASHBOARD}>
+              {({ isActive }) => (
+                <SideListItemButton selected={isActive ? true : false}>
                     <SideListItemIcon>
                         <PieChartIcon/>
                     </SideListItemIcon>
@@ -57,7 +63,23 @@ export default function SideBar() {
                     <SideListItemText primary="Dashboard" />
 
 
-                </SideListItemButton>
+                </SideListItemButton>)
+              }
+              </NavLink>
+
+              <NavLink to={RoutesPathes.TICKETS}>
+              {({ isActive }) => (
+                <SideListItemButton selected={isActive ? true : false}>
+                    <SideListItemIcon>
+                        <ConfirmationNumberIcon/>
+                    </SideListItemIcon>
+
+                    <SideListItemText primary="Tickets" />
+
+
+                </SideListItemButton>)
+              }
+              </NavLink>
                 
             </List>
         </Box>

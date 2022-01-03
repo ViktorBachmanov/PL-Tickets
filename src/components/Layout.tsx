@@ -18,6 +18,7 @@ export default function Layout() {
             display: flex;
         `}
         >
+            
             <SideBar/>
 
             <Box css={css`
