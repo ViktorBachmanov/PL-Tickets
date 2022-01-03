@@ -35,8 +35,9 @@ function App() {
       <Routes>
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
         <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
-        <Route path={RoutesPathes.DASHBOARD} element={<Layout />}>
+        <Route path={RoutesPathes.ROOT} element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
           <Route path={RoutesPathes.CREATE} element={<CreateTicket />} />
         </Route>
