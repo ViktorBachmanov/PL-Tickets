@@ -2,9 +2,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
-import { IFormInput } from "./types";
+import { Priority } from "./types";
 import { db, collectionName } from '../firebase/init';
 
 
@@ -15,7 +15,15 @@ const initialState = {
     status: 'idle',
 };*/
 
-
+export interface TicketData {
+  title: string;
+  description: string;
+  priority: Priority;
+  authorId: string;
+  authorName: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 
 
@@ -26,7 +34,7 @@ const initialState = {
 // typically used to make async requests.
 export const saveInDatabase = createAsyncThunk(
     'tickets/saveInDatabase',
-    async (data: any) => {
+    async (data: TicketData) => {
       
       const docRef = await addDoc(collection(db, collectionName), data);
       // The value we return becomes the `fulfilled` action payload

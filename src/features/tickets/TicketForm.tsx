@@ -2,14 +2,18 @@ import React, { useContext } from "react";
 import { connect } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { Priority, IFormInput } from "./types";
+import { Timestamp } from "firebase/firestore";
+
+import { Priority, Mode, IFormInput } from "./types";
 import { RootState } from '../../app/store';
 
-import { saveInDatabase } from './ticketsSlice';
+import { saveInDatabase, TicketData } from './ticketsSlice';
 
 
 interface Props {
+    mode: Mode;
     userId: string;
+    userName: string | null;
     saveInDatabase: any;
 };
 
@@ -25,9 +29,24 @@ function TicketForm(props: Props) {
 
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
-        console.log(data);
+        //console.log(data);
 
-        props.saveInDatabase({ ...data, userId: props.userId });
+        const currentTime = Timestamp.now();
+        let createdAt, updatedAt;
+
+        switch(props.mode) {
+            case(Mode.NEW):
+                updatedAt = createdAt = currentTime;
+                break;
+        }
+
+        props.saveInDatabase({ 
+            ...data,
+            authorId: props.userId,
+            authorName: props.userName,
+            createdAt,
+            updatedAt
+         });
     };
 
     return(
@@ -70,7 +89,10 @@ function TicketForm(props: Props) {
 
 
 function mapStateToProps(state: RootState) {
-    return { userId: state.firebase.userId };
+    return { 
+        userId: state.firebase.userId,
+        userName: state.firebase.userName
+     };
 };
 
 export default connect(mapStateToProps, { saveInDatabase })(TicketForm);
