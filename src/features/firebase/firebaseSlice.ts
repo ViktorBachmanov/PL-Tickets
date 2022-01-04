@@ -7,10 +7,14 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./init";
 import { RoutesPathes } from "../../constants";
 
+interface State {
+  userId: string;
+  userName: string | null;
+  loginStatus: boolean;
+}
 
-
-const initialState = {
-  userId: null,
+const initialState: State = {
+  userId: "",
   userName: "",
   loginStatus: false
 }
@@ -29,11 +33,16 @@ export const loginGoogle = createAsyncThunk(
   'firebase/loginGoogle',
   async () => {    
       try {
-        const result =  await signInWithPopup(auth, provider)
+        const result = await signInWithPopup(auth, provider)
         console.log(result.user);
-        //if(result.user) {
+        //if(result.user.displayName) {
+          const payload = {
+            userId: result.user.uid, 
+            userName: result.user.displayName
+          }
+          return payload;
         //}
-        //return result.user.displayName;
+        
       }
       catch(error) {
         console.error('GoogleAuthProvider', error);
@@ -58,6 +67,10 @@ export const firebaseSlice = createSlice({
         //state.status = 'succeeded'
         //state.posts = state.posts.concat(action.payload)
         state.loginStatus = true;
+        if(action.payload) {
+          state.userId = action.payload.userId;
+          state.userName = action.payload.userName;
+        }
       })
       .addCase(loginGoogle.rejected, (state, action) => {
         //state.status = 'failed'

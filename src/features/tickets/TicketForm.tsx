@@ -3,12 +3,18 @@ import { connect } from 'react-redux';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Priority, IFormInput } from "./types";
+import { RootState } from '../../app/store';
 
 import { saveInDatabase } from './ticketsSlice';
 
 
+interface Props {
+    userId: string;
+    saveInDatabase: any;
+};
 
-function TicketForm(props: any) {
+
+function TicketForm(props: Props) {
     const { control, handleSubmit } = useForm<IFormInput>({
         defaultValues: {
           title: "Title *",
@@ -21,7 +27,7 @@ function TicketForm(props: any) {
     const onSubmit: SubmitHandler<IFormInput> = data => {
         console.log(data);
 
-        props.saveInDatabase(data);
+        props.saveInDatabase({ ...data, userId: props.userId });
     };
 
     return(
@@ -63,4 +69,8 @@ function TicketForm(props: any) {
 };
 
 
-export default connect(null, { saveInDatabase })(TicketForm);
+function mapStateToProps(state: RootState) {
+    return { userId: state.firebase.userId };
+};
+
+export default connect(mapStateToProps, { saveInDatabase })(TicketForm);

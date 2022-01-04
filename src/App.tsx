@@ -9,7 +9,7 @@ import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
-import Tickets  from './components/Tickets';
+import Tickets  from './features/tickets/Tickets';
 import CreateTicket  from './features/tickets/CreateTicket';
 
 

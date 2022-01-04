@@ -26,7 +26,7 @@ const initialState = {
 // typically used to make async requests.
 export const saveInDatabase = createAsyncThunk(
     'tickets/saveInDatabase',
-    async (data: IFormInput) => {
+    async (data: any) => {
       
       const docRef = await addDoc(collection(db, collectionName), data);
       // The value we return becomes the `fulfilled` action payload
