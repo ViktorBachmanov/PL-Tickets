@@ -6,8 +6,6 @@ import { Priority, IFormInput } from "./types";
 
 import { saveInDatabase } from './ticketsSlice';
 
-import { FireContext } from "../../index";
-
 
 
 function TicketForm(props: any) {
@@ -19,12 +17,11 @@ function TicketForm(props: any) {
         },
       });
 
-    const { db } = useContext(FireContext);
 
     const onSubmit: SubmitHandler<IFormInput> = data => {
         console.log(data);
 
-        props.saveInDatabase({ db, data });
+        props.saveInDatabase(data);
     };
 
     return(

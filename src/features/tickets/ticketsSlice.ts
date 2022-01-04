@@ -5,6 +5,8 @@ import { RootState, AppThunk } from '../../app/store';
 import { collection, addDoc } from "firebase/firestore";
 
 import { IFormInput } from "./types";
+import { db, collectionName } from '../firebase/init';
+
 
 
 /*
@@ -14,10 +16,6 @@ const initialState = {
 };*/
 
 
-interface DbAndData {
-  db: any;
-  data: IFormInput;
-}
 
 
 
@@ -28,9 +26,9 @@ interface DbAndData {
 // typically used to make async requests.
 export const saveInDatabase = createAsyncThunk(
     'tickets/saveInDatabase',
-    async (db_data: DbAndData) => {
+    async (data: IFormInput) => {
       
-      const docRef = await addDoc(collection(db_data.db, "collection-1"), db_data.data);
+      const docRef = await addDoc(collection(db, collectionName), data);
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);

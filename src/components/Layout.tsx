@@ -7,12 +7,23 @@ import Box from '@mui/material/Box';
 
 import { css } from '@emotion/react'
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
+
+
 import SideBar from "./SideBar";
 import AppBarTickets  from "./AppBarTickets";
+import Login from "./Login";
+
 
 
 
 export default function Layout() {
+    const loginStatus = useSelector((state: RootState) => state.firebase.loginStatus);
+    if(!loginStatus) {
+        return <Login />
+    }
+
     return (
         <Box css={css`
             display: flex;

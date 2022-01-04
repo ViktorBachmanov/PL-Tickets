@@ -1,39 +1,27 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { FireContext } from "../index";
-import { RoutesPathes } from "../constants";
+import { loginGoogle as loginGoogleAction } from '../features/firebase/firebaseSlice';
 
+/*
+interface Props {
+    loginGoogle?: typeof loginGoogleAction;
+}*/
 
+const mapDispatchToProps = {
+    loginGoogle: loginGoogleAction,
+};
 
-function Login() {
-    const {auth} = useContext(FireContext);
-
-    const navigate = useNavigate();
-
-    const login = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then(result => {
-                console.log(result.user);
-                if(result.user)
-                    navigate(RoutesPathes.DASHBOARD, { replace: true });
-            })
-            .catch(error => { 
-                console.error('GoogleAuthProvider', error);
-                navigate(RoutesPathes.NOT_FOUND, { replace: false });
-            });
-    };
+function Login(props: any) {
 
     return (
         <div className='screen-bounds'>
             <div className='login-dialog'>
-                <button type="button" onClick={login}>Log in</button>
+                <button type="button" onClick={props.loginGoogle}>Log in</button>
             </div>
         </div>
     )
 }
 
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
