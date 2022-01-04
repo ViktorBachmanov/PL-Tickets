@@ -16,7 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { loginGoogle as loginGoogleAction } from '../features/firebase/firebaseSlice';
+import { loginGoogle as loginGoogleAction } from '../features/user/userSlice';
 
 /*
 interface Props {

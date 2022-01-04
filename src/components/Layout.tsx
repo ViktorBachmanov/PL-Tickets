@@ -19,7 +19,7 @@ import Login from "./Login";
 
 
 export default function Layout() {
-    const loginStatus = useSelector((state: RootState) => state.firebase.loginStatus);
+    const loginStatus = useSelector((state: RootState) => state.user.loginStatus);
     if(!loginStatus) {
         return <Login />
     }

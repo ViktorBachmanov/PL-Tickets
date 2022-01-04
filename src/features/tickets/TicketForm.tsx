@@ -90,8 +90,8 @@ function TicketForm(props: Props) {
 
 function mapStateToProps(state: RootState) {
     return { 
-        userId: state.firebase.userId,
-        userName: state.firebase.userName
+        userId: state.user.id,
+        userName: state.user.name
      };
 };
 

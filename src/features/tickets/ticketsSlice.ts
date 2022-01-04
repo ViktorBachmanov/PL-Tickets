@@ -5,7 +5,7 @@ import { RootState, AppThunk } from '../../app/store';
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 import { Priority } from "./types";
-import { db, collectionName } from '../firebase/init';
+import { db, collectionName } from '../user/init';
 
 
 
