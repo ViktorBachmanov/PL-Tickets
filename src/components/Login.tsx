@@ -16,31 +16,33 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { loginGoogle as loginGoogleAction } from '../features/user/userSlice';
+import { loginGoogle as loginGoogleAction, set, userData } from '../features/user/userSlice';
+import { usersData } from "../fakeUsers/data";
 
 /*
 interface Props {
     loginGoogle?: typeof loginGoogleAction;
 }*/
 
-const mapDispatchToProps = {
-    loginGoogle: loginGoogleAction,
-};
+
 
 function Login(props: any) {
 
-    function handleSelectFakeUser() {
-        console.log("Fake user selected");
+    function handleSelectFakeUser(ev: any) {
+        //console.log("Fake user selected");
+        const user = usersData.find(user => {
+            return user.id === ev.target.value;
+        })
+        
+        props.setUser(user);
     }
 
-    return (
-        /*
-        <div className='screen-bounds'>
-            <div className='login-dialog'>
-                <button type="button" onClick={props.loginGoogle}>Log in</button>
-            </div>
-        </div>*/
+    const fakeUsers = usersData.map(user => {
+        return <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
+    });
 
+    return (
+        
         <Dialog
            maxWidth={false}
             open={true}
@@ -66,32 +68,32 @@ function Login(props: any) {
             <DialogContentText
                 css={css`
                     margin: 1rem;
+                    text-align: center;
+                    line-height: 200%;
                 `}
             >
-                or log in as
+                or<br/>
+                log in<br/>
+                as
             </DialogContentText>
 
             <FormControl 
                 css={css`
                     margin-top: 0.5rem;
+                    width: 200px;
                 `}
             >
               <InputLabel htmlFor="fake-users">Fake users</InputLabel>
               <Select
                 onChange={handleSelectFakeUser}
                 label="fakeUsers"
-                defaultValue="Tom Cruise"
+                defaultValue=""
                 inputProps={{
                   name: 'fake-users',
                   id: 'fake-users',
                 }}
               >
-                <MenuItem value={false as any}>false</MenuItem>
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="Tom Cruise">Tom Cruise</MenuItem>
+                {fakeUsers}
               </Select>
             </FormControl>
           </Box>
@@ -100,5 +102,10 @@ function Login(props: any) {
     )
 }
 
+
+const mapDispatchToProps = {
+    loginGoogle: loginGoogleAction,
+    setUser: set
+};
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -7,7 +7,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./init";
 import { RoutesPathes } from "../../constants";
 
-interface userData {
+export interface userData {
   id: string;
   name: string | null;
   avatarUrl: string | null;
@@ -100,5 +100,7 @@ export const userSlice = createSlice({
 });
 
 //export const loginStatus = (state: RootState) => state.firebase.loginStatus;
+
+export const { set } = userSlice.actions;
 
 export default userSlice.reducer;
