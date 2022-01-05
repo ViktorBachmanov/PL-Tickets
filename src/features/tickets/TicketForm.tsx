@@ -45,7 +45,8 @@ function TicketForm(props: Props) {
             authorId: props.userId,
             authorName: props.userName,
             createdAt,
-            updatedAt
+            updatedAt,
+            isCompleted: false
          });
     };
 

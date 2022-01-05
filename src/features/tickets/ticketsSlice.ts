@@ -23,6 +23,7 @@ export interface TicketData {
   authorName: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
+  isCompleted: boolean;
 }
 
 
