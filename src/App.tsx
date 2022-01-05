@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"; 
 // import { Counter } from './features/counter/Counter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
+import { RootState } from "./app/store"
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
@@ -15,22 +17,18 @@ import { Mode } from "./features/tickets/types";
 
 
 
-const mainTheme = createTheme({
-  palette: {
-    primary: {
-        main: "#A4A6B3"
-    },
-    background: {
-        default: "#363740"
-    }
-  },
-});
-
-
-
 function App() {
+
+  const themeMode: "light" | "dark" | undefined = useSelector((state: RootState) => state.theme.lightStatus);
+
+  const ticketsTheme = createTheme({
+    palette: {
+      mode: themeMode
+    }
+  });
+
   return (
-    
+    <ThemeProvider theme={ticketsTheme}>
     <div className="App">
       <CssBaseline/>
       
@@ -45,6 +43,7 @@ function App() {
         </Route>
       </Routes>
     </div>
+    </ThemeProvider>
   );
 }
 
