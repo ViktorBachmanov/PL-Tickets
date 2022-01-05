@@ -62,7 +62,7 @@ function Login(props: any) {
                 variant="contained"
                 onClick={props.loginGoogle}
             >
-                Log in with Google
+                with Google
             </Button>
 
             <DialogContentText
@@ -72,9 +72,7 @@ function Login(props: any) {
                     line-height: 200%;
                 `}
             >
-                or<br/>
-                log in<br/>
-                as
+                OR
             </DialogContentText>
 
             <FormControl 
