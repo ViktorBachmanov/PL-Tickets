@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"; 
 // import { Counter } from './features/counter/Counter';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import { RootState } from "./app/store"
@@ -14,33 +14,20 @@ import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
 import TicketForm  from './features/tickets/TicketForm';
 import { Mode } from "./features/tickets/types";
+import createMainTheme from "./mainTheme";
 
 
-const bgDark = "#102027";
-const bgLight = "#F7F8FC";
+
 
 
 function App() {
 
-  const themeMode: "light" | "dark" | undefined = useSelector((state: RootState) => state.theme.lightStatus);
+  const lightMode: "light" | "dark" | undefined = useSelector((state: RootState) => state.theme.lightStatus);
 
-  const ticketsTheme = createTheme({
-    palette: {
-      mode: themeMode,      
-      background: {
-        default: themeMode === "light" ? bgLight : bgDark,
-        paper: themeMode === "light" ? bgLight : bgDark,
-      }
-    },
-    typography: {
-      button: {
-        textTransform: "none"
-      }
-    }
-  });
+  const mainTheme = createMainTheme(lightMode);
 
   return (
-    <ThemeProvider theme={ticketsTheme}>
+    <ThemeProvider theme={mainTheme}>
     <div className="App">
       <CssBaseline/>
       
