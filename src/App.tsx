@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from "react-redux"
 import { Routes, Route, Navigate } from "react-router-dom"; 
 // import { Counter } from './features/counter/Counter';
-import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import { RootState } from "./app/store"
@@ -14,7 +13,6 @@ import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
 import TicketForm  from './features/tickets/TicketForm';
 import { Mode } from "./features/tickets/types";
-import createMainTheme from "./mainTheme";
 
 
 
@@ -22,14 +20,10 @@ import createMainTheme from "./mainTheme";
 
 function App() {
 
-  const lightMode: "light" | "dark" | undefined = useSelector((state: RootState) => state.theme.lightStatus);
-
-  const mainTheme = createMainTheme(lightMode);
-
   return (
-    <ThemeProvider theme={mainTheme}>
+    
     <div className="App">
-      <CssBaseline/>
+      
       
       <Routes>
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
@@ -42,7 +36,6 @@ function App() {
         </Route>
       </Routes>
     </div>
-    </ThemeProvider>
   );
 }
 

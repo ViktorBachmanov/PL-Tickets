@@ -34,7 +34,7 @@ export default function SideBar() {
     //const theme = useTheme();
     //const matches = useMediaQuery(theme.breakpoints.down('sm'));
     // [${theme.breakpoints.down('sm')}]: {
-    
+    /*
     const SideListItemText = styled(ListItemText)(
       ({ theme }) => `
       ${theme.breakpoints.down('sm')} {
@@ -42,7 +42,12 @@ export default function SideBar() {
       };
       color: #A4A6B3;
     `,
-    );
+    );*/
+
+    const SideListItemText = styled(ListItemText)`
+       color: #A4A6B3;
+    `;
+
 
     return (
     
