@@ -16,6 +16,9 @@ import TicketForm  from './features/tickets/TicketForm';
 import { Mode } from "./features/tickets/types";
 
 
+const bgDark = "#102027";
+const bgLight = "#F7F8FC";
+
 
 function App() {
 
@@ -23,7 +26,16 @@ function App() {
 
   const ticketsTheme = createTheme({
     palette: {
-      mode: themeMode
+      mode: themeMode,      
+      background: {
+        default: themeMode === "light" ? bgLight : bgDark,
+        paper: themeMode === "light" ? bgLight : bgDark,
+      }
+    },
+    typography: {
+      button: {
+        textTransform: "none"
+      }
     }
   });
 

@@ -23,11 +23,9 @@ interface Props {
 function AppBarTickets(props: Props) {
     
     return (
-        <AppBar
-            position='relative'
+        <Box
             css={css`
-                background: #F7F8FC;
-                height: 30px;
+                height: 50px;
             `}
         >
             <Box>
@@ -40,7 +38,7 @@ function AppBarTickets(props: Props) {
                 </IconButton>
             </Box>
 
-        </AppBar>
+        </Box>
     )
 }
 
