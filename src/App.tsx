@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux"
-import { Routes, Route } from "react-router-dom"; 
+import { Routes, Route, Navigate } from "react-router-dom"; 
 // import { Counter } from './features/counter/Counter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,7 +35,7 @@ function App() {
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
         <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
         <Route path={RoutesPathes.ROOT} element={<Layout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
           <Route path={RoutesPathes.CREATE} element={<TicketForm mode={Mode.NEW} />} />
