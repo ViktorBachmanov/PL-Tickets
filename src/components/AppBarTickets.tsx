@@ -5,6 +5,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import { css } from '@emotion/react';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
@@ -23,19 +24,21 @@ function AppBarTickets(props: Props) {
     
     return (
         <AppBar
-            position='sticky'
+            position='relative'
             css={css`
                 background: #F7F8FC;
                 height: 30px;
             `}
         >
-            <IconButton onClick={() => props.lighten()}>
-                <LightModeIcon />
-            </IconButton>
+            <Box>
+                <IconButton onClick={() => props.lighten()}>
+                    <LightModeIcon />
+                </IconButton>
 
-            <IconButton onClick={() => props.darken()}>
-                <Brightness4Icon />
-            </IconButton>
+                <IconButton onClick={() => props.darken()}>
+                    <Brightness4Icon />
+                </IconButton>
+            </Box>
 
         </AppBar>
     )
