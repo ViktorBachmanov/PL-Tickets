@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { css } from '@emotion/react';
 import { NavLink } from "react-router-dom";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+//import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,18 +15,6 @@ import PieChartIcon from '@mui/icons-material/PieChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { styled } from '@mui/material/styles';
 import { RoutesPathes } from "../constants";
-/*
-const kitTheme = createTheme({
-    palette: {
-      primary: {
-          main: "#e51c1c",
-          light: "#e51c1c",
-      },
-      background: {
-          default: "#363740"
-      }
-    },
-  });*/
 
 
 const SideListItemButton = styled(ListItemButton)`
@@ -35,15 +23,27 @@ const SideListItemButton = styled(ListItemButton)`
   }
 `;
 
-const SideListItemText = styled(ListItemText)`
-  color: #A4A6B3;
-`;
+
 
 const SideListItemIcon = styled(ListItemIcon)`
   color: #A4A6B3;
 `;
 
 export default function SideBar() {
+    //const matches = useMediaQuery('(min-width:600px)');
+    //const theme = useTheme();
+    //const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    // [${theme.breakpoints.down('sm')}]: {
+    
+    const SideListItemText = styled(ListItemText)(
+      ({ theme }) => `
+      ${theme.breakpoints.down('sm')} {
+        display: none;
+      };
+      color: #A4A6B3;
+    `,
+    );
+
     return (
     
         <Box css={css`

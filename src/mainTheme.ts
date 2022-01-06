@@ -19,7 +19,16 @@ export default function createMainTheme(lightMode: "light" | "dark" | undefined)
             button: {
                 textTransform: "none"
             }
-        }
+        },
+        breakpoints: {
+            values: {
+              xs: 0,
+              sm: 600,
+              md: 900,
+              lg: 1200,
+              xl: 1536,
+            },
+          },
     });
 
     return mainTheme;
