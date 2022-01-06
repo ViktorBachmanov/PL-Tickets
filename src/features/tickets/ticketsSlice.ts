@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp, getDocs } from "firebase/firestore";
 
 import { Priority } from "./types";
 import { db, collectionName } from '../user/init';
@@ -43,6 +43,19 @@ export const saveInDatabase = createAsyncThunk(
       console.log(docRef.id);
       return docRef.id;
     }
+);
+
+export const getAllTickets = createAsyncThunk(
+  'tickets/getAllTickets',
+  async (data: TicketData) => {
+    
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    // The value we return becomes the `fulfilled` action payload
+  }
 );
 
 
