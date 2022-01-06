@@ -4,16 +4,19 @@ import { RootState, AppThunk } from '../../app/store';
 
 import { collection, addDoc, Timestamp, getDocs } from "firebase/firestore";
 
-import { Priority } from "./types";
+import { Priority, RequestStatus } from "./types";
 import { db, collectionName } from '../user/init';
 
 
+interface initialState {
+  status: RequestStatus;
+  list: Array<TicketData>;
+}
 
-/*
 const initialState = {
-    value: 0,
-    status: 'idle',
-};*/
+    status: RequestStatus.IDLE,
+    list: [],
+};
 
 export interface TicketData {
   title: string;
@@ -48,20 +51,31 @@ export const saveInDatabase = createAsyncThunk(
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async (data: TicketData) => {
-    
+    const tickets: any = [];    
     const querySnapshot = await getDocs(collection(db, collectionName));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
+      tickets.push({
+        title: doc.data().title,
+        description: doc.data().description,
+        priority: doc.data().priority,
+        authorId: doc.data().authorId,
+        authorName: doc.data().authorName,
+        createdAt: doc.data().createdAt.seconds,
+        updatedAt: doc.data().updatedAt.seconds,
+        isCompleted: doc.data().isCompleted,
+      });
     });
     // The value we return becomes the `fulfilled` action payload
+    return tickets;
   }
 );
 
 
 export const ticketsSlice = createSlice({
     name: 'tickets',
-    initialState: [],
+    initialState,
     reducers: {
     },
     extraReducers(builder) {
@@ -77,6 +91,11 @@ export const ticketsSlice = createSlice({
             //state.status = 'failed'
             //state.error = action.error.message
             console.error(action.error.message);
+          })
+          .addCase(getAllTickets.fulfilled, (state, action) => {
+            state.status = RequestStatus.DONE;
+            state.list = action.payload;
+            console.log('getAllTickets done');
           })
       }
 });
