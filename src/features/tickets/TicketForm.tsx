@@ -17,36 +17,20 @@ interface Props {
     userName: string | null;
     tickets: Array<TicketCardData>;
     saveInDatabase: any;
+    ticketData: TicketCardData;
 };
 
 
 function TicketForm(props: Props) {
-    let ticketId: string | undefined;
-    if(props.mode === Mode.EDIT) {
-        const { id } = useParams();
-        if(id) {
-            ticketId = id;
-        }
-    }
-    let ticketData: TicketCardData | undefined | null;
-    useEffect(() => {           
-        if(ticketId) {
-            ticketData = getTicketDataById(props.tickets, ticketId);
-        }
-
-        if(!ticketData) {
-            ticketData = defaultTicketData();
-        }
-
-        return function cleanup() {
-            ticketData = null;
-        }
-    }, []);
-
-    const formData: IFormInput = createFormData(ticketData);
+    
+    //const formData: IFormInput = createFormData(props.ticketData);
 
     const { control, handleSubmit } = useForm<IFormInput>({
-        defaultValues: formData,
+        defaultValues: {
+            title: props.ticketData.title ? props.ticketData.title : "Title *",
+            description: props.ticketData.description ? props.ticketData.description : "Description",
+            priority: props.ticketData.priority,
+        },
     });
 
 
@@ -122,7 +106,7 @@ export default connect(mapStateToProps, { saveInDatabase })(TicketForm);
 
 
 // helper function
-
+/*
 function createFormData(data: IFormInput | undefined | null): IFormInput {
     const defaultFormData = {
         title: "Title *",
@@ -132,3 +116,4 @@ function createFormData(data: IFormInput | undefined | null): IFormInput {
 
     return data ? {...defaultFormData, ...data} : defaultFormData;    
 }
+*/

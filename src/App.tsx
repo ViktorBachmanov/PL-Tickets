@@ -11,7 +11,7 @@ import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
-import TicketForm  from './features/tickets/TicketForm';
+import TicketFormWrap  from './features/tickets/TicketFormWrap';
 import { Mode } from "./features/tickets/types";
 
 
@@ -32,8 +32,8 @@ function App() {
           <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
-          <Route path={RoutesPathes.TICKET_ID} element={<TicketForm mode={Mode.EDIT}/>} />
-          <Route path={RoutesPathes.CREATE} element={<TicketForm mode={Mode.NEW} />} />
+          <Route path={RoutesPathes.TICKET_ID} element={<TicketFormWrap mode={Mode.EDIT}/>} />
+          <Route path={RoutesPathes.CREATE} element={<TicketFormWrap mode={Mode.NEW} />} />
         </Route>
       </Routes>
     </div>
