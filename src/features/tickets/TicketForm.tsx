@@ -7,7 +7,7 @@ import { Timestamp } from "firebase/firestore";
 import { Priority, Mode, IFormInput } from "./types";
 import { RootState } from '../../app/store';
 
-import { saveInDatabase, TicketData } from './ticketsSlice';
+import { saveInDatabase } from './ticketsSlice';
 
 
 interface Props {

@@ -10,7 +10,7 @@ import { db, collectionName } from '../user/init';
 
 interface initialState {
   status: RequestStatus;
-  list: Array<TicketData>;
+  list: Array<TicketCardData>;
 }
 
 const initialState = {
@@ -18,7 +18,7 @@ const initialState = {
     list: [],
 };
 
-export interface TicketData {
+interface FireDocData {
   title: string;
   description: string;
   priority: Priority;
@@ -26,6 +26,18 @@ export interface TicketData {
   authorName: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
+  isCompleted: boolean;
+}
+
+export interface TicketCardData {
+  id: string;
+  title: string;
+  description: string;
+  priority: Priority;
+  authorId: string;
+  authorName: string;
+  createdAt: number;
+  updatedAt: number;
   isCompleted: boolean;
 }
 
@@ -38,7 +50,7 @@ export interface TicketData {
 // typically used to make async requests.
 export const saveInDatabase = createAsyncThunk(
     'tickets/saveInDatabase',
-    async (data: TicketData) => {
+    async (data: FireDocData) => {
       
       const docRef = await addDoc(collection(db, collectionName), data);
       // The value we return becomes the `fulfilled` action payload
@@ -50,13 +62,14 @@ export const saveInDatabase = createAsyncThunk(
 
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
-  async (data: TicketData) => {
+  async (data: FireDocData) => {
     const tickets: any = [];    
     const querySnapshot = await getDocs(collection(db, collectionName));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
       tickets.push({
+        id: doc.id,
         title: doc.data().title,
         description: doc.data().description,
         priority: doc.data().priority,
