@@ -15,7 +15,7 @@ interface initialState {
 
 const initialState = {
     status: RequestStatus.IDLE,
-    list: [],
+    list: [defaultTicketData()],
 };
 
 interface FireDocData {
@@ -23,7 +23,7 @@ interface FireDocData {
   description: string;
   priority: Priority;
   authorId: string;
-  authorName: string;
+  authorName: string | null;
   createdAt: Timestamp;
   updatedAt: Timestamp;
   isCompleted: boolean;
@@ -35,7 +35,7 @@ export interface TicketCardData {
   description: string;
   priority: Priority;
   authorId: string;
-  authorName: string;
+  authorName: string | null;
   createdAt: number;
   updatedAt: number;
   isCompleted: boolean;
@@ -90,6 +90,14 @@ export const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {
+      /*
+      getTicketDataById(state, action) {
+        const ticket: TicketCardData = state.list.find(ticket => {
+          return ticket.id === action.payload;
+        });
+
+        return {...ticket};
+      }*/
     },
     extraReducers(builder) {
         builder
@@ -115,3 +123,30 @@ export const ticketsSlice = createSlice({
 
 
 export default ticketsSlice.reducer;
+
+
+// helper functions
+
+export function getTicketDataById(tickets: Array<TicketCardData>, id: string): TicketCardData | undefined {
+  const ticket: TicketCardData | undefined = tickets.find(ticket => {
+    return ticket.id === id;
+  });
+
+  return ticket ? {...ticket} : undefined;
+}
+
+export function defaultTicketData(): TicketCardData {
+  const defaultTicketData = {
+      id: "",
+      title: "",
+      description: "",
+      priority: Priority.NORMAL,
+      authorId: "",
+      authorName: "",
+      createdAt: 0,
+      updatedAt: 0,
+      isCompleted: false
+  }
+
+  return defaultTicketData;
+}

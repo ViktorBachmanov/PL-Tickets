@@ -32,6 +32,7 @@ function App() {
           <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
+          <Route path={RoutesPathes.TICKET_ID} element={<TicketForm mode={Mode.EDIT}/>} />
           <Route path={RoutesPathes.CREATE} element={<TicketForm mode={Mode.NEW} />} />
         </Route>
       </Routes>
