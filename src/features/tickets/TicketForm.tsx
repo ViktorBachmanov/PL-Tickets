@@ -5,7 +5,7 @@ import React, { useRef } from "react";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Chip } from '@mui/material';
 import { css } from '@emotion/react';
 
 import { Timestamp } from "firebase/firestore";
@@ -144,6 +144,8 @@ function TicketForm(props: Props) {
                     Complete
                 </Button>
             </Box>
+
+            {isCompleted && <Chip label="Completed" />}
         </form>
     );     
 };
