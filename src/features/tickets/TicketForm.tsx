@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useRef } from "react";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
@@ -22,6 +22,9 @@ interface Props {
 
 
 function TicketForm(props: Props) {
+
+    let isCompleted = props.ticketData.isCompleted;
+    const formEl = useRef(null);
     
     //const formData: IFormInput = createFormData(props.ticketData);
 
@@ -33,9 +36,15 @@ function TicketForm(props: Props) {
         },
     });
 
+    
+    const onSubmit: SubmitHandler<IFormInput> = (data, ev) => {
+        if(ev) {            
+            const myEv = ev.nativeEvent as any;     // avoid ts error 2339 "property 'submitter' does not exist on type 'object'"
 
-    const onSubmit: SubmitHandler<IFormInput> = data => {
-        //console.log(data);
+            if(myEv.submitter.id === "complete") {
+                isCompleted = true;
+            }
+        }
 
         const currentTime = Timestamp.now();
         let createdAt, updatedAt;
@@ -44,20 +53,32 @@ function TicketForm(props: Props) {
             case(Mode.NEW):
                 updatedAt = createdAt = currentTime;
                 break;
-        }
 
+            case(Mode.EDIT):
+                updatedAt = currentTime;
+                break;
+        }
+        
         props.saveInDatabase({ 
             ...data,
             authorId: props.userId,
             authorName: props.userName,
             createdAt,
             updatedAt,
-            isCompleted: false
+            isCompleted,
          });
     };
 
+    function handleComplete() {
+        isCompleted = true;
+        if(formEl.current) {
+            //formEl.current.submit();
+        }
+    }
+
     return(
         <form 
+            ref={formEl}
             onSubmit={handleSubmit(onSubmit)}
             style={{marginTop: "30px"}}
         >
@@ -86,8 +107,20 @@ function TicketForm(props: Props) {
                 defaultValue=""
                 render={({ field }) => <TextField {...field} />}
             />
-            <Button variant="contained" type="submit">
+            <Button 
+                variant="contained" 
+                type="submit"
+                id="save"
+            >
                 Save
+            </Button>
+
+            <Button 
+                variant="contained" 
+                type="submit"
+                id="complete"
+            >
+                Complete
             </Button>
         </form>
     );     
