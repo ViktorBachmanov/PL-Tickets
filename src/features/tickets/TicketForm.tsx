@@ -123,27 +123,26 @@ function TicketForm(props: Props) {
                 defaultValue=""
                 render={({ field }) => <TextField {...field} disabled={isDisabled}/>}
             />
+            
+            {isDisabled ||
+                <Box>
+                    <Button 
+                        variant="contained" 
+                        type="submit"
+                        id="save"
+                    >
+                        Save
+                    </Button>
 
-            <Box css={css`
-                    ${isDisabled && css`display: none;`} 
-                `}
-            >
-                <Button 
-                    variant="contained" 
-                    type="submit"
-                    id="save"
-                >
-                    Save
-                </Button>
-
-                <Button 
-                    variant="contained" 
-                    type="submit"
-                    id="complete"
-                >
-                    Complete
-                </Button>
-            </Box>
+                    <Button 
+                        variant="contained" 
+                        type="submit"
+                        id="complete"
+                    >
+                        Complete
+                    </Button>
+                </Box>
+            }
 
             {isCompleted && <Chip label="Completed" />}
         </form>
