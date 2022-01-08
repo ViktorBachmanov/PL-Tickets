@@ -1,8 +1,13 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
 import React, { useRef } from "react";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import { css } from '@emotion/react';
+
 import { Timestamp } from "firebase/firestore";
 
 import { Priority, Mode, IFormInput } from "./types";
@@ -27,14 +32,14 @@ interface Props {
 
 
 function TicketForm(props: Props) {
-    /*let mode = props.mode;
-    
-    if(props.userId === props.ticket.authorId) {
-        mode = 
-    }*/
-
     let isCompleted = props.ticket.isCompleted;
-    const formEl = useRef(null);
+    let mode = props.mode;
+    
+    if(props.userId === props.ticket.authorId && !isCompleted) {
+        mode = Mode.EDIT;
+    }    
+
+    const isDisabled = mode === Mode.READ ? true : false;
     
     //const formData: IFormInput = createFormData(props.ticketData);
 
@@ -80,23 +85,22 @@ function TicketForm(props: Props) {
          });
     };
 
-    function handleComplete() {
-        isCompleted = true;
-        if(formEl.current) {
-            //formEl.current.submit();
-        }
-    }
-
+    
     return(
         <form 
-            ref={formEl}
             onSubmit={handleSubmit(onSubmit)}
             style={{marginTop: "30px"}}
         >
             <Controller
                 name="title"
                 control={control}
-                render={({ field }) => <TextField {...field} />}
+                render={({ field }) => (
+                        <TextField 
+                            {...field}
+                            disabled={isDisabled}
+                        />
+                    )
+                }
             />
             <Controller
                 name="priority"
@@ -104,7 +108,7 @@ function TicketForm(props: Props) {
                 render={({ field }) => (
                     <FormControl size="small">
                       <InputLabel>Priority</InputLabel>
-                      <Select label="Priority" {...field}>
+                      <Select label="Priority" {...field} disabled={isDisabled}>
                         <MenuItem value={Priority.LOW}>Low</MenuItem>
                         <MenuItem value={Priority.NORMAL}>Normal</MenuItem>
                         <MenuItem value={Priority.HIGH}>High</MenuItem>
@@ -112,27 +116,34 @@ function TicketForm(props: Props) {
                     </FormControl>
                   )}
             />
+            
             <Controller
                 name="description"
                 control={control}
                 defaultValue=""
-                render={({ field }) => <TextField {...field} />}
+                render={({ field }) => <TextField {...field} disabled={isDisabled}/>}
             />
-            <Button 
-                variant="contained" 
-                type="submit"
-                id="save"
-            >
-                Save
-            </Button>
 
-            <Button 
-                variant="contained" 
-                type="submit"
-                id="complete"
+            <Box css={css`
+                    ${isDisabled && css`display: none;`} 
+                `}
             >
-                Complete
-            </Button>
+                <Button 
+                    variant="contained" 
+                    type="submit"
+                    id="save"
+                >
+                    Save
+                </Button>
+
+                <Button 
+                    variant="contained" 
+                    type="submit"
+                    id="complete"
+                >
+                    Complete
+                </Button>
+            </Box>
         </form>
     );     
 };
