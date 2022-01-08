@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, Timestamp, getDocs } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDocs, doc, Timestamp } from "firebase/firestore";
 
 import { Priority, RequestStatus } from "./types";
 import { db, collectionName } from '../user/init';
@@ -18,27 +18,24 @@ const initialState = {
     list: [defaultTicketData()],
 };
 
-interface FireDocData {
+interface TaskData {
   title: string;
   description: string;
   priority: Priority;
   authorId: string;
   authorName: string | null;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
   isCompleted: boolean;
 }
 
-export interface TicketCardData {
-  id: string;
-  title: string;
-  description: string;
-  priority: Priority;
-  authorId: string;
-  authorName: string | null;
-  createdAt: number;
+interface FireDocData extends TaskData {
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface TicketCardData extends TaskData {
+  createdAt: number;  // milliseconds
   updatedAt: number;
-  isCompleted: boolean;
+  id: string;
 }
 
 
@@ -48,16 +45,21 @@ export interface TicketCardData {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const saveInDatabase = createAsyncThunk(
-    'tickets/saveInDatabase',
-    async (data: FireDocData) => {
-      
-      const docRef = await addDoc(collection(db, collectionName), data);
+
+export const saveDocInDatabase = createAsyncThunk(
+  'tickets/saveDocInDatabase',
+  async (payload: { id: string, docData: FireDocData }) => {
+    if(!payload.id) { 
+      const docRef = await addDoc(collection(db, collectionName), payload.docData);
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);
       return docRef.id;
     }
+    else {
+      await setDoc(doc(db, collectionName, payload.id), payload.docData);
+    }
+  }
 );
 
 export const getAllTickets = createAsyncThunk(
@@ -67,17 +69,19 @@ export const getAllTickets = createAsyncThunk(
     const querySnapshot = await getDocs(collection(db, collectionName));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      const docData = doc.data();
+      console.log(doc.id, " => ", docData);
+      
       tickets.push({
         id: doc.id,
-        title: doc.data().title,
-        description: doc.data().description,
-        priority: doc.data().priority,
-        authorId: doc.data().authorId,
-        authorName: doc.data().authorName,
-        createdAt: doc.data().createdAt.seconds,
-        updatedAt: doc.data().updatedAt.seconds,
-        isCompleted: doc.data().isCompleted,
+        title: docData.title,
+        description: docData.description,
+        priority: docData.priority,
+        authorId: docData.authorId,
+        authorName: docData.authorName,
+        isCompleted: docData.isCompleted,
+        createdAt: docData.createdAt.toMillis(),
+        updatedAt: docData.updatedAt.toMillis(),
       });
     });
     // The value we return becomes the `fulfilled` action payload
@@ -101,14 +105,14 @@ export const ticketsSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-          .addCase(saveInDatabase.pending, (state, action) => {
+          .addCase(saveDocInDatabase.pending, (state, action) => {
             //state.status = 'loading'
           })
-          .addCase(saveInDatabase.fulfilled, (state, action) => {
+          .addCase(saveDocInDatabase.fulfilled, (state, action) => {
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
           })
-          .addCase(saveInDatabase.rejected, (state, action) => {
+          .addCase(saveDocInDatabase.rejected, (state, action) => {
             //state.status = 'failed'
             //state.error = action.error.message
             console.error(action.error.message);
@@ -138,8 +142,8 @@ export function getTicketDataById(tickets: Array<TicketCardData>, id: string): T
 export function defaultTicketData(): TicketCardData {
   const defaultTicketData = {
       id: "",
-      title: "",
-      description: "",
+      title: "Title *",
+      description: "Description",
       priority: Priority.NORMAL,
       authorId: "",
       authorName: "",

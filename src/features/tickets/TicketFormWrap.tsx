@@ -21,7 +21,7 @@ export default function TicketFormWrap(props: Props) {
     let tickets: Array<TicketCardData>;
     let ticketData: TicketCardData | undefined;
 
-    if(props.mode === Mode.EDIT) {
+    if(props.mode === Mode.READ) {
         const { id } = useParams();
         if(id) {
             ticketId = id;
@@ -48,6 +48,6 @@ export default function TicketFormWrap(props: Props) {
 
   
 
-    return <TicketForm mode={props.mode} ticketData={ticketData}/>;  
+    return <TicketForm mode={props.mode} ticket={ticketData}/>;  
 };
 

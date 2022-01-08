@@ -32,8 +32,8 @@ function App() {
           <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
-          <Route path={RoutesPathes.TICKET_ID} element={<TicketFormWrap mode={Mode.EDIT}/>} />
-          <Route path={RoutesPathes.CREATE} element={<TicketFormWrap mode={Mode.NEW} />} />
+          <Route path={RoutesPathes.TICKET_ID} element={<TicketFormWrap mode={Mode.READ}/>} />
+          <Route path={RoutesPathes.CREATE} element={<TicketFormWrap mode={Mode.EDIT} />} />
         </Route>
       </Routes>
     </div>

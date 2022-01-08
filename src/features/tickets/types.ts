@@ -1,6 +1,6 @@
 export enum Priority { LOW, NORMAL, HIGH };
 
-export enum Mode { NEW, EDIT };
+export enum Mode { READ, EDIT };
 
 export enum RequestStatus { IDLE, PENDING, DONE };
 

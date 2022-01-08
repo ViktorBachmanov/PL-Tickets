@@ -8,7 +8,12 @@ import { Timestamp } from "firebase/firestore";
 import { Priority, Mode, IFormInput } from "./types";
 import { RootState } from '../../app/store';
 
-import { saveInDatabase, TicketCardData, getTicketDataById, defaultTicketData } from './ticketsSlice';
+import ticketsSlice, { 
+    saveDocInDatabase as saveDocInDatabaseAction,
+    //setDocInDatabase as setDocInDatabaseAction,
+    TicketCardData,
+    getTicketDataById,
+    defaultTicketData } from './ticketsSlice';
 
 
 interface Props {
@@ -16,23 +21,28 @@ interface Props {
     userId: string;
     userName: string | null;
     tickets: Array<TicketCardData>;
-    saveInDatabase: any;
-    ticketData: TicketCardData;
+    saveDocInDatabase: any;
+    ticket: TicketCardData;
 };
 
 
 function TicketForm(props: Props) {
+    /*let mode = props.mode;
+    
+    if(props.userId === props.ticket.authorId) {
+        mode = 
+    }*/
 
-    let isCompleted = props.ticketData.isCompleted;
+    let isCompleted = props.ticket.isCompleted;
     const formEl = useRef(null);
     
     //const formData: IFormInput = createFormData(props.ticketData);
 
     const { control, handleSubmit } = useForm<IFormInput>({
         defaultValues: {
-            title: props.ticketData.title ? props.ticketData.title : "Title *",
-            description: props.ticketData.description ? props.ticketData.description : "Description",
-            priority: props.ticketData.priority,
+            title: props.ticket.title,
+            description: props.ticket.description,
+            priority: props.ticket.priority,
         },
     });
 
@@ -49,23 +59,24 @@ function TicketForm(props: Props) {
         const currentTime = Timestamp.now();
         let createdAt, updatedAt;
 
-        switch(props.mode) {
-            case(Mode.NEW):
-                updatedAt = createdAt = currentTime;
-                break;
-
-            case(Mode.EDIT):
-                updatedAt = currentTime;
-                break;
+        if(!props.ticket.createdAt) {
+            updatedAt = createdAt = currentTime;
+        }
+        else {
+            createdAt = Timestamp.fromMillis(props.ticket.createdAt);
+            updatedAt = currentTime;
         }
         
-        props.saveInDatabase({ 
-            ...data,
-            authorId: props.userId,
-            authorName: props.userName,
-            createdAt,
-            updatedAt,
-            isCompleted,
+        props.saveDocInDatabase({
+            id: props.ticket.id,
+            docData: { 
+                ...data,
+                authorId: props.userId,
+                authorName: props.userName,
+                createdAt,
+                updatedAt,
+                isCompleted,
+            }
          });
     };
 
@@ -135,10 +146,21 @@ function mapStateToProps(state: RootState) {
      };
 };
 
-export default connect(mapStateToProps, { saveInDatabase })(TicketForm);
+const mapDispatchToProps = {
+    saveDocInDatabase: saveDocInDatabaseAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);
 
 
 // helper function
+/*
+function saveInDatabase(docId: string, addCallback, saveCallback) {
+    docId ? saveCallback({docId, data}) : addCallback(data);
+}
+*/
+
+
 /*
 function createFormData(data: IFormInput | undefined | null): IFormInput {
     const defaultFormData = {
