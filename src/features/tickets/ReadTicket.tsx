@@ -11,44 +11,33 @@ import { TicketCardData, getTicketDataById, defaultTicketData } from './ticketsS
 import TicketForm from './TicketForm';
 
 
-interface Props {
-    mode: Mode;
-};
 
 
-export default function TicketFormWrap(props: Props) {
+export default function ReadTicket() {
     let ticketId: string | undefined;
     let tickets: Array<TicketCardData>;
     let ticketData: TicketCardData | undefined;
 
-    if(props.mode === Mode.READ) {
-        const { id } = useParams();
-        if(id) {
-            ticketId = id;
-            tickets = useSelector((state: RootState) => state.tickets.list);
-            if(tickets) {
-                ticketData = getTicketDataById(tickets, ticketId);
-            }
+    const { id } = useParams();
+    if(id) {
+        ticketId = id;
+        tickets = useSelector((state: RootState) => state.tickets.list);
+        if(tickets) {
+            ticketData = getTicketDataById(tickets, ticketId);
         }
-    }
-   
+    } 
     
-    //useEffect(() => {           
         
 
-        if(!ticketData) {
-            ticketData = defaultTicketData();
-        }
-        /*
-        return function cleanup() {
-            ticketData = null;
-        }*/
-    //}, []);
+    if(!ticketData) {
+        ticketData = defaultTicketData();
+    }
+        
 
     console.log(`TicketFormWrap process: `, ticketData);
 
   
 
-    return <TicketForm mode={props.mode} ticket={ticketData}/>;  
+    return <TicketForm mode={Mode.READ} ticket={ticketData}/>;  
 };
 
