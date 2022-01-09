@@ -26,14 +26,14 @@ function CreateTicket(props: Props) {
     }
     
     if(props.beingSavedTicketId) {
-        props.beingSavedTicketId;
+        //props.beingSavedTicketId;
 
         return <Navigate to={RoutesPathes.TICKETS + "/" + props.beingSavedTicketId} replace={true} />;
     }
 
    
 
-    return <TicketForm mode={Mode.EDIT} ticket={defaultTicketData()}/>;  
+    return <TicketForm mode={Mode.EDIT} />;  
 };
 
 

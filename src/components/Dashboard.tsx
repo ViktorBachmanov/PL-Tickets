@@ -7,6 +7,9 @@ import { css } from '@emotion/react'
 
 
 export default function Dashboard() {
+
+    console.log('Dashboard');
+
     return (
         <Box css={css`
             width: 200px;

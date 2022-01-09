@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
@@ -15,7 +15,7 @@ import { RootState } from '../../app/store';
 
 import ticketsSlice, { 
     saveDocInDatabase as saveDocInDatabaseAction,
-    //setDocInDatabase as setDocInDatabaseAction,
+    resetRequestStatus as resetRequestStatusAction,
     TicketCardData,
     getTicketDataById,
     defaultTicketData } from './ticketsSlice';
@@ -27,11 +27,17 @@ interface Props {
     userName: string | null;
     tickets: Array<TicketCardData>;
     saveDocInDatabase: any;
+    resetRequestStatus: any;
     ticket: TicketCardData;
 };
 
 
 function TicketForm(props: Props) {
+    //props.resetRequestStatus();
+    useEffect(() => {
+        console.log('TicketForm mounted');
+    })
+
     let isCompleted = props.ticket.isCompleted;
     let mode = props.mode;
     
@@ -155,11 +161,13 @@ function mapStateToProps(state: RootState) {
         userId: state.user.id,
         userName: state.user.name,
         tickets: state.tickets.list,
+        ticket: state.tickets.currentTicket,
      };
 };
 
 const mapDispatchToProps = {
     saveDocInDatabase: saveDocInDatabaseAction,
+    resetRequestStatus: resetRequestStatusAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);

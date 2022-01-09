@@ -1,43 +1,64 @@
-import React, { useContext, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Timestamp } from "firebase/firestore";
 
-import { Priority, Mode, IFormInput } from "./types";
+import { Mode, RequestStatus } from "./types";
 import { RootState } from '../../app/store';
 
-import { TicketCardData, getTicketDataById, defaultTicketData } from './ticketsSlice';
+import { TicketCardData,
+         getTicketDataById,
+         defaultTicketData,
+         loadTicketById as loadTicketByIdAction,
+         //resetRequestStatus as resetRequestStatusAction,
+        } from './ticketsSlice';
 import TicketForm from './TicketForm';
 
 
+interface Props {
+    requestStatus: RequestStatus;
+    currentTicket: TicketCardData;
+    loadTicketById: any;
+    //resetRequestStatus: any;
+}
 
 
-export default function ReadTicket() {
-    let ticketId: string | undefined;
-    let tickets: Array<TicketCardData>;
-    let ticketData: TicketCardData | undefined;
+function ReadTicket(props: Props) {
+    console.log('ReadTicket', ++ReadTicket.count);
+
+    //props.resetRequestStatus();
 
     const { id } = useParams();
-    if(id) {
-        ticketId = id;
-        tickets = useSelector((state: RootState) => state.tickets.list);
-        if(tickets) {
-            ticketData = getTicketDataById(tickets, ticketId);
-        }
-    } 
-    
-        
 
-    if(!ticketData) {
-        ticketData = defaultTicketData();
-    }
-        
+    if(id && !props.currentTicket.id && props.requestStatus !== RequestStatus.LOADING) {
+        props.loadTicketById(id);
+    }  
 
-    console.log(`TicketFormWrap process: `, ticketData);
 
-  
+    if(props.requestStatus !== RequestStatus.DONE) {
 
-    return <TicketForm mode={Mode.READ} ticket={ticketData}/>;  
+        return <h2>Loading...</h2>;
+    }        
+
+
+    //return <h3>End</h3>;
+
+    return <TicketForm mode={Mode.READ} />;  
 };
 
+ReadTicket.count = 0;
+
+function mapStateToProps(state: RootState) {
+    return { 
+        requestStatus: state.tickets.requestStatus,
+        currentTicket: state.tickets.currentTicket,
+    };
+};
+
+const mapDispatchToProps = {
+    loadTicketById: loadTicketByIdAction,
+    //resetRequestStatus: resetRequestStatusAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReadTicket);

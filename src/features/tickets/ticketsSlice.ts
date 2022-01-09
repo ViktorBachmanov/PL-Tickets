@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, setDoc, getDocs, doc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDoc, getDocs, doc, Timestamp } from "firebase/firestore";
 
 import { Priority, RequestStatus } from "./types";
 import { db, collectionName } from '../user/init';
@@ -12,12 +12,14 @@ interface initialState {
   requestStatus: RequestStatus;
   list: Array<TicketCardData>;
   beingSavedTicketId: string;
+  currentTicket: TicketCardData;
 }
 
 const initialState = {
     requestStatus: RequestStatus.IDLE,
     list: [defaultTicketData()],
     beingSavedTicketId: "",
+    currentTicket: defaultTicketData(),
 };
 
 interface TaskData {
@@ -66,6 +68,24 @@ export const saveDocInDatabase = createAsyncThunk(
   }
 );
 
+export const loadTicketById = createAsyncThunk(
+  'tickets/loadTicketById',
+  async (id: string) => {
+      // The value we return becomes the `fulfilled` action payload
+      const docRef = doc(db, collectionName, id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        //console.log("Document data:", docSnap.data());
+        return createTicketData(id, docSnap.data() as FireDocData);
+      } else {
+        // doc.data() will be undefined in this case
+        //console.log("No such document!");
+        return defaultTicketData();
+      }
+  }
+);
+
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async (data: FireDocData) => {
@@ -101,12 +121,16 @@ export const ticketsSlice = createSlice({
       resetSavedTicketId: (state) => {
         state.beingSavedTicketId = "";
       },
+      resetRequestStatus: (state) => {
+        state.requestStatus = RequestStatus.IDLE;
+      },
     },
     extraReducers(builder) {
         builder
           .addCase(saveDocInDatabase.pending, (state, action) => {
             //state.status = 'loading'
             state.beingSavedTicketId = "";
+            state.currentTicket = defaultTicketData();
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(saveDocInDatabase.fulfilled, (state, action) => {
@@ -120,15 +144,25 @@ export const ticketsSlice = createSlice({
             //state.error = action.error.message
             console.error(action.error.message);
           })
-          .addCase(getAllTickets.fulfilled, (state, action) => {
+          .addCase(loadTicketById.pending, (state, action) => {
+            //state.status = 'loading'
+            state.requestStatus = RequestStatus.LOADING;
+          })
+          .addCase(loadTicketById.fulfilled, (state, action) => {
+            //state.status = 'succeeded'
+            //state.posts = state.posts.concat(action.payload)
             state.requestStatus = RequestStatus.DONE;
+            state.currentTicket = action.payload;
+          })
+          .addCase(getAllTickets.fulfilled, (state, action) => {
+            //state.requestStatus = RequestStatus.DONE;
             state.list = action.payload;
             console.log('getAllTickets done');
           })
       }
 });
 
-export const { resetSavedTicketId } = ticketsSlice.actions;
+export const { resetSavedTicketId, resetRequestStatus } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
 
@@ -157,4 +191,18 @@ export function defaultTicketData(): TicketCardData {
   }
 
   return defaultTicketData;
+}
+
+function createTicketData(id: string, docData: FireDocData): TicketCardData {
+  return {
+    id,
+    title: docData.title,
+    description: docData.description,
+    priority: docData.priority,
+    authorId: docData.authorId,
+    authorName: docData.authorName,
+    isCompleted: docData.isCompleted,
+    createdAt: docData.createdAt.toMillis(),
+    updatedAt: docData.updatedAt.toMillis(),
+  };
 }
