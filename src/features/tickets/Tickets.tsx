@@ -8,7 +8,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { RoutesPathes } from "../../constants";
-import { getAllTickets as getAllTicketsAction, TicketCardData } from "./ticketsSlice";
+import { getAllTickets as getAllTicketsAction, 
+        resetSavedTicketId as resetSavedTicketIdAction } from "./ticketsSlice";
 import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
 
@@ -18,6 +19,7 @@ function Tickets(props: any) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        props.resetSavedTicketId();
         props.getAllTickets();
     }, []);
 
@@ -67,6 +69,7 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = {
     getAllTickets: getAllTicketsAction,
+    resetSavedTicketId: resetSavedTicketIdAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

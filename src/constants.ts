@@ -3,7 +3,7 @@ export enum RoutesPathes {
     LOGIN = '/login',
     NOT_FOUND = 'not_found',
     DASHBOARD = 'dashboard',
-    TICKETS = "tickets",
+    TICKETS = "/tickets",
     TICKET_ID = "/tickets/:id",
     CREATE = "/tickets/new"
 };

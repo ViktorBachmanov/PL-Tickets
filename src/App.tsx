@@ -12,6 +12,7 @@ import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
 import TicketFormWrap  from './features/tickets/TicketFormWrap';
+import CreateTicket  from './features/tickets/CreateTicket';
 import { Mode } from "./features/tickets/types";
 
 
@@ -33,7 +34,7 @@ function App() {
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
           <Route path={RoutesPathes.TICKET_ID} element={<TicketFormWrap mode={Mode.READ}/>} />
-          <Route path={RoutesPathes.CREATE} element={<TicketFormWrap mode={Mode.EDIT} />} />
+          <Route path={RoutesPathes.CREATE} element={<CreateTicket />} />
         </Route>
       </Routes>
     </div>

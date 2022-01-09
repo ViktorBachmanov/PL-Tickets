@@ -9,13 +9,15 @@ import { db, collectionName } from '../user/init';
 
 
 interface initialState {
-  status: RequestStatus;
+  requestStatus: RequestStatus;
   list: Array<TicketCardData>;
+  beingSavedTicketId: string;
 }
 
 const initialState = {
-    status: RequestStatus.IDLE,
+    requestStatus: RequestStatus.IDLE,
     list: [defaultTicketData()],
+    beingSavedTicketId: "",
 };
 
 interface TaskData {
@@ -58,6 +60,8 @@ export const saveDocInDatabase = createAsyncThunk(
     }
     else {
       await setDoc(doc(db, collectionName, payload.id), payload.docData);
+
+      return payload.id;
     }
   }
 );
@@ -94,23 +98,22 @@ export const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {
-      /*
-      getTicketDataById(state, action) {
-        const ticket: TicketCardData = state.list.find(ticket => {
-          return ticket.id === action.payload;
-        });
-
-        return {...ticket};
-      }*/
+      resetSavedTicketId: (state) => {
+        state.beingSavedTicketId = "";
+      },
     },
     extraReducers(builder) {
         builder
           .addCase(saveDocInDatabase.pending, (state, action) => {
             //state.status = 'loading'
+            state.beingSavedTicketId = "";
+            state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(saveDocInDatabase.fulfilled, (state, action) => {
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
+            state.beingSavedTicketId = action.payload;
+            state.requestStatus = RequestStatus.DONE;
           })
           .addCase(saveDocInDatabase.rejected, (state, action) => {
             //state.status = 'failed'
@@ -118,13 +121,14 @@ export const ticketsSlice = createSlice({
             console.error(action.error.message);
           })
           .addCase(getAllTickets.fulfilled, (state, action) => {
-            state.status = RequestStatus.DONE;
+            state.requestStatus = RequestStatus.DONE;
             state.list = action.payload;
             console.log('getAllTickets done');
           })
       }
 });
 
+export const { resetSavedTicketId } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
 
