@@ -2,41 +2,41 @@ export const usersData = [
     {
         id: "f001",
         name: "Tom Cruise",
-        avatarUrl: "fakeUsers/TomCruise.png",
+        avatarUrl: "pics/TomCruise.png",
     },
     {
         id: "f002",
         name: "Matt Damon",
-        avatarUrl: "fakeUsers/MattDamon.png",
+        avatarUrl: "pics/MattDamon.png",
     },
     {
         id: "f003",
         name: "Robert Downey",
-        avatarUrl: "fakeUsers/RobertDowney.png",
+        avatarUrl: "pics/RobertDowney.png",
     },
     {
         id: "f004",
         name: "Christian Bale",
-        avatarUrl: "fakeUsers/ChristianBale.png",
+        avatarUrl: "pics/ChristianBale.png",
     },
     {
         id: "f005",
         name: "Henry Cavil",
-        avatarUrl: "fakeUsers/HenryCavil.png",
+        avatarUrl: "pics/HenryCavil.png",
     },
     {
         id: "f006",
         name: "Chris Evans",
-        avatarUrl: "fakeUsers/ChrisEvans.png",
+        avatarUrl: "pics/ChrisEvans.png",
     },
     {
         id: "f007",
         name: "Sam Smith",
-        avatarUrl: "fakeUsers/SamSmith.png",
+        avatarUrl: "pics/SamSmith.png",
     },
     {
         id: "f008",
         name: "Steve Rogers",
-        avatarUrl: "fakeUsers/SteveRogers.png",
+        avatarUrl: "pics/SteveRogers.png",
     },
 ];

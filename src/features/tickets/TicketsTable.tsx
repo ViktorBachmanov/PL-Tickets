@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
+import { getAvatarUrlByUserId } from "../user/utils";
 
 
 interface Props {
@@ -20,11 +21,12 @@ interface Props {
 export default function TicketsTable(props: Props) {
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
+        console.log(getAvatarUrlByUserId(ticket.authorId));
         
         return (
             <TableRow key={ticket.id}>
                 <TableCell>
-                    <Avatar alt={authorName.charAt(0)} />
+                    <Avatar alt={authorName.charAt(0)} src={getAvatarUrlByUserId(ticket.authorId)}/>
                     {ticket.title}
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
