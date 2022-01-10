@@ -15,6 +15,7 @@ interface initialState {
   beingSavedTicketId: string;
   currentTicket: TicketCardData;
   status: Status;
+  counter: number;
 }
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
     beingSavedTicketId: "",
     currentTicket: defaultTicketData(),
     status: Status.NONE,
+    counter: 0,
 };
 
 interface TaskData {
@@ -82,6 +84,19 @@ const incrementDocsCounter = createAsyncThunk(
 
       if (docSnap.exists()) {
         setDoc(docRef, { total: ++docSnap.data().total });        
+      } 
+  }
+);
+
+export const getTotalDocs = createAsyncThunk(
+  'tickets/getTotalDocs',
+  async () => {
+      // The value we return becomes the `fulfilled` action payload
+      const docRef = doc(db, countersCollection, docsCounterDocId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data().total;        
       } 
   }
 );
@@ -181,8 +196,22 @@ export const ticketsSlice = createSlice({
             state.status = Status.LOADED;
             state.currentTicket = action.payload;
           })
+          .addCase(loadTicketById.rejected, (state, action) => {
+            console.error(action.error.message);
+          })
+          .addCase(getTotalDocs.pending, (state, action) => {
+            //state.status = 'loading'
+            state.counter = 0; 
+            state.requestStatus = RequestStatus.LOADING;
+          })
+          .addCase(getTotalDocs.fulfilled, (state, action) => {
+            state.counter = action.payload;            
+          })
+          .addCase(getTotalDocs.rejected, (state, action) => {
+            console.error(action.error.message);
+          })
           .addCase(getAllTickets.fulfilled, (state, action) => {
-            //state.requestStatus = RequestStatus.DONE;
+            state.requestStatus = RequestStatus.DONE;
             state.list = action.payload;
             console.log('getAllTickets done');
           })
