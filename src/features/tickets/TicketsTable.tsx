@@ -30,7 +30,7 @@ export default function TicketsTable(props: Props) {
                     {ticket.title}
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
-                <TableCell>{ticket.updatedAt}</TableCell>
+                <TableCell>{(new Date(ticket.updatedAt)).toLocaleString()}</TableCell>
                 <TableCell>
                     <PriorityLabel priority={ticket.priority} />
                 </TableCell>
