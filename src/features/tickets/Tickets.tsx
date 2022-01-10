@@ -40,7 +40,7 @@ function Tickets(props: any) {
 
     const [page, setPage] = React.useState(1);
     const [rowsPerPage, setRowsPerPage] = React.useState(8);
-
+    
     const paginationData: loadPageActionPayload = {
         pageNo: page,
         docsPerPage: rowsPerPage,
@@ -86,13 +86,18 @@ function Tickets(props: any) {
         newPage: number,
     ) => {
         setPage(newPage);
+
+        props.loadPage({ ...paginationData, pageNo: newPage });
     };
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        const rowsPerPage = parseInt(event.target.value, 10);
+        setRowsPerPage(rowsPerPage);
         setPage(0);
+
+        props.loadPage({ pageNo: 0, docsPerPage: rowsPerPage });
     };
 
 

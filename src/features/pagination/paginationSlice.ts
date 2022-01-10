@@ -36,8 +36,20 @@ const initialState: PaginationState = {
 export const loadPage = createAsyncThunk(
   'pagination/loadPage',
   async (payload: loadPageActionPayload) => {
-    const first = query(collection(db, ticketsCollection), orderBy("priority"), limit(payload.docsPerPage));
-    const documentSnapshots = await getDocs(first);
+    const { pageNo, docsPerPage } = payload;
+    let documentSnapshots;
+
+    if(pageNo === 0) {
+      const onlyQuery = query(collection(db, ticketsCollection), orderBy("priority"), limit(docsPerPage));
+      documentSnapshots = await getDocs(onlyQuery);
+    }
+    else {
+      const first = query(collection(db, ticketsCollection), orderBy("priority"), limit(docsPerPage * pageNo));
+      documentSnapshots = await getDocs(first);
+      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+      const next = query(collection(db, ticketsCollection), orderBy("priority"), startAfter(lastVisible), limit(docsPerPage));
+      documentSnapshots = await getDocs(next);
+    }
 
     const tickets: Array<TicketCardData> = []; 
 
