@@ -47,6 +47,7 @@ export default function Layout() {
                     overflow: auto;
                     height: 100vh;
                     flex: 1 1 auto;
+                    padding: 30px;
                     `}
                     >
                 <AppBarTickets/>

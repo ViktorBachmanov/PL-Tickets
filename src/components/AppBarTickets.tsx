@@ -3,11 +3,14 @@
 
 import React from "react";
 import { connect } from 'react-redux';
+import { RootState } from '../app/store';
+
 import { css } from '@emotion/react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -17,15 +20,23 @@ import { darken as darkenAction, lighten as lightenAction } from '../features/th
 interface Props {
     darken: any,
     lighten: any,
+    userAvatarUrl: string | null;
+    userName: string | null;
 }
 
 
 function AppBarTickets(props: Props) {
-    
+    const userAvatarUrl: string = props.userAvatarUrl as string;
+    const userName: string = props.userName as string;
+
+  
     return (
         <Box
             css={css`
                 height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
             `}
         >
             <Box>
@@ -38,13 +49,23 @@ function AppBarTickets(props: Props) {
                 </IconButton>
             </Box>
 
+            <span>{userName}</span>
+            <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
+
         </Box>
     )
 }
+
+function mapStateToProps(state: RootState) {
+    return { 
+        userAvatarUrl: state.user.avatarUrl,
+        userName: state.user.name,
+    };
+};
 
 const mapDispatchToProps = {
     darken: darkenAction,
     lighten: lightenAction
 };
 
-export default connect(null, mapDispatchToProps)(AppBarTickets);
+export default connect(mapStateToProps, mapDispatchToProps)(AppBarTickets);
