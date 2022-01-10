@@ -9,17 +9,26 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { RoutesPathes } from "../../constants";
 import { getAllTickets as getAllTicketsAction, 
-        resetSavedTicketId as resetSavedTicketIdAction } from "./ticketsSlice";
+        resetSavedTicketId as resetSavedTicketIdAction,
+        resetStatus as resetStatusAction,
+        resetCurrentTicket as resetCurrentTicketAction } from "./ticketsSlice";
 import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
 
-
+interface Props {
+    getAllTickets: any,
+    resetSavedTicketId: any,
+    resetStatus: any,
+    resetCurrentTicket: any,
+}
 
 function Tickets(props: any) {
     const navigate = useNavigate();
 
     useEffect(() => {
         props.resetSavedTicketId();
+        props.resetStatus();
+        props.resetCurrentTicket();
         props.getAllTickets();
     }, []);
 
@@ -70,6 +79,8 @@ function mapStateToProps(state: RootState) {
 const mapDispatchToProps = {
     getAllTickets: getAllTicketsAction,
     resetSavedTicketId: resetSavedTicketIdAction,
+    resetStatus: resetStatusAction,
+    resetCurrentTicket: resetCurrentTicketAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

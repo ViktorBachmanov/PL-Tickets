@@ -4,7 +4,7 @@ import { RootState, AppThunk } from '../../app/store';
 
 import { collection, addDoc, setDoc, getDoc, getDocs, doc, Timestamp } from "firebase/firestore";
 
-import { Priority, RequestStatus } from "./types";
+import { Priority, RequestStatus, Status } from "./types";
 import { db, collectionName } from '../user/init';
 
 
@@ -13,6 +13,7 @@ interface initialState {
   list: Array<TicketCardData>;
   beingSavedTicketId: string;
   currentTicket: TicketCardData;
+  status: Status;
 }
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
     list: [defaultTicketData()],
     beingSavedTicketId: "",
     currentTicket: defaultTicketData(),
+    status: Status.NONE,
 };
 
 interface TaskData {
@@ -52,17 +54,18 @@ export interface TicketCardData extends TaskData {
 
 export const saveDocInDatabase = createAsyncThunk(
   'tickets/saveDocInDatabase',
-  async (payload: { id: string, docData: FireDocData }) => {
+  async (payload: { id: string, docData: FireDocData }, { dispatch }) => {
     if(!payload.id) { 
       const docRef = await addDoc(collection(db, collectionName), payload.docData);
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);
+      dispatch(loadTicketById(docRef.id));
       return docRef.id;
     }
     else {
       await setDoc(doc(db, collectionName, payload.id), payload.docData);
-
+      dispatch(loadTicketById(payload.id));
       return payload.id;
     }
   }
@@ -124,6 +127,12 @@ export const ticketsSlice = createSlice({
       resetRequestStatus: (state) => {
         state.requestStatus = RequestStatus.IDLE;
       },
+      resetStatus: (state) => {
+        state.status = Status.NONE;
+      },
+      resetCurrentTicket: (state) => {
+        state.currentTicket = defaultTicketData();
+      },
     },
     extraReducers(builder) {
         builder
@@ -137,7 +146,9 @@ export const ticketsSlice = createSlice({
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
             state.beingSavedTicketId = action.payload;
-            state.requestStatus = RequestStatus.DONE;
+            //state.requestStatus = RequestStatus.DONE;
+            state.status = Status.SAVED;
+            
           })
           .addCase(saveDocInDatabase.rejected, (state, action) => {
             //state.status = 'failed'
@@ -152,6 +163,7 @@ export const ticketsSlice = createSlice({
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
             state.requestStatus = RequestStatus.DONE;
+            state.status = Status.LOADED;
             state.currentTicket = action.payload;
           })
           .addCase(getAllTickets.fulfilled, (state, action) => {
@@ -162,7 +174,7 @@ export const ticketsSlice = createSlice({
       }
 });
 
-export const { resetSavedTicketId, resetRequestStatus } = ticketsSlice.actions;
+export const { resetSavedTicketId, resetRequestStatus, resetStatus, resetCurrentTicket } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
 

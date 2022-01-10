@@ -26,7 +26,6 @@ function CreateTicket(props: Props) {
     }
     
     if(props.beingSavedTicketId) {
-        //props.beingSavedTicketId;
 
         return <Navigate to={RoutesPathes.TICKETS + "/" + props.beingSavedTicketId} replace={true} />;
     }
@@ -41,6 +40,7 @@ function mapStateToProps(state: RootState) {
     return { 
         requestStatus: state.tickets.requestStatus,
         beingSavedTicketId: state.tickets.beingSavedTicketId,
+        status: state.tickets.status,
      };
 };
 
