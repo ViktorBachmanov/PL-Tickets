@@ -46,6 +46,8 @@ function Tickets(props: any) {
     else {
         totalColumns = 4;
     }
+
+    totalColumns = 1;
     
 
     return (

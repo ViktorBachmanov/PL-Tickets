@@ -5,7 +5,8 @@ import { RootState, AppThunk } from '../../app/store';
 import { collection, addDoc, setDoc, getDoc, getDocs, doc, Timestamp } from "firebase/firestore";
 
 import { Priority, RequestStatus, Status } from "./types";
-import { db, collectionName } from '../user/init';
+import { db } from '../../config';
+import { collectionName, countersCollection, docsCounterDocId } from '../../config';
 
 
 interface initialState {
@@ -61,6 +62,7 @@ export const saveDocInDatabase = createAsyncThunk(
       console.log(docRef);
       console.log(docRef.id);
       dispatch(loadTicketById(docRef.id));
+      dispatch(incrementDocsCounter());
       return docRef.id;
     }
     else {
@@ -68,6 +70,19 @@ export const saveDocInDatabase = createAsyncThunk(
       dispatch(loadTicketById(payload.id));
       return payload.id;
     }
+  }
+);
+
+const incrementDocsCounter = createAsyncThunk(
+  'tickets/incrementDocsCounter',
+  async () => {
+      // The value we return becomes the `fulfilled` action payload
+      const docRef = doc(db, countersCollection, docsCounterDocId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setDoc(docRef, { total: ++docSnap.data().total });        
+      } 
   }
 );
 
