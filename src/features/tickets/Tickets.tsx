@@ -20,6 +20,7 @@ import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
 import { loadPage as loadPageAction } from "../pagination/paginationSlice";
 import { loadPageActionPayload, RequestStatus } from "../pagination/types";
+import TicketsTable from "./TicketsTable";
 
 
 
@@ -115,12 +116,14 @@ function Tickets(props: any) {
                 Create
             </Button>
 
+            <TicketsTable tickets={props.ticketsList} />
+
             <Grid                 
                 container 
                 columns={totalColumns}
                 spacing={1}
             >
-                {data}
+                {/*data*/}
             </Grid>
 
             <TablePagination
