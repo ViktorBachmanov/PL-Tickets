@@ -12,7 +12,7 @@ export const firebaseConfig = {
     measurementId: "G-Y7KDJME5QX"
 };
 
-export const collectionName = "collection-1";
+export const ticketsCollection = "collection-1";
 export const countersCollection = "counters";
 export const docsCounterDocId = "counter-1";
 

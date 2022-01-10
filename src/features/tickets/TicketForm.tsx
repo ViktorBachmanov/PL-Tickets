@@ -10,16 +10,23 @@ import { css } from '@emotion/react';
 
 import { Timestamp } from "firebase/firestore";
 
-import { Priority, Mode, IFormInput } from "./types";
+import { Priority, Mode } from "./types";
 import { RootState } from '../../app/store';
 
 import ticketsSlice, { 
     saveDocInDatabase as saveDocInDatabaseAction,
     resetRequestStatus as resetRequestStatusAction,
-    TicketCardData,
     getTicketDataById,
     defaultTicketData } from './ticketsSlice';
 
+import { TicketCardData } from "./types";
+
+
+interface IFormInput {
+    title: string;
+    priority: Priority;
+    description: string;    
+}
 
 interface Props {
     mode: Mode;

@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { Link } from "react-router-dom";
 
 import { Priority } from "./types";
-import { TicketCardData } from "./ticketsSlice";
+import { TicketCardData } from "./types";
 
 
 interface Props {

@@ -3,6 +3,7 @@ import counterReducer from '../features/counter/counterSlice';
 import ticketsReducer from '../features/tickets/ticketsSlice';
 import userReducer from '../features/user/userSlice';
 import themeReducer from '../features/theme/themeSlice';
+import paginationReducer from '../features/pagination/paginationSlice';
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     tickets: ticketsReducer,
     user: userReducer,
     theme: themeReducer,
+    pagination: paginationReducer,
   },
 });
 

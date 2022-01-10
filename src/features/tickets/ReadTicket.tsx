@@ -7,13 +7,8 @@ import { Timestamp } from "firebase/firestore";
 import { Mode, RequestStatus, Status } from "./types";
 import { RootState } from '../../app/store';
 
-import { TicketCardData,
-         getTicketDataById,
-         defaultTicketData,
-         loadTicketById as loadTicketByIdAction,
-         //resetRequestStatus as resetRequestStatusAction,
-         //resetStatus as resetStatusAction,
-        } from './ticketsSlice';
+import { loadTicketById as loadTicketByIdAction } from './ticketsSlice';
+import { TicketCardData } from "./types";
 import TicketForm from './TicketForm';
 
 import { RoutesPathes } from '../../constants';

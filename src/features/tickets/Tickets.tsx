@@ -9,7 +9,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
-import { RequestStatus } from "./types";
 
 import { getAllTickets as getAllTicketsAction, 
         resetSavedTicketId as resetSavedTicketIdAction,
@@ -19,6 +18,10 @@ import { getAllTickets as getAllTicketsAction,
         getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
 import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
+import { loadPage as loadPageAction } from "../pagination/paginationSlice";
+import { loadPageActionPayload, RequestStatus } from "../pagination/types";
+
+
 
 interface Props {
     getAllTickets: any,
@@ -27,6 +30,7 @@ interface Props {
     resetRequestStatus: any,
     resetCurrentTicket: any,
     getTotalDocs: any,
+    loadPage: any;
     totalTickets: number,
     requestStatus: RequestStatus,
 }
@@ -34,11 +38,19 @@ interface Props {
 function Tickets(props: any) {
     const navigate = useNavigate();
 
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(8);
+
+    const paginationData: loadPageActionPayload = {
+        pageNo: page,
+        docsPerPage: rowsPerPage,
+    };
+
     useEffect(() => {
         props.resetSavedTicketId();
         props.resetStatus();
         props.resetCurrentTicket();
-        props.getAllTickets();
+        props.loadPage(paginationData);
         props.getTotalDocs();
         
         return function clean() {
@@ -67,15 +79,24 @@ function Tickets(props: any) {
     totalColumns = 1;
 
 
-    function handleChangePage() {
-        console.log('handleChangePage');
-    }
+    
 
-    function handleChangeRowsPerPage() {
-        console.log('handleChangeRowsPerPage');
-    }
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number,
+    ) => {
+        setPage(newPage);
+    };
 
-    if(props.requestStatus !== RequestStatus.DONE || !props.totalTickets) {
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+
+    if(props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
         return <h2>Loading...</h2>;
     } 
     
@@ -100,10 +121,10 @@ function Tickets(props: any) {
             <TablePagination
                 component="div"
                 count={props.totalTickets || 100}
-                page={0}
+                page={page}
                 onPageChange={handleChangePage}
                 rowsPerPageOptions={[4, 6, 8, 10, 12, 16, 20]}
-                rowsPerPage={8}
+                rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
 
@@ -114,9 +135,10 @@ function Tickets(props: any) {
 
 function mapStateToProps(state: RootState) {
     return { 
-        ticketsList: state.tickets.list,
+        ticketsList: state.pagination.tickets,
         totalTickets: state.tickets.counter,
-        requestStatus: state.tickets.requestStatus,
+        requestStatus: state.pagination.status,
+
     };
 };
 
@@ -127,6 +149,7 @@ const mapDispatchToProps = {
     resetRequestStatus: resetRequestStatusAction,
     resetCurrentTicket: resetCurrentTicketAction,
     getTotalDocs: getTotalDocsAction,
+    loadPage: loadPageAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

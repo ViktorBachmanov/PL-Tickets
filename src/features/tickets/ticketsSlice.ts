@@ -2,11 +2,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, setDoc, getDoc, getDocs, doc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDoc, getDocs, doc } from "firebase/firestore";
 
-import { Priority, RequestStatus, Status } from "./types";
+import { Priority, RequestStatus, Status, TicketCardData, FireDocData } from "./types";
 import { db } from '../../config';
-import { collectionName, countersCollection, docsCounterDocId } from '../../config';
+import { ticketsCollection, countersCollection, docsCounterDocId } from '../../config';
+
 
 
 interface initialState {
@@ -27,25 +28,7 @@ const initialState = {
     counter: 0,
 };
 
-interface TaskData {
-  title: string;
-  description: string;
-  priority: Priority;
-  authorId: string;
-  authorName: string | null;
-  isCompleted: boolean;
-}
 
-interface FireDocData extends TaskData {
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-}
-
-export interface TicketCardData extends TaskData {
-  createdAt: number;  // milliseconds
-  updatedAt: number;
-  id: string;
-}
 
 
 
@@ -59,7 +42,7 @@ export const saveDocInDatabase = createAsyncThunk(
   'tickets/saveDocInDatabase',
   async (payload: { id: string, docData: FireDocData }, { dispatch }) => {
     if(!payload.id) { 
-      const docRef = await addDoc(collection(db, collectionName), payload.docData);
+      const docRef = await addDoc(collection(db, ticketsCollection), payload.docData);
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);
@@ -68,7 +51,7 @@ export const saveDocInDatabase = createAsyncThunk(
       return docRef.id;
     }
     else {
-      await setDoc(doc(db, collectionName, payload.id), payload.docData);
+      await setDoc(doc(db, ticketsCollection, payload.id), payload.docData);
       dispatch(loadTicketById(payload.id));
       return payload.id;
     }
@@ -105,7 +88,7 @@ export const loadTicketById = createAsyncThunk(
   'tickets/loadTicketById',
   async (id: string) => {
       // The value we return becomes the `fulfilled` action payload
-      const docRef = doc(db, collectionName, id);
+      const docRef = doc(db, ticketsCollection, id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -123,7 +106,7 @@ export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async (data: FireDocData) => {
     const tickets: any = [];    
-    const querySnapshot = await getDocs(collection(db, collectionName));
+    const querySnapshot = await getDocs(collection(db, ticketsCollection));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       const docData = doc.data();
@@ -249,7 +232,7 @@ export function defaultTicketData(): TicketCardData {
   return defaultTicketData;
 }
 
-function createTicketData(id: string, docData: FireDocData): TicketCardData {
+export function createTicketData(id: string, docData: FireDocData): TicketCardData {
   return {
     id,
     title: docData.title,
