@@ -1,6 +1,11 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
 import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+
+import { css } from '@emotion/react'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -29,6 +34,7 @@ import { ticketsPerPageOptions } from "../pagination/constants";
 import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
 import { TicketCardData } from "./types";
+import ViewToggle from "./ViewToggle";
 
 
 
@@ -149,13 +155,20 @@ function Tickets(props: Props) {
     
 
     return (
-        <Box>
+        <Box
+            css={css`
+                border: 1px solid #DFE0EB;
+                border-radius: 8px;
+            `}
+        >
             <Button
                 variant="contained" 
                 onClick={() => {navigate(RoutesPathes.CREATE)}}
             >
                 Create
             </Button>
+
+            <ViewToggle />
 
             <TicketsTable 
                 tickets={props.ticketsList}
