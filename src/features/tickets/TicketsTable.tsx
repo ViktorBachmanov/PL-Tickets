@@ -1,5 +1,10 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
 
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import { css } from '@emotion/react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -22,9 +27,19 @@ export default function TicketsTable(props: Props) {
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
         console.log(getAvatarUrlByUserId(ticket.authorId));
+
+        const navigate = useNavigate();
+
+        function handleClick() {
+            navigate(ticket.id);
+        }
         
         return (
-            <TableRow key={ticket.id}>
+            <TableRow 
+                key={ticket.id} 
+                onClick={handleClick}
+                css={css`cursor: pointer;`}
+            >
                 <TableCell>
                     <Avatar alt={authorName.charAt(0)} src={getAvatarUrlByUserId(ticket.authorId)}/>
                     {ticket.title}
@@ -36,6 +51,7 @@ export default function TicketsTable(props: Props) {
                 </TableCell>
                 <TableCell/>
             </TableRow>
+            
         )
     });
 
