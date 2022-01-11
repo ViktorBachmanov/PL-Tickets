@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -49,7 +50,17 @@ function AppBarTickets(props: Props) {
                 </IconButton>
             </Box>
 
-            <span>{userName}</span>
+            <Divider 
+                orientation="vertical"
+                variant="middle"
+                flexItem 
+                css={css`margin: 0 20px;`}
+            />
+
+            <span css={css`margin: 0 14px;`}>
+                {userName}
+            </span>
+
             <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
 
         </Box>
