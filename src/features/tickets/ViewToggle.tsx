@@ -1,8 +1,12 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
 import * as React from 'react';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { css } from '@emotion/react'
 
 import { viewRep } from "./types";
 
@@ -20,19 +24,32 @@ export default function ViewToggle(props: Props) {
     };
 
     return (
-        <ToggleButtonGroup
-            value={props.view}
-            exclusive
-            onChange={handleChange}
+        <div css={css`
+                display: flex;
+                align-items: center;
+            `}
         >
-            <ToggleButton value={viewRep.module} aria-label={viewRep.module}>
-                <ViewModuleIcon />
-            </ToggleButton>
+            <span css={css`
+                        margin: 0.5rem;
+                        margin-left: 2rem;
+                    `}
+            >
+                View:
+            </span>
+            <ToggleButtonGroup
+                value={props.view}
+                exclusive
+                onChange={handleChange}
+            >
+                <ToggleButton value={viewRep.module} aria-label={viewRep.module}>
+                    <ViewModuleIcon />
+                </ToggleButton>
 
-            <ToggleButton value={viewRep.list} aria-label={viewRep.list}>
-                <ViewListIcon />
-            </ToggleButton>
-                        
-        </ToggleButtonGroup>
+                <ToggleButton value={viewRep.list} aria-label={viewRep.list}>
+                    <ViewListIcon />
+                </ToggleButton>
+                            
+            </ToggleButtonGroup>
+        </div>
     )
 }

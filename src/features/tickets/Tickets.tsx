@@ -160,14 +160,22 @@ function Tickets(props: Props) {
                 border-radius: 8px;
             `}
         >
-            <Button
-                variant="contained" 
-                onClick={() => {navigate(RoutesPathes.CREATE)}}
+            <Box
+                css={css`
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                `}
             >
-                Create
-            </Button>
+                <Button
+                    variant="contained" 
+                    onClick={() => {navigate(RoutesPathes.CREATE)}}
+                >
+                    Create
+                </Button>
 
-            <ViewToggle view={view} setView={setView}/>
+                <ViewToggle view={view} setView={setView}/>
+            </Box>
 
             
             {viewComp}
