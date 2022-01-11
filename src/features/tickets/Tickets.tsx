@@ -19,9 +19,13 @@ import { getAllTickets as getAllTicketsAction,
         getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
 import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
-import { loadPage as loadPageAction } from "../pagination/paginationSlice";
+import { loadPage as loadPageAction,
+        setTicketsPerPage as setTicketsPerPageAction,
+        setCurrentPage as setCurrentPageAction,
+        togglePriorityOrder as togglePriorityOrderAction } from "../pagination/paginationSlice";
 import { setTitle as setTitleAction } from "../title/titleSlice";
-import { loadPageActionPayload } from "../pagination/types";
+import { Order } from "../pagination/types";
+import { ticketsPerPageOptions } from "../pagination/constants";
 import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
 import { TicketCardData } from "./types";
@@ -40,24 +44,32 @@ interface Props {
     requestStatus: RequestStatus;
     setTitle: any;
     ticketsList: Array<TicketCardData>;
+    setTicketsPerPage: any;
+    setCurrentPage: any;
+    //filtersStatus: FiltersStatus;
+    currentPage: number;
+    ticketsPerPage: number;
+    //resetFiltersStatus: any,
+    togglePriorityOrder: any;
+    priorityOrder: Order;
 }
 
 function Tickets(props: Props) {
     const navigate = useNavigate();
-
+    /*
     const [page, setPage] = React.useState(1);
-    const [rowsPerPage, setRowsPerPage] = React.useState(8);
-    
-    const paginationData: loadPageActionPayload = {
+    const [rowsPerPage, setRowsPerPage] = React.useState(8);*/
+    /*
+    const paginationData: LoadPageActionPayload = {
         pageNo: page,
         docsPerPage: rowsPerPage,
-    };
+    };*/
 
     useEffect(() => {
         props.resetSavedTicketId();
         props.resetStatus();
         props.resetCurrentTicket();
-        props.loadPage(paginationData);
+        props.loadPage();
         props.getTotalDocs();
         props.setTitle("Tickets");
         
@@ -66,13 +78,14 @@ function Tickets(props: Props) {
         }
     }, []);
 
-    
-    
 
+    
+    
+/*
     const data = props.ticketsList.map((ticket: any) => 
             
             <TicketCard key={ticket.id} data={ticket} />            
-    )
+    )*/
 
     let totalColumns: number;
     const theme = useTheme();
@@ -93,25 +106,46 @@ function Tickets(props: Props) {
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
-        setPage(newPage);
+        //setPage(newPage);
 
-        props.loadPage({ ...paginationData, pageNo: newPage });
+        //props.loadPage({ ...paginationData, pageNo: newPage });
+        Tickets.isFiltersChanged = true;
+        props.setCurrentPage(newPage);
+        
     };
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         const rowsPerPage = parseInt(event.target.value, 10);
-        setRowsPerPage(rowsPerPage);
-        setPage(0);
+        /*setRowsPerPage(rowsPerPage);
+        setPage(0);*/
 
-        props.loadPage({ pageNo: 0, docsPerPage: rowsPerPage });
+        //props.loadPage({ pageNo: 0, docsPerPage: rowsPerPage });
+        Tickets.isFiltersChanged = true;
+        props.setTicketsPerPage(rowsPerPage);
+        
     };
 
+    const handleTogglePriorityOrder = () => {
+        Tickets.isFiltersChanged = true;
+        props.togglePriorityOrder();
+    }
+
+
+    //if(props.filtersStatus === FiltersStatus.CHANGED) {
+    if(Tickets.isFiltersChanged) {
+        console.log('Tickets.isFiltersChanged: ', Tickets.isFiltersChanged)
+        //props.resetFiltersStatus();
+        Tickets.isFiltersChanged = false;
+        setTimeout(() => { props.loadPage(); }, 0);
+        return <h2>Loading...</h2>;
+    }
 
     if(props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
         return <h2>Loading...</h2>;
     } 
+
     
 
     return (
@@ -123,7 +157,11 @@ function Tickets(props: Props) {
                 Create
             </Button>
 
-            <TicketsTable tickets={props.ticketsList} />
+            <TicketsTable 
+                tickets={props.ticketsList}
+                priorityOrder={props.priorityOrder}
+                togglePriorityOrder={handleTogglePriorityOrder}
+            />
 
             <Grid                 
                 container 
@@ -136,10 +174,10 @@ function Tickets(props: Props) {
             <TablePagination
                 component="div"
                 count={props.totalTickets || 100}
-                page={page}
+                page={props.currentPage}
                 onPageChange={handleChangePage}
-                rowsPerPageOptions={[4, 6, 8, 10, 12, 16, 20]}
-                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={ticketsPerPageOptions}
+                rowsPerPage={props.ticketsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
 
@@ -148,11 +186,17 @@ function Tickets(props: Props) {
     )
 }
 
+Tickets.isFiltersChanged = false;
+
 function mapStateToProps(state: RootState) {
     return { 
         ticketsList: state.pagination.tickets,
         totalTickets: state.tickets.counter,
         requestStatus: state.pagination.status,
+        //filtersStatus: state.pagination.filtersStatus,
+        currentPage: state.pagination.currentPage,
+        ticketsPerPage: state.pagination.ticketsPerPage,
+        priorityOrder: state.pagination.priorityOrder,
     };
 };
 
@@ -165,6 +209,10 @@ const mapDispatchToProps = {
     getTotalDocs: getTotalDocsAction,
     loadPage: loadPageAction,
     setTitle: setTitleAction,
+    setTicketsPerPage: setTicketsPerPageAction,
+    setCurrentPage: setCurrentPageAction,
+    //resetFiltersStatus: resetFiltersStatusAction,
+    togglePriorityOrder: togglePriorityOrderAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

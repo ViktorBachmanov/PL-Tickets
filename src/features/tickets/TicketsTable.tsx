@@ -17,16 +17,19 @@ import Avatar from '@mui/material/Avatar';
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
 import { getAvatarUrlByUserId } from "../user/utils";
+import { Order } from "../pagination/types";
 
 
 interface Props {
     tickets: Array<TicketCardData>;
+    priorityOrder: Order;
+    togglePriorityOrder: any;
 }
 
 export default function TicketsTable(props: Props) {
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
-        console.log(getAvatarUrlByUserId(ticket.authorId));
+        //console.log(getAvatarUrlByUserId(ticket.authorId));
 
         const navigate = useNavigate();
 
@@ -55,6 +58,9 @@ export default function TicketsTable(props: Props) {
         )
     });
 
+
+
+    
     return (
         <Table>
             <TableHead>
@@ -72,7 +78,8 @@ export default function TicketsTable(props: Props) {
                         Priority
                         <TableSortLabel
                             active
-                            direction="asc"
+                            direction={props.priorityOrder}
+                            onClick={() => { props.togglePriorityOrder(); }}
                         />
                     </TableCell>
                     <TableCell />
