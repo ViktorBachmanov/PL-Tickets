@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
@@ -9,9 +9,7 @@ import { css } from '@emotion/react'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
 import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
@@ -23,7 +21,6 @@ import { getAllTickets as getAllTicketsAction,
         resetCurrentTicket as resetCurrentTicketAction,
         getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
 import { RootState } from '../../app/store';
-import TicketCard from "./TicketCard";
 import { loadPage as loadPageAction,
         setTicketsPerPage as setTicketsPerPageAction,
         setCurrentPage as setCurrentPageAction,
@@ -33,8 +30,9 @@ import { Order } from "../pagination/types";
 import { ticketsPerPageOptions } from "../pagination/constants";
 import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
-import { TicketCardData } from "./types";
+import { TicketCardData, viewRep } from "./types";
 import ViewToggle from "./ViewToggle";
+import TicketsModule from "./TicketsModule";
 
 
 
@@ -85,26 +83,7 @@ function Tickets(props: Props) {
     }, []);
 
 
-    
-    
-/*
-    const data = props.ticketsList.map((ticket: any) => 
-            
-            <TicketCard key={ticket.id} data={ticket} />            
-    )*/
-
-    let totalColumns: number;
-    const theme = useTheme();
-
-    if(useMediaQuery(theme.breakpoints.down("sm"))) {
-        totalColumns = 3;
-    }
-    else {
-        totalColumns = 4;
-    }
-
-    totalColumns = 1;
-
+    const [view, setView] = React.useState(viewRep.list);    
 
     
 
@@ -154,6 +133,26 @@ function Tickets(props: Props) {
 
     
 
+    let viewComp;
+
+    if(view === viewRep.list) {
+        viewComp = (
+            <TicketsTable 
+                tickets={props.ticketsList}
+                priorityOrder={props.priorityOrder}
+                togglePriorityOrder={handleTogglePriorityOrder}
+            />
+        )
+    }
+    else {
+        viewComp = (
+            <TicketsModule
+                tickets={props.ticketsList}
+                
+            />
+        )
+    }
+
     return (
         <Box
             css={css`
@@ -168,21 +167,11 @@ function Tickets(props: Props) {
                 Create
             </Button>
 
-            <ViewToggle />
+            <ViewToggle view={view} setView={setView}/>
 
-            <TicketsTable 
-                tickets={props.ticketsList}
-                priorityOrder={props.priorityOrder}
-                togglePriorityOrder={handleTogglePriorityOrder}
-            />
-
-            <Grid                 
-                container 
-                columns={totalColumns}
-                spacing={1}
-            >
-                {/*data*/}
-            </Grid>
+            
+            {viewComp}
+            
 
             <TablePagination
                 component="div"

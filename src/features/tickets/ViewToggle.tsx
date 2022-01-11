@@ -4,25 +4,32 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+import { viewRep } from "./types";
 
-export default function ViewToggle() {
-    const [view, setView] = React.useState('list');
+
+interface Props {
+    view: string;
+    setView: any;
+}
+
+export default function ViewToggle(props: Props) {
+    
 
     const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-        setView(nextView);
+        props.setView(nextView);
     };
 
     return (
         <ToggleButtonGroup
-            value={view}
+            value={props.view}
             exclusive
             onChange={handleChange}
         >
-            <ToggleButton value="module" aria-label="module">
+            <ToggleButton value={viewRep.module} aria-label={viewRep.module}>
                 <ViewModuleIcon />
             </ToggleButton>
 
-            <ToggleButton value="list" aria-label="list">
+            <ToggleButton value={viewRep.list} aria-label={viewRep.list}>
                 <ViewListIcon />
             </ToggleButton>
                         
