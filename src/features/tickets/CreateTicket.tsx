@@ -1,24 +1,32 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { Navigate } from "react-router-dom";
 
-import { Mode, RequestStatus } from "./types";
+import { Mode } from "./types";
+import { RequestStatus } from "../../constants";
 import { RootState } from '../../app/store';
 
 import { defaultTicketData } from './ticketsSlice';
 import TicketForm from './TicketForm';
 
 import { RoutesPathes } from '../../constants';
+import { setTitle as setTitleAction } from "../title/titleSlice";
+
 
 
 interface Props {
     requestStatus: RequestStatus;
     beingSavedTicketId: string;
+    setTitle: any;
 }
 
 
 function CreateTicket(props: Props) {
-    console.log(`CreateTicket process: `);
+    //console.log(`CreateTicket process: `);
+
+    useEffect(() => {
+        props.setTitle("New ticket");
+    }, []);
 
     
     if(props.requestStatus === RequestStatus.LOADING) {
@@ -44,5 +52,9 @@ function mapStateToProps(state: RootState) {
      };
 };
 
+const mapDispatchToProps = {
+    setTitle: setTitleAction,
+};
 
-export default connect(mapStateToProps)(CreateTicket);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTicket);

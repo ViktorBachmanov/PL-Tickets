@@ -8,3 +8,4 @@ export enum RoutesPathes {
     CREATE = "/tickets/new"
 };
 
+export enum RequestStatus { IDLE, LOADING, FAILED };

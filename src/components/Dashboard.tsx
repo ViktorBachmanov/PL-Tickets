@@ -1,14 +1,27 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+
 import Box from '@mui/material/Box';
-import { css } from '@emotion/react'
+import { css } from '@emotion/react';
+
+import { setTitle as setTitleAction } from "../features/title/titleSlice";
 
 
-export default function Dashboard() {
+interface Props {
+    setTitle: any;
+}
 
-    console.log('Dashboard');
+
+function Dashboard(props: Props) {
+
+    //console.log('Dashboard');
+
+    useEffect(() => {
+        props.setTitle("Dashboard");
+    }, []);
 
     return (
         <Box css={css`
@@ -19,3 +32,10 @@ export default function Dashboard() {
         `}></Box>
     )
 }
+
+
+const mapDispatchToProps = {
+    setTitle: setTitleAction,
+};
+
+export default connect(null, mapDispatchToProps)(Dashboard);

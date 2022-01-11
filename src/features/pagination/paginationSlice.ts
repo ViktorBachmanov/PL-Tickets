@@ -6,7 +6,8 @@ import { ticketsPerPageOptions, order } from "./constants";
 import { loadPageActionPayload } from "./types";
 import { db } from '../../config';
 import { ticketsCollection } from '../../config';
-import { TicketCardData, FireDocData, RequestStatus } from "../tickets/types";
+import { TicketCardData, FireDocData } from "../tickets/types";
+import { RequestStatus } from "../../constants";
 import { createTicketData } from "../tickets/ticketsSlice";
 
 

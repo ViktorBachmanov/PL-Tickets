@@ -4,7 +4,8 @@ import { RootState, AppThunk } from '../../app/store';
 
 import { collection, addDoc, setDoc, getDoc, getDocs, doc } from "firebase/firestore";
 
-import { Priority, RequestStatus, Status, TicketCardData, FireDocData } from "./types";
+import { Priority, Status, TicketCardData, FireDocData } from "./types";
+import { RequestStatus } from "../../constants";
 import { db } from '../../config';
 import { ticketsCollection, countersCollection, docsCounterDocId } from '../../config';
 
@@ -159,7 +160,7 @@ export const ticketsSlice = createSlice({
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
             state.beingSavedTicketId = action.payload;
-            //state.requestStatus = RequestStatus.DONE;
+            //state.requestStatus = RequestStatus.IDLE;
             state.status = Status.SAVED;
             
           })
@@ -175,7 +176,7 @@ export const ticketsSlice = createSlice({
           .addCase(loadTicketById.fulfilled, (state, action) => {
             //state.status = 'succeeded'
             //state.posts = state.posts.concat(action.payload)
-            state.requestStatus = RequestStatus.DONE;
+            state.requestStatus = RequestStatus.IDLE;
             state.status = Status.LOADED;
             state.currentTicket = action.payload;
           })
@@ -194,9 +195,9 @@ export const ticketsSlice = createSlice({
             console.error(action.error.message);
           })
           .addCase(getAllTickets.fulfilled, (state, action) => {
-            state.requestStatus = RequestStatus.DONE;
+            state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
-            console.log('getAllTickets done');
+            console.log('getAllTickets IDLE');
           })
       }
 });

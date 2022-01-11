@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -23,6 +24,7 @@ interface Props {
     lighten: any,
     userAvatarUrl: string | null;
     userName: string | null;
+    title: string;
 }
 
 
@@ -40,6 +42,14 @@ function AppBarTickets(props: Props) {
                 justify-content: flex-end;
             `}
         >
+            <Typography 
+                variant="h6" 
+                component="div"
+                css={css`margin-right: auto;`}
+            >
+                {props.title}
+            </Typography>
+
             <Box>
                 <IconButton onClick={() => props.lighten()}>
                     <LightModeIcon />
@@ -71,6 +81,7 @@ function mapStateToProps(state: RootState) {
     return { 
         userAvatarUrl: state.user.avatarUrl,
         userName: state.user.name,
+        title: state.title.value,
     };
 };
 

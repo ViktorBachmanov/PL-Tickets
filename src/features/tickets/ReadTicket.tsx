@@ -4,14 +4,16 @@ import { useParams, Navigate } from "react-router-dom";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Timestamp } from "firebase/firestore";
 
-import { Mode, RequestStatus, Status } from "./types";
+import { Mode, Status } from "./types";
+import { RequestStatus, RoutesPathes } from "../../constants";
 import { RootState } from '../../app/store';
 
 import { loadTicketById as loadTicketByIdAction } from './ticketsSlice';
 import { TicketCardData } from "./types";
 import TicketForm from './TicketForm';
 
-import { RoutesPathes } from '../../constants';
+import { setTitle as setTitleAction } from "../title/titleSlice";
+
 
 
 
@@ -22,6 +24,7 @@ interface Props {
     //resetRequestStatus: any;
     status: Status;
     //resetStatus: any;
+    setTitle: any;
 }
 
 
@@ -33,15 +36,20 @@ function ReadTicket(props: Props) {
     const { id } = useParams();
 
     useEffect(() => {
-        console.log('Use effect');
+        props.setTitle("");
         if(id) {
-            props.loadTicketById(id);
-        } 
+            props.loadTicketById(id)
+                .unwrap()
+                .then((ticket: TicketCardData) => { props.setTitle(ticket.title); })
+        };
     }, [])
      
+    /*
+    if(props.currentTicket.title) {
+        props.setTitle(props.currentTicket.title);
+    }*/
 
-
-    if(props.requestStatus !== RequestStatus.DONE) {
+    if(props.requestStatus === RequestStatus.LOADING) {
 
         return <h2>Loading...</h2>;
     }  
@@ -71,6 +79,7 @@ const mapDispatchToProps = {
     loadTicketById: loadTicketByIdAction,
     //resetRequestStatus: resetRequestStatusAction,
     //resetStatus: resetStatusAction,
+    setTitle: setTitleAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReadTicket);

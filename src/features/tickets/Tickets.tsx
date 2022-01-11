@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -19,24 +20,29 @@ import { getAllTickets as getAllTicketsAction,
 import { RootState } from '../../app/store';
 import TicketCard from "./TicketCard";
 import { loadPage as loadPageAction } from "../pagination/paginationSlice";
-import { loadPageActionPayload, RequestStatus } from "../pagination/types";
+import { setTitle as setTitleAction } from "../title/titleSlice";
+import { loadPageActionPayload } from "../pagination/types";
+import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
+import { TicketCardData } from "./types";
 
 
 
 interface Props {
-    getAllTickets: any,
-    resetSavedTicketId: any,
-    resetStatus: any,
-    resetRequestStatus: any,
-    resetCurrentTicket: any,
-    getTotalDocs: any,
+    //getAllTickets: any;
+    resetSavedTicketId: any;
+    resetStatus: any;
+    resetRequestStatus: any;
+    resetCurrentTicket: any;
+    getTotalDocs: any;
     loadPage: any;
-    totalTickets: number,
-    requestStatus: RequestStatus,
+    totalTickets: number;
+    requestStatus: RequestStatus;
+    setTitle: any;
+    ticketsList: Array<TicketCardData>;
 }
 
-function Tickets(props: any) {
+function Tickets(props: Props) {
     const navigate = useNavigate();
 
     const [page, setPage] = React.useState(1);
@@ -53,6 +59,7 @@ function Tickets(props: any) {
         props.resetCurrentTicket();
         props.loadPage(paginationData);
         props.getTotalDocs();
+        props.setTitle("Tickets");
         
         return function clean() {
             props.resetRequestStatus();
@@ -146,18 +153,18 @@ function mapStateToProps(state: RootState) {
         ticketsList: state.pagination.tickets,
         totalTickets: state.tickets.counter,
         requestStatus: state.pagination.status,
-
     };
 };
 
 const mapDispatchToProps = {
-    getAllTickets: getAllTicketsAction,
+    //getAllTickets: getAllTicketsAction,
     resetSavedTicketId: resetSavedTicketIdAction,
     resetStatus: resetStatusAction,
     resetRequestStatus: resetRequestStatusAction,
     resetCurrentTicket: resetCurrentTicketAction,
     getTotalDocs: getTotalDocsAction,
     loadPage: loadPageAction,
+    setTitle: setTitleAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

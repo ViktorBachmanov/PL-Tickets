@@ -3,4 +3,4 @@ export interface loadPageActionPayload {
     docsPerPage: number;
 }
 
-export enum RequestStatus { IDLE, LOADING, FAILED };
+
