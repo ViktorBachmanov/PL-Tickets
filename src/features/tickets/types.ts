@@ -3,7 +3,7 @@ import { Timestamp } from "firebase/firestore";
 
 export enum Priority { LOW, NORMAL, HIGH };
 
-export enum Mode { READ, EDIT };
+export enum Mode { READ, EDIT, NEW };
 
 
 export enum Status { NONE, SAVED, DELETED, LOADED };

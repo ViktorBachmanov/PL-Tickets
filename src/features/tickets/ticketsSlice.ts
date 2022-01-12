@@ -208,10 +208,22 @@ export const ticketsSlice = createSlice({
           .addCase(getTotalDocs.rejected, (state, action) => {
             console.error(action.error.message);
           })
+          .addCase(deleteTicket.pending, (state, action) => {
+            //state.status = 'loading'
+            state.requestStatus = RequestStatus.LOADING;
+          })
+          .addCase(deleteTicket.fulfilled, (state, action) => {
+            state.requestStatus = RequestStatus.IDLE;
+            state.status = Status.DELETED;            
+          })
+          .addCase(deleteTicket.rejected, (state, action) => {
+            state.requestStatus = RequestStatus.IDLE;
+            console.error(action.error.message);
+          })
           .addCase(getAllTickets.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
-            console.log('getAllTickets IDLE');
+            //console.log('getAllTickets IDLE');
           })
       }
 });

@@ -8,7 +8,8 @@ import { Mode, Status } from "./types";
 import { RequestStatus, RoutesPathes } from "../../constants";
 import { RootState } from '../../app/store';
 
-import { loadTicketById as loadTicketByIdAction } from './ticketsSlice';
+import { loadTicketById as loadTicketByIdAction,
+        resetStatus as resetStatusAction, } from './ticketsSlice';
 import { TicketCardData } from "./types";
 import TicketForm from './TicketForm';
 
@@ -25,6 +26,7 @@ interface Props {
     status: Status;
     //resetStatus: any;
     setTitle: any;
+    resetStatus: any;
 }
 
 
@@ -41,7 +43,11 @@ function ReadTicket(props: Props) {
             props.loadTicketById(id)
                 .unwrap()
                 .then((ticket: TicketCardData) => { props.setTitle(ticket.title); })
-        };
+        }
+
+        return function clean() {
+            props.resetStatus();
+        }
     }, [])
      
     /*
@@ -49,15 +55,19 @@ function ReadTicket(props: Props) {
         props.setTitle(props.currentTicket.title);
     }*/
 
+
+    if(props.status === Status.DELETED) {
+
+        return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
+    }
+    
+
     if(props.requestStatus === RequestStatus.LOADING) {
 
         return <h2>Loading...</h2>;
     }  
     
-    if(props.status === Status.DELETED) {
-
-        return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
-    }
+    
 
 
     //return <h3>End</h3>;
@@ -78,7 +88,7 @@ function mapStateToProps(state: RootState) {
 const mapDispatchToProps = {
     loadTicketById: loadTicketByIdAction,
     //resetRequestStatus: resetRequestStatusAction,
-    //resetStatus: resetStatusAction,
+    resetStatus: resetStatusAction,
     setTitle: setTitleAction,
 };
 

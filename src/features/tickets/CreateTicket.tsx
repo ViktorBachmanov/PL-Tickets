@@ -40,7 +40,7 @@ function CreateTicket(props: Props) {
 
    
 
-    return <TicketForm mode={Mode.EDIT} />;  
+    return <TicketForm mode={Mode.NEW} />;  
 };
 
 

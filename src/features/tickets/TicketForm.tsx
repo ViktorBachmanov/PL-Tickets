@@ -3,23 +3,25 @@
 
 import React, { useEffect } from "react";
 import { connect } from 'react-redux';
-import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Chip } from '@mui/material';
 import { css } from '@emotion/react';
 
 import { Timestamp } from "firebase/firestore";
 
-import { Priority, Mode } from "./types";
+import { Priority, Mode, Status } from "./types";
 import { RootState } from '../../app/store';
 
 import ticketsSlice, { 
     saveDocInDatabase as saveDocInDatabaseAction,
     resetRequestStatus as resetRequestStatusAction,
+    deleteTicket as deleteTicketAction,
     getTicketDataById,
     defaultTicketData } from './ticketsSlice';
 
 import { TicketCardData } from "./types";
+import { RoutesPathes } from '../../constants';
 
 
 interface IFormInput {
@@ -35,15 +37,19 @@ interface Props {
     tickets: Array<TicketCardData>;
     saveDocInDatabase: any;
     resetRequestStatus: any;
+    deleteTicket: any;
     ticket: TicketCardData;
+    status: Status;
 };
 
 
 function TicketForm(props: Props) {
     //props.resetRequestStatus();
+    /*
     useEffect(() => {
-        console.log('TicketForm mounted');
-    })
+        //console.log('TicketForm mounted');
+        
+    }, [])*/
 
     let isCompleted = props.ticket.isCompleted;
     let mode = props.mode;
@@ -97,6 +103,11 @@ function TicketForm(props: Props) {
             }
          });
     };
+
+    /*
+    if(props.status === Status.DELETED) {
+        return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
+    }*/
 
     
     return(
@@ -154,6 +165,15 @@ function TicketForm(props: Props) {
                     >
                         Complete
                     </Button>
+
+                    {mode !== Mode.NEW &&
+                        <Button 
+                            variant="contained"
+                            onClick={() => {props.deleteTicket(props.ticket.id)}}
+                        >
+                            Delete
+                        </Button>
+                    }
                 </Box>
             }
 
@@ -169,12 +189,14 @@ function mapStateToProps(state: RootState) {
         userName: state.user.name,
         tickets: state.tickets.list,
         ticket: state.tickets.currentTicket,
+        status: state.tickets.status,
      };
 };
 
 const mapDispatchToProps = {
     saveDocInDatabase: saveDocInDatabaseAction,
     resetRequestStatus: resetRequestStatusAction,
+    deleteTicket: deleteTicketAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);
