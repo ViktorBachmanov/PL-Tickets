@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, setDoc, getDoc, getDocs, doc, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDoc, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 
 import { Priority, Status, TicketCardData, FireDocData } from "./types";
 import { RequestStatus } from "../../constants";
@@ -48,7 +48,7 @@ export const saveDocInDatabase = createAsyncThunk(
       console.log(docRef);
       console.log(docRef.id);
       dispatch(loadTicketById(docRef.id));
-      dispatch(incrementDocsCounter());
+      dispatch(modifyDocsCounter(true));
       return docRef.id;
     }
     else {
@@ -59,15 +59,35 @@ export const saveDocInDatabase = createAsyncThunk(
   }
 );
 
-const incrementDocsCounter = createAsyncThunk(
-  'tickets/incrementDocsCounter',
-  async () => {
-      // The value we return becomes the `fulfilled` action payload
+export const deleteTicket = createAsyncThunk(
+  'pagination/deleteTicket',
+  async (ticketId: string, { dispatch }) => {
+    await deleteDoc(doc(db, ticketsCollection, ticketId));
+
+    dispatch(modifyDocsCounter(false));
+
+    // The value we return becomes the `fulfilled` action payload
+    return;
+  }
+);
+
+const modifyDocsCounter = createAsyncThunk(
+  'tickets/modifyDocsCounter',
+  async (isIncrement: boolean) => {
+      
       const docRef = doc(db, countersCollection, docsCounterDocId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setDoc(docRef, { total: ++docSnap.data().total });        
+        let val = docSnap.data().total;
+        if(isIncrement) {
+           ++val;
+        }
+        else {
+           --val;
+        }
+      
+        setDoc(docRef, { total: val });        
       } 
   }
 );
