@@ -28,6 +28,7 @@ export default function PriorityLabel(props: Props) {
         <Chip
             label={priority}
             color={labelColor}
+            size="small"
         />
     )
 }

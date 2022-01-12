@@ -2,21 +2,22 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
-
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 
+
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { css } from '@emotion/react'
 
-
+import { RootState } from '../../app/store';
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
+import DeleteTicketIcon from "../../components/DeleteTicketIcon";
 import { getAvatarUrlByUserId } from "../user/utils";
-import { DateAgoTickets } from "../../components/DateTickets";
-
+import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
 
 
 
@@ -25,17 +26,41 @@ interface Props {
 }
 
 export default function TicketCard(props: Props) {
-    const ticket = props.ticket;
+    const { ticket } = props;
+    const userId = useSelector((state: RootState) => state.user.id)
 
     const authorName = ticket.authorName as string;
+    const authorId = ticket.authorId;;
+
+    const isDeleteAvailable = authorId === userId && !ticket.isCompleted;
 
     return (
         <Grid item xs={1}>
             <Link to={ticket.id}>
-                <Card>
-                    <DateAgoTickets date={ticket.updatedAt} />
-                    <PriorityLabel priority={ticket.priority} />
+                <Card css={css`padding: 1rem;`}
+                >
+                    <Box css={css`
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        `}
+                    >
+                        <div>
+                            <DateTickets date={ticket.updatedAt} />
+                        </div>
+                        <PriorityLabel 
+                            priority={ticket.priority} 
+                        />     
+                        {isDeleteAvailable && 
+                                <DeleteTicketIcon ticketId={ticket.id} />
+                        }
+                    </Box>
+
                     <div>{ticket.title}</div>
+
+                    <DateAgoTickets
+                             date={ticket.updatedAt}
+                        />
 
                     <Box css={css`
                             display: flex;
@@ -47,6 +72,7 @@ export default function TicketCard(props: Props) {
                             src={getAvatarUrlByUserId(ticket.authorId)}
                             css={css`margin: 15px 22px;`}
                         />
+                        
                         <div>{ticket.authorName}</div>
                     </Box>
 
@@ -56,3 +82,8 @@ export default function TicketCard(props: Props) {
 
     )
 }
+
+
+
+
+
