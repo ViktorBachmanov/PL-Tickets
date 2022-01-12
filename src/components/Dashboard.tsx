@@ -14,6 +14,7 @@ import { getAllTickets as getAllTicketsAction } from "../features/tickets/ticket
 import { TicketCardData } from "../features/tickets/types";
 
 import BarChart from "./BarChart";
+import SheetList from "./SheetList";
 
 
 interface Props {
@@ -35,7 +36,11 @@ function Dashboard(props: Props) {
 
     return (
         <Box>
-            <BarChart tickets={props.tickets}/>
+            <SheetList tickets={props.tickets} isForAllUsers={true} />
+
+            <BarChart tickets={props.tickets} />
+
+            <SheetList tickets={props.tickets} isForAllUsers={false} />
         </Box>
     )
 }
