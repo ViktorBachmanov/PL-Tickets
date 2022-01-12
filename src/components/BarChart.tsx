@@ -5,6 +5,7 @@
 import React from "react";
 
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { css } from '@emotion/react'
 
 
@@ -24,8 +25,19 @@ export default function BarChart(props: Props) {
     const daysTickets: Array<BarDatum> = createBarChartData(props.tickets);
 
     return (
-        <Box css={css`height: 546px;`}
-        >
+        <Box css={css`
+                    height: 546px;
+                    margin-top: 1rem;
+                    border: 1px solid #DFE0EB;
+                    border-radius: 8px;
+                `}>
+            <Typography 
+                variant="subtitle1" 
+                component="div"
+            >
+                Uncompleted trends
+            </Typography>
+
             <ResponsiveBar
                 data={daysTickets}
                 keys={[ "low", "normal", "high" ]}
