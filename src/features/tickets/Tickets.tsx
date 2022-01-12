@@ -9,7 +9,7 @@ import { css } from '@emotion/react'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
+import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
@@ -160,6 +160,7 @@ function Tickets(props: Props) {
                 border-radius: 8px;
             `}
         >
+
             <Box
                 css={css`
                     display: flex;
@@ -167,6 +168,14 @@ function Tickets(props: Props) {
                     justify-content: flex-end;
                 `}
             >
+                <Typography 
+                    variant="h6" 
+                    component="div"
+                    css={css`margin-right: auto; margin-left: 1rem;`}
+                >
+                    All tickets
+                 </Typography>
+
                 <Button
                     variant="contained" 
                     onClick={() => {navigate(RoutesPathes.CREATE)}}

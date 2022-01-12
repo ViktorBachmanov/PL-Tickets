@@ -43,7 +43,7 @@ function AppBarTickets(props: Props) {
             `}
         >
             <Typography 
-                variant="h6" 
+                variant="h5" 
                 component="div"
                 css={css`margin-right: auto;`}
             >
