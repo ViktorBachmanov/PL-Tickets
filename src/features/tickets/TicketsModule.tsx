@@ -17,16 +17,19 @@ export default function TicketsModule(props: Props) {
     let totalColumns: number;
     const theme = useTheme();
 
-    if(useMediaQuery(theme.breakpoints.down("sm"))) {
-        totalColumns = 3;
+    if(useMediaQuery(theme.breakpoints.down("md"))) {
+        totalColumns = 2;
     }
     else {
-        totalColumns = 4;
+        totalColumns = 3;
     }
 
-    const data = props.tickets.map((ticket: TicketCardData) => 
+    const tikckets = props.tickets.map((ticket: TicketCardData) => 
             
-            <TicketCard key={ticket.id} data={ticket} />            
+            <TicketCard 
+                key={ticket.id} 
+                ticket={ticket} 
+            />            
     )
 
     return (
@@ -35,7 +38,7 @@ export default function TicketsModule(props: Props) {
                 columns={totalColumns}
                 spacing={1}
             >
-                {data}
+                {tikckets}
         </Grid>
     )
 }

@@ -16,8 +16,10 @@ import Avatar from '@mui/material/Avatar';
 
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
+import { DateTickets } from "../../components/DateTickets";
 import { getAvatarUrlByUserId } from "../user/utils";
 import { Order } from "../pagination/types";
+
 
 
 interface Props {
@@ -48,7 +50,11 @@ export default function TicketsTable(props: Props) {
                     {ticket.title}
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
-                <TableCell>{(new Date(ticket.updatedAt)).toLocaleString()}</TableCell>
+                {/*<TableCell>{(new Date(ticket.updatedAt)).toLocaleString()}</TableCell>*/}
+                <TableCell>
+                    <DateTickets date={ticket.updatedAt}/>
+                </TableCell>
+
                 <TableCell>
                     <PriorityLabel priority={ticket.priority} />
                 </TableCell>
