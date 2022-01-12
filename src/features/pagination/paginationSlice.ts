@@ -47,18 +47,24 @@ export const loadPage = createAsyncThunk(
   async ( empty, { getState }) => {
     //const { pageNo, docsPerPage } = payload;
     const rootState = getState() as RootState;
-    const { ticketsPerPage, currentPage, priorityOrder } = rootState.pagination;
+    const { ticketsPerPage, currentPage, priorityOrder, dateOrder } = rootState.pagination;
     let documentSnapshots;
 
     if(currentPage === 0) {
-      const onlyQuery = query(collection(db, ticketsCollection), orderBy("priority", priorityOrder), limit(ticketsPerPage));
+      const onlyQuery = query(collection(db, ticketsCollection), 
+                              orderBy("priority", priorityOrder),
+                              orderBy("updatedAt", dateOrder), limit(ticketsPerPage));
       documentSnapshots = await getDocs(onlyQuery);
     }
     else {
-      const first = query(collection(db, ticketsCollection), orderBy("priority", priorityOrder), limit(ticketsPerPage * currentPage));
+      const first = query(collection(db, ticketsCollection), 
+                                    orderBy("priority", priorityOrder),
+                                    orderBy("updatedAt", dateOrder), limit(ticketsPerPage * currentPage));
       documentSnapshots = await getDocs(first);
       const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-      const next = query(collection(db, ticketsCollection), orderBy("priority"), startAfter(lastVisible), limit(ticketsPerPage));
+      const next = query(collection(db, ticketsCollection), 
+                        orderBy("priority", priorityOrder),
+                        orderBy("updatedAt", dateOrder), startAfter(lastVisible), limit(ticketsPerPage));
       documentSnapshots = await getDocs(next);
     }
 
@@ -88,6 +94,9 @@ export const paginationSlice = createSlice({
     },
     togglePriorityOrder: (state) => {
       state.priorityOrder = state.priorityOrder === "asc" ? "desc" : "asc";
+    },
+    toggleDateOrder: (state) => {
+      state.dateOrder = state.dateOrder === "asc" ? "desc" : "asc";
     }
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -110,7 +119,7 @@ export const paginationSlice = createSlice({
   },
 });
 
-export const { setTicketsPerPage, setCurrentPage, togglePriorityOrder } = paginationSlice.actions;
+export const { setTicketsPerPage, setCurrentPage, togglePriorityOrder, toggleDateOrder } = paginationSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

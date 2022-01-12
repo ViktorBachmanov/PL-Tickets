@@ -26,6 +26,8 @@ interface Props {
     tickets: Array<TicketCardData>;
     priorityOrder: Order;
     togglePriorityOrder: any;
+    dateOrder: Order;
+    toggleDateOrder: any;
 }
 
 export default function TicketsTable(props: Props) {
@@ -77,7 +79,8 @@ export default function TicketsTable(props: Props) {
                         Date
                         <TableSortLabel
                             active
-                            direction="desc"
+                            direction={props.dateOrder}
+                            onClick={() => { props.toggleDateOrder(); }}
                         />
                     </TableCell>
                     <TableCell>

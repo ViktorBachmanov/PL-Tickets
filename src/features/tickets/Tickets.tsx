@@ -24,7 +24,8 @@ import { RootState } from '../../app/store';
 import { loadPage as loadPageAction,
         setTicketsPerPage as setTicketsPerPageAction,
         setCurrentPage as setCurrentPageAction,
-        togglePriorityOrder as togglePriorityOrderAction } from "../pagination/paginationSlice";
+        togglePriorityOrder as togglePriorityOrderAction,
+        toggleDateOrder as toggleDateOrderAction } from "../pagination/paginationSlice";
 import { setTitle as setTitleAction } from "../title/titleSlice";
 import { Order } from "../pagination/types";
 import { ticketsPerPageOptions } from "../pagination/constants";
@@ -56,6 +57,8 @@ interface Props {
     //resetFiltersStatus: any,
     togglePriorityOrder: any;
     priorityOrder: Order;
+    toggleDateOrder: any;
+    dateOrder: Order;
 }
 
 function Tickets(props: Props) {
@@ -117,6 +120,11 @@ function Tickets(props: Props) {
         props.togglePriorityOrder();
     }
 
+    const handleToggleDateOrder = () => {
+        Tickets.isFiltersChanged = true;
+        props.toggleDateOrder();
+    }
+
 
     //if(props.filtersStatus === FiltersStatus.CHANGED) {
     if(Tickets.isFiltersChanged) {
@@ -140,7 +148,9 @@ function Tickets(props: Props) {
             <TicketsTable 
                 tickets={props.ticketsList}
                 priorityOrder={props.priorityOrder}
+                dateOrder={props.dateOrder}
                 togglePriorityOrder={handleTogglePriorityOrder}
+                toggleDateOrder={handleToggleDateOrder}
             />
         )
     }
@@ -216,6 +226,7 @@ function mapStateToProps(state: RootState) {
         currentPage: state.pagination.currentPage,
         ticketsPerPage: state.pagination.ticketsPerPage,
         priorityOrder: state.pagination.priorityOrder,
+        dateOrder: state.pagination.dateOrder,
     };
 };
 
@@ -232,6 +243,7 @@ const mapDispatchToProps = {
     setCurrentPage: setCurrentPageAction,
     //resetFiltersStatus: resetFiltersStatusAction,
     togglePriorityOrder: togglePriorityOrderAction,
+    toggleDateOrder: toggleDateOrderAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);
