@@ -111,9 +111,9 @@ export const getAllTickets = createAsyncThunk(
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       const docData = doc.data();
-      console.log(doc.id, " => ", docData);
+      //console.log(doc.id, " => ", docData);
       
-      tickets.push({
+      /*tickets.push({
         id: doc.id,
         title: docData.title,
         description: docData.description,
@@ -123,7 +123,8 @@ export const getAllTickets = createAsyncThunk(
         isCompleted: docData.isCompleted,
         createdAt: docData.createdAt.toMillis(),
         updatedAt: docData.updatedAt.toMillis(),
-      });
+      });*/
+      tickets.push(createTicketData(doc.id, docData as FireDocData));
     });
     // The value we return becomes the `fulfilled` action payload
     return tickets;

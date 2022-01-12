@@ -14,7 +14,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
 
-import { getAllTickets as getAllTicketsAction, 
+import { /*getAllTickets as getAllTicketsAction, */
         resetSavedTicketId as resetSavedTicketIdAction,
         resetStatus as resetStatusAction,
         resetRequestStatus as resetRequestStatusAction,
