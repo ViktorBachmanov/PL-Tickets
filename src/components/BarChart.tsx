@@ -28,13 +28,12 @@ export default function BarChart(props: Props) {
         >
             <ResponsiveBar
                 data={daysTickets}
-                keys={[ "priority low", "priority normal", "priority high" ]}
+                keys={[ "low", "normal", "high" ]}
                 indexBy="day"
                 margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
                 padding={0.3}
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-                colors={{ scheme: 'nivo' }}
                 defs={[
                     {
                         id: 'dots',
@@ -84,7 +83,7 @@ export default function BarChart(props: Props) {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'priority',
+                    legend: 'tickets',
                     legendPosition: 'middle',
                     legendOffset: -40
                 }}
@@ -130,9 +129,12 @@ export default function BarChart(props: Props) {
 
 interface BarChartObj {
     "day": string;
-    "priority low": number;
-    "priority normal": number;
-    "priority high": number;
+    "low": number;
+    "lowColor": string;
+    "normal": number;
+    "normalColor": string;
+    "high": number;
+    "highColor": string;
 }
 
 function createBarChartData(tickets: Array<TicketCardData>, completedFlag = false): Array<BarDatum> {
@@ -166,13 +168,13 @@ function createBarChartData(tickets: Array<TicketCardData>, completedFlag = fals
 function updateBarChartObject(barChartObj: BarChartObj, priority: Priority): void {
     switch(priority) {
         case(Priority.LOW):
-            barChartObj["priority low"]++;
+            barChartObj["low"]++;
             break;
         case(Priority.NORMAL):
-            barChartObj["priority normal"]++;
+            barChartObj["normal"]++;
             break;
         case(Priority.HIGH):
-            barChartObj["priority high"]++;
+            barChartObj["high"]++;
             break;        
     }
 }
@@ -180,8 +182,11 @@ function updateBarChartObject(barChartObj: BarChartObj, priority: Priority): voi
 function createBarChartObj(day: string): BarChartObj {
     return {
         "day": day,
-        "priority low": 0,
-        "priority normal": 0,
-        "priority high": 0,
+        "low": 0,
+        "lowColor": "hsl(182, 70%, 50%)",
+        "normal": 0,
+        "normalColor": "hsl(17, 70%, 50%)",
+        "high": 0,
+        "highColor": "hsl(247, 70%, 50%)",
     }
 }

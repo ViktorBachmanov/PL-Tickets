@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-import { collection, addDoc, setDoc, getDoc, getDocs, doc } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDoc, getDocs, doc, query, orderBy } from "firebase/firestore";
 
 import { Priority, Status, TicketCardData, FireDocData } from "./types";
 import { RequestStatus } from "../../constants";
@@ -107,23 +107,16 @@ export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async (data: FireDocData) => {
     const tickets: any = [];    
-    const querySnapshot = await getDocs(collection(db, ticketsCollection));
-    querySnapshot.forEach((doc) => {
+    //const querySnapshot = await getDocs(collection(db, ticketsCollection));
+    const myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
+    const documentSnapshots = await getDocs(myQuery);
+
+    documentSnapshots.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       const docData = doc.data();
       //console.log(doc.id, " => ", docData);
       
-      /*tickets.push({
-        id: doc.id,
-        title: docData.title,
-        description: docData.description,
-        priority: docData.priority,
-        authorId: docData.authorId,
-        authorName: docData.authorName,
-        isCompleted: docData.isCompleted,
-        createdAt: docData.createdAt.toMillis(),
-        updatedAt: docData.updatedAt.toMillis(),
-      });*/
+      
       tickets.push(createTicketData(doc.id, docData as FireDocData));
     });
     // The value we return becomes the `fulfilled` action payload
