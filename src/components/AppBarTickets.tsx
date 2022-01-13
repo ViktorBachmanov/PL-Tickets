@@ -4,6 +4,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { RootState } from '../app/store';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { css } from '@emotion/react';
 import AppBar from '@mui/material/AppBar';
@@ -32,6 +33,16 @@ function AppBarTickets(props: Props) {
     const userAvatarUrl: string = props.userAvatarUrl as string;
     const userName: string = props.userName as string;
 
+    function handleLighten() {
+        props.lighten();
+        toast('Light theme');
+    }
+
+    function handleDarken() {
+        props.darken();
+        toast('Dark theme');
+    }
+
   
     return (
         <Box
@@ -52,11 +63,11 @@ function AppBarTickets(props: Props) {
             </Typography>
 
             <Box>
-                <IconButton onClick={() => props.lighten()}>
+                <IconButton onClick={handleLighten}>
                     <LightModeIcon />
                 </IconButton>
 
-                <IconButton onClick={() => props.darken()}>
+                <IconButton onClick={handleDarken}>
                     <Brightness4Icon />
                 </IconButton>
             </Box>
@@ -73,6 +84,8 @@ function AppBarTickets(props: Props) {
             </span>
 
             <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
+
+            <Toaster />
 
         </Box>
     )
