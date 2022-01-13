@@ -21,7 +21,6 @@ interface Props {
 
 
 export default function BarChart(props: Props) {
-    //const tickets = props.tickets as Array<BarDatum>;
     const daysTickets: Array<BarDatum> = createBarChartData(props.tickets);
 
     return (

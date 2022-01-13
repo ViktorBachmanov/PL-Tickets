@@ -9,7 +9,6 @@ import { css } from '@emotion/react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
@@ -39,7 +38,6 @@ export default function TicketsTable(props: Props) {
 
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
-        //console.log(getAvatarUrlByUserId(ticket.authorId));
 
         const navigate = useNavigate();
 
@@ -67,7 +65,7 @@ export default function TicketsTable(props: Props) {
                     <DateAgoTickets date={ticket.updatedAt} />
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
-                {/*<TableCell>{(new Date(ticket.updatedAt)).toLocaleString()}</TableCell>*/}
+                
                 <TableCell>
                     <DateTickets date={ticket.updatedAt}/>
                 </TableCell>

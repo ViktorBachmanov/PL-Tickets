@@ -1,6 +1,5 @@
 //import { useContext } from "react";
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
 
 import { collection, addDoc, setDoc, getDoc, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 
@@ -116,7 +115,6 @@ export const loadTicketById = createAsyncThunk(
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        //console.log("Document data:", docSnap.data());
         return createTicketData(id, docSnap.data() as FireDocData);
       } else {
         // doc.data() will be undefined in this case
@@ -130,15 +128,12 @@ export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async (data: FireDocData) => {
     const tickets: any = [];    
-    //const querySnapshot = await getDocs(collection(db, ticketsCollection));
     const myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
     const documentSnapshots = await getDocs(myQuery);
 
     documentSnapshots.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       const docData = doc.data();
-      //console.log(doc.id, " => ", docData);
-      
       
       tickets.push(createTicketData(doc.id, docData as FireDocData));
     });
@@ -175,9 +170,7 @@ export const ticketsSlice = createSlice({
           })
           .addCase(saveDocInDatabase.fulfilled, (state, action) => {
             //state.status = 'succeeded'
-            //state.posts = state.posts.concat(action.payload)
             state.beingSavedTicketId = action.payload;
-            //state.requestStatus = RequestStatus.IDLE;
             state.status = Status.SAVED;
             
           })
@@ -193,7 +186,6 @@ export const ticketsSlice = createSlice({
           })
           .addCase(loadTicketById.fulfilled, (state, action) => {
             //state.status = 'succeeded'
-            //state.posts = state.posts.concat(action.payload)
             state.requestStatus = RequestStatus.IDLE;
             state.status = Status.LOADED;
             state.currentTicket = action.payload;
@@ -218,7 +210,6 @@ export const ticketsSlice = createSlice({
           })
           .addCase(deleteTicket.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
-            //state.status = Status.DELETED;            
           })
           .addCase(deleteTicket.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
@@ -243,7 +234,6 @@ export const ticketsSlice = createSlice({
           .addCase(getAllTickets.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
-            //console.log('getAllTickets IDLE');
           })
       }
 });

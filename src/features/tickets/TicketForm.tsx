@@ -1,9 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from 'react-redux';
-import { Navigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Chip } from '@mui/material';
 import { css } from '@emotion/react';
@@ -13,15 +12,12 @@ import { Timestamp } from "firebase/firestore";
 import { Priority, Mode, Status } from "./types";
 import { RootState } from '../../app/store';
 
-import ticketsSlice, { 
-    saveDocInDatabase as saveDocInDatabaseAction,
-    resetRequestStatus as resetRequestStatusAction,
-    deleteTicket as deleteTicketAction,
-    getTicketDataById,
-    defaultTicketData } from './ticketsSlice';
+import { saveDocInDatabase as saveDocInDatabaseAction,
+        resetRequestStatus as resetRequestStatusAction,
+        deleteTicket as deleteTicketAction,
+     } from './ticketsSlice';
 
 import { TicketCardData } from "./types";
-import { RoutesPathes } from '../../constants';
 
 
 interface IFormInput {
@@ -44,13 +40,7 @@ interface Props {
 
 
 function TicketForm(props: Props) {
-    //props.resetRequestStatus();
-    /*
-    useEffect(() => {
-        //console.log('TicketForm mounted');
-        
-    }, [])*/
-
+    
     let isCompleted = props.ticket.isCompleted;
     let mode = props.mode;
     
@@ -60,7 +50,6 @@ function TicketForm(props: Props) {
 
     const isDisabled = mode === Mode.READ ? true : false;
     
-    //const formData: IFormInput = createFormData(props.ticketData);
 
     const { control, handleSubmit } = useForm<IFormInput>({
         defaultValues: {
@@ -104,10 +93,7 @@ function TicketForm(props: Props) {
          });
     };
 
-    /*
-    if(props.status === Status.DELETED) {
-        return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
-    }*/
+   
 
     
     return(
@@ -249,23 +235,3 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);
 
-
-// helper function
-/*
-function saveInDatabase(docId: string, addCallback, saveCallback) {
-    docId ? saveCallback({docId, data}) : addCallback(data);
-}
-*/
-
-
-/*
-function createFormData(data: IFormInput | undefined | null): IFormInput {
-    const defaultFormData = {
-        title: "Title *",
-        description: "",
-        priority: Priority.NORMAL
-    }
-
-    return data ? {...defaultFormData, ...data} : defaultFormData;    
-}
-*/

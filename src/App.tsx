@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux"
 import { Routes, Route, Navigate } from "react-router-dom"; 
-// import { Counter } from './features/counter/Counter';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import { RootState } from "./app/store"

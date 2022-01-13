@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
@@ -16,9 +16,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
 
-import { /*getAllTickets as getAllTicketsAction, */
-        //resetSavedTicketId as resetSavedTicketIdAction,
-        resetStatus as resetStatusAction,
+import { resetStatus as resetStatusAction,
         resetRequestStatus as resetRequestStatusAction,
         resetCurrentTicket as resetCurrentTicketAction,
         getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
@@ -40,8 +38,7 @@ import TicketsModule from "./TicketsModule";
 
 
 interface Props {
-    //getAllTickets: any;
-    //resetSavedTicketId: any;
+    
     resetStatus: any;
     resetRequestStatus: any;
     resetCurrentTicket: any;
@@ -53,10 +50,8 @@ interface Props {
     ticketsList: Array<TicketCardData>;
     setTicketsPerPage: any;
     setCurrentPage: any;
-    //filtersStatus: FiltersStatus;
     currentPage: number;
     ticketsPerPage: number;
-    //resetFiltersStatus: any,
     togglePriorityOrder: any;
     priorityOrder: Order;
     toggleDateOrder: any;
@@ -66,20 +61,12 @@ interface Props {
 
 function Tickets(props: Props) {
     const navigate = useNavigate();
-    /*
-    const [page, setPage] = React.useState(1);
-    const [rowsPerPage, setRowsPerPage] = React.useState(8);*/
-    /*
-    const paginationData: LoadPageActionPayload = {
-        pageNo: page,
-        docsPerPage: rowsPerPage,
-    };*/
+    
 
     useEffect(() => {
         if(props.status === Status.DELETED) {
             toast.success('Ticket has been deleted');
         }
-        //props.resetSavedTicketId();
         props.resetStatus();
         props.resetCurrentTicket();
         props.loadPage();
@@ -100,9 +87,7 @@ function Tickets(props: Props) {
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
-        //setPage(newPage);
-
-        //props.loadPage({ ...paginationData, pageNo: newPage });
+        
         Tickets.isFiltersChanged = true;
         props.setCurrentPage(newPage);
         
@@ -112,10 +97,7 @@ function Tickets(props: Props) {
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         const rowsPerPage = parseInt(event.target.value, 10);
-        /*setRowsPerPage(rowsPerPage);
-        setPage(0);*/
-
-        //props.loadPage({ pageNo: 0, docsPerPage: rowsPerPage });
+        
         Tickets.isFiltersChanged = true;
         props.setTicketsPerPage(rowsPerPage);
         
@@ -132,10 +114,8 @@ function Tickets(props: Props) {
     }
 
 
-    //if(props.filtersStatus === FiltersStatus.CHANGED) {
     if(Tickets.isFiltersChanged) {
         console.log('Tickets.isFiltersChanged: ', Tickets.isFiltersChanged)
-        //props.resetFiltersStatus();
         Tickets.isFiltersChanged = false;
         setTimeout(() => { props.loadPage(); }, 0);
         return <h2>Loading...</h2>;
@@ -238,7 +218,6 @@ function mapStateToProps(state: RootState) {
         ticketsList: state.pagination.tickets,
         totalTickets: state.tickets.counter,
         requestStatus: state.pagination.status,
-        //filtersStatus: state.pagination.filtersStatus,
         currentPage: state.pagination.currentPage,
         ticketsPerPage: state.pagination.ticketsPerPage,
         priorityOrder: state.pagination.priorityOrder,
@@ -248,8 +227,7 @@ function mapStateToProps(state: RootState) {
 };
 
 const mapDispatchToProps = {
-    //getAllTickets: getAllTicketsAction,
-    //resetSavedTicketId: resetSavedTicketIdAction,
+   
     resetStatus: resetStatusAction,
     resetRequestStatus: resetRequestStatusAction,
     resetCurrentTicket: resetCurrentTicketAction,
@@ -258,7 +236,6 @@ const mapDispatchToProps = {
     setTitle: setTitleAction,
     setTicketsPerPage: setTicketsPerPageAction,
     setCurrentPage: setCurrentPageAction,
-    //resetFiltersStatus: resetFiltersStatusAction,
     togglePriorityOrder: togglePriorityOrderAction,
     toggleDateOrder: toggleDateOrderAction,
 };

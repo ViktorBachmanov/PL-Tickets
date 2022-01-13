@@ -28,7 +28,6 @@ interface Props {
 
 
 function CreateTicket(props: Props) {
-    //console.log(`CreateTicket process: `);
 
     useEffect(() => {
         props.setTitle("New ticket");
@@ -46,7 +45,6 @@ function CreateTicket(props: Props) {
         return <h2>Loading...</h2>;
     }
     
-    //if(props.beingSavedTicketId) {
     
     if(props.status === Status.SAVED) {
         return <Navigate to={RoutesPathes.TICKETS + "/" + props.beingSavedTicketId} replace={true} />;

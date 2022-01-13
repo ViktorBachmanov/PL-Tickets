@@ -19,17 +19,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { loginGoogle as loginGoogleAction, set, userData } from '../features/user/userSlice';
 import { usersData } from "../fakeUsers/data";
 
-/*
-interface Props {
-    loginGoogle?: typeof loginGoogleAction;
-}*/
 
 
 
 function Login(props: any) {
 
     function handleSelectFakeUser(ev: any) {
-        //console.log("Fake user selected");
         const user = usersData.find(user => {
             return user.id === ev.target.value;
         })

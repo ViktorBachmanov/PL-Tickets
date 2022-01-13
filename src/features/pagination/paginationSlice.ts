@@ -15,26 +15,19 @@ import { createTicketData } from "../tickets/ticketsSlice";
 interface PaginationState {
   ticketsPerPage: number;
   currentPage: number;
-  //orderBy: object;
   priorityOrder: Order;
   dateOrder: Order;
   tickets: Array<TicketCardData>;
   status: RequestStatus;
-  //filtersStatus: FiltersStatus;
 }
 
 const initialState: PaginationState = {
   ticketsPerPage: ticketsPerPageOptions[2],
   currentPage: 0,
-  /*orderBy: {
-    priority: order.ASC,
-    updatedAt: order.ASC
-  },*/
-  priorityOrder: "asc",
+    priorityOrder: "asc",
   dateOrder: "desc",
   tickets: [],
   status: RequestStatus.IDLE,
-  //filtersStatus: FiltersStatus.IDLE,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -45,7 +38,6 @@ const initialState: PaginationState = {
 export const loadPage = createAsyncThunk(
   'pagination/loadPage',
   async ( empty, { getState }) => {
-    //const { pageNo, docsPerPage } = payload;
     const rootState = getState() as RootState;
     const { ticketsPerPage, currentPage, priorityOrder, dateOrder } = rootState.pagination;
     let documentSnapshots;
@@ -105,7 +97,6 @@ export const paginationSlice = createSlice({
     builder
       .addCase(loadPage.pending, (state) => {
         state.status = RequestStatus.LOADING;
-        //state.filtersStatus = FiltersStatus.IDLE;
       })
       .addCase(loadPage.fulfilled, (state, action) => {
         state.status = RequestStatus.IDLE;

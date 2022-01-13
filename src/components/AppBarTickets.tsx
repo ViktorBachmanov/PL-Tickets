@@ -7,9 +7,7 @@ import { RootState } from '../app/store';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { css } from '@emotion/react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';

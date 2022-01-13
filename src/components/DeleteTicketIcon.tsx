@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { connect } from 'react-redux';
 
-//import { RootState } from '../app/store';
 
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -71,12 +70,6 @@ function DeleteTicketIcon(props: Props) {
     return viewElem;
 }
 
-/*
-function mapStateToProps(state: RootState) {
-    return { 
-        userId: state.user.id,       
-    };
-};*/
 
 const mapDispatchToProps = {
     deleteTicket: deleteTicketAction,

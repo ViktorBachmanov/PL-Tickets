@@ -1,5 +1,4 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
 import ticketsReducer from '../features/tickets/ticketsSlice';
 import userReducer from '../features/user/userSlice';
 import themeReducer from '../features/theme/themeSlice';
@@ -9,7 +8,6 @@ import titleReducer from '../features/title/titleSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     tickets: ticketsReducer,
     user: userReducer,
     theme: themeReducer,

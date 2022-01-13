@@ -28,9 +28,6 @@ const initialState: State = {
 
 const provider = new GoogleAuthProvider();
 
-//const navigate = useNavigate();
-
-
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -42,15 +39,12 @@ export const loginGoogle = createAsyncThunk(
       try {
         const result = await signInWithPopup(auth, provider)
         console.log(result.user);
-        //if(result.user.displayName) {
           const payload: userData = {
             id: result.user.uid, 
             name: result.user.displayName,
             avatarUrl: result.user.photoURL
           }
-          //return payload;
           dispatch(userSlice.actions.set(payload));
-        //}
         
       }
       catch(error) {
@@ -76,30 +70,13 @@ export const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(loginGoogle.pending, (state, action) => {
-        //state.status = 'loading'
-      })
-      .addCase(loginGoogle.fulfilled, (state, action) => {
-        //state.status = 'succeeded'
-        //state.posts = state.posts.concat(action.payload)
-        /*
-        state.loginStatus = true;
-        if(action.payload) {
-          state.id = action.payload.userId;
-          state.name = action.payload.userName;
-        }*/
-        
-      })
       .addCase(loginGoogle.rejected, (state, action) => {
-        //state.status = 'failed'
-        //state.error = action.error.message
-        console.error(action.error.message);
+         console.error(action.error.message);
       })
   }
   
 });
 
-//export const loginStatus = (state: RootState) => state.firebase.loginStatus;
 
 export const { set } = userSlice.actions;
 

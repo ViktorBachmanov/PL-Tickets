@@ -24,9 +24,7 @@ interface Props {
     requestStatus: RequestStatus;
     currentTicket: TicketCardData;
     loadTicketById: any;
-    //resetRequestStatus: any;
     status: Status;
-    //resetStatus: any;
     setTitle: any;
     resetStatus: any;
 }
@@ -34,8 +32,6 @@ interface Props {
 
 function ReadTicket(props: Props) {
     console.log('ReadTicket', ++ReadTicket.count);
-
-    //props.resetRequestStatus();
 
     const { id } = useParams();
 
@@ -58,11 +54,7 @@ function ReadTicket(props: Props) {
         }
     }, [])
      
-    /*
-    if(props.currentTicket.title) {
-        props.setTitle(props.currentTicket.title);
-    }*/
-
+    
     if(props.status === Status.SAVED) {
         props.resetStatus();
         props.loadTicketById(id);
@@ -81,9 +73,6 @@ function ReadTicket(props: Props) {
     }  
     
     
-
-
-    //return <h3>End</h3>;
 
     return (
         <React.Fragment>
@@ -105,7 +94,6 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = {
     loadTicketById: loadTicketByIdAction,
-    //resetRequestStatus: resetRequestStatusAction,
     resetStatus: resetStatusAction,
     setTitle: setTitleAction,
 };

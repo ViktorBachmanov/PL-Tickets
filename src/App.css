@@ -11,20 +11,3 @@ a {
   text-decoration: none;
 }
 
-
-.screen-bounds {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-dialog {
-  padding: 2rem;
-  background: lightgray;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
