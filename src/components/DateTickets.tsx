@@ -1,6 +1,12 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
 
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+import { css } from '@emotion/react'
 
 
 interface Props {
@@ -40,8 +46,12 @@ export function DateAgoTickets(props: Props) {
     }
  
     return (
-        <Box>
+        <Typography
+                variant="subtitle2" 
+                component="div"
+                css={css`color: #C5C7CD;`}
+        >
             {text}
-        </Box>
+        </Typography>
     )
 }

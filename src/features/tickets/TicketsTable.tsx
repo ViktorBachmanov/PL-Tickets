@@ -16,7 +16,7 @@ import Avatar from '@mui/material/Avatar';
 
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
-import { DateTickets } from "../../components/DateTickets";
+import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
 import { getAvatarUrlByUserId } from "../user/utils";
 import { Order } from "../pagination/types";
 
@@ -50,6 +50,7 @@ export default function TicketsTable(props: Props) {
                 <TableCell>
                     <Avatar alt={authorName.charAt(0)} src={getAvatarUrlByUserId(ticket.authorId)}/>
                     {ticket.title}
+                    <DateAgoTickets date={ticket.updatedAt} />
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
                 {/*<TableCell>{(new Date(ticket.updatedAt)).toLocaleString()}</TableCell>*/}
