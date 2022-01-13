@@ -4,8 +4,6 @@
 import * as React from 'react';
 import { css } from '@emotion/react';
 import { NavLink } from "react-router-dom";
-//import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -30,11 +28,7 @@ const SideListItemIcon = styled(ListItemIcon)`
 `;
 
 export default function SideBar() {
-    //const matches = useMediaQuery('(min-width:600px)');
-    //const theme = useTheme();
-    //const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    // [${theme.breakpoints.down('sm')}]: {
-
+   
     const breakPoint = 1280;
     
     const SideListItemText = styled(ListItemText)(
@@ -55,20 +49,10 @@ export default function SideBar() {
           };
       `,
     )
-      /*
-    const SideListItemText = styled(ListItemText)`
-       color: #A4A6B3;
-    `;*/
-
+   
 
     return (
-      /*
-        <Box css={css`
-            width: 255px;
-            height: 100vh; 
-            display: inline-block; 
-            background: #363740;
-        `}>*/
+     
         <ResizedBox>
             <List component="nav">
               <NavLink to={RoutesPathes.DASHBOARD}>
