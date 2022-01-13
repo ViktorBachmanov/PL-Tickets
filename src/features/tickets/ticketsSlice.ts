@@ -78,8 +78,9 @@ const modifyDocsCounter = createAsyncThunk(
       const docRef = doc(db, countersCollection, docsCounterDocId);
       const docSnap = await getDoc(docRef);
 
+      let val = 0;
       if (docSnap.exists()) {
-        let val = docSnap.data().total;
+        val = docSnap.data().total;
         if(isIncrement) {
            ++val;
         }
@@ -89,6 +90,8 @@ const modifyDocsCounter = createAsyncThunk(
       
         setDoc(docRef, { total: val });        
       } 
+
+      return { val, isIncrement };
   }
 );
 
@@ -214,9 +217,25 @@ export const ticketsSlice = createSlice({
           })
           .addCase(deleteTicket.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
-            state.status = Status.DELETED;            
+            //state.status = Status.DELETED;            
           })
           .addCase(deleteTicket.rejected, (state, action) => {
+            state.requestStatus = RequestStatus.IDLE;
+            console.error(action.error.message);
+          })
+          .addCase(modifyDocsCounter.pending, (state, action) => {
+            //state.status = 'loading'
+            state.requestStatus = RequestStatus.LOADING;
+          })
+          .addCase(modifyDocsCounter.fulfilled, (state, action) => {
+            state.requestStatus = RequestStatus.IDLE;
+            const { val, isIncrement } = action.payload;
+            state.counter = val;
+            if(!isIncrement) {
+              state.status = Status.DELETED;   
+            }       
+          })
+          .addCase(modifyDocsCounter.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })

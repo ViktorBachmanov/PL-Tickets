@@ -31,7 +31,7 @@ import { Order } from "../pagination/types";
 import { ticketsPerPageOptions } from "../pagination/constants";
 import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
-import { TicketCardData, viewRep } from "./types";
+import { Status, TicketCardData, viewRep } from "./types";
 import ViewToggle from "./ViewToggle";
 import TicketsModule from "./TicketsModule";
 
@@ -59,6 +59,7 @@ interface Props {
     priorityOrder: Order;
     toggleDateOrder: any;
     dateOrder: Order;
+    status: Status;
 }
 
 function Tickets(props: Props) {
@@ -135,6 +136,13 @@ function Tickets(props: Props) {
         return <h2>Loading...</h2>;
     }
 
+    if(props.status === Status.DELETED) {
+        setTimeout(() => { 
+            props.resetStatus();
+            props.loadPage(); 
+        }, 0);        
+    }
+
     if(props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
         return <h2>Loading...</h2>;
     } 
@@ -202,7 +210,7 @@ function Tickets(props: Props) {
 
             <TablePagination
                 component="div"
-                count={props.totalTickets || 100}
+                count={props.totalTickets}
                 page={props.currentPage}
                 onPageChange={handleChangePage}
                 rowsPerPageOptions={ticketsPerPageOptions}
@@ -227,6 +235,7 @@ function mapStateToProps(state: RootState) {
         ticketsPerPage: state.pagination.ticketsPerPage,
         priorityOrder: state.pagination.priorityOrder,
         dateOrder: state.pagination.dateOrder,
+        status: state.tickets.status,
     };
 };
 

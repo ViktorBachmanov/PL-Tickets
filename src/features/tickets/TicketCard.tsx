@@ -45,9 +45,7 @@ export default function TicketCard(props: Props) {
                             justify-content: space-between;
                         `}
                     >
-                        <div>
-                            <DateTickets date={ticket.updatedAt} />
-                        </div>
+                        <DateTickets date={ticket.updatedAt} />
                         <PriorityLabel 
                             priority={ticket.priority} 
                         />     
