@@ -17,11 +17,11 @@ export default function TicketsModule(props: Props) {
     let totalColumns: number;
     const theme = useTheme();
 
-    if(useMediaQuery(theme.breakpoints.down("md"))) {
-        totalColumns = 2;
+    if(useMediaQuery(theme.breakpoints.down("xl"))) {
+        totalColumns = 3;
     }
     else {
-        totalColumns = 3;
+        totalColumns = 4;
     }
 
     const tikckets = props.tickets.map((ticket: TicketCardData) => 
