@@ -34,29 +34,42 @@ export default function SideBar() {
     //const theme = useTheme();
     //const matches = useMediaQuery(theme.breakpoints.down('sm'));
     // [${theme.breakpoints.down('sm')}]: {
-    /*
-    const SideListItemText = styled(ListItemText)(
-      ({ theme }) => `
-      ${theme.breakpoints.down('sm')} {
-        display: none;
-      };
-      color: #A4A6B3;
-    `,
-    );*/
 
+    const breakPoint = 1280;
+    
+    const SideListItemText = styled(ListItemText)(
+       `@media (max-width: ${breakPoint}px) {
+          display: none;
+        };
+        color: #A4A6B3;
+      `,
+    );
+
+    const ResizedBox = styled(Box)(
+      ({ theme }) => `
+          width: 255px;
+          height: 100vh; 
+          background: #363740;
+          @media (max-width: ${breakPoint}px) {
+            width: 54px;
+          };
+      `,
+    )
+      /*
     const SideListItemText = styled(ListItemText)`
        color: #A4A6B3;
-    `;
+    `;*/
 
 
     return (
-    
+      /*
         <Box css={css`
             width: 255px;
             height: 100vh; 
             display: inline-block; 
             background: #363740;
-        `}>
+        `}>*/
+        <ResizedBox>
             <List component="nav">
               <NavLink to={RoutesPathes.DASHBOARD}>
               {({ isActive }) => (
@@ -87,6 +100,6 @@ export default function SideBar() {
               </NavLink>
                 
             </List>
-        </Box>
+        </ResizedBox>
     )
 }
