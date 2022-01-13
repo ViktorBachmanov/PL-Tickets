@@ -15,7 +15,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { RoutesPathes } from "../../constants";
 
 import { /*getAllTickets as getAllTicketsAction, */
-        resetSavedTicketId as resetSavedTicketIdAction,
+        //resetSavedTicketId as resetSavedTicketIdAction,
         resetStatus as resetStatusAction,
         resetRequestStatus as resetRequestStatusAction,
         resetCurrentTicket as resetCurrentTicketAction,
@@ -39,7 +39,7 @@ import TicketsModule from "./TicketsModule";
 
 interface Props {
     //getAllTickets: any;
-    resetSavedTicketId: any;
+    //resetSavedTicketId: any;
     resetStatus: any;
     resetRequestStatus: any;
     resetCurrentTicket: any;
@@ -74,7 +74,7 @@ function Tickets(props: Props) {
     };*/
 
     useEffect(() => {
-        props.resetSavedTicketId();
+        //props.resetSavedTicketId();
         props.resetStatus();
         props.resetCurrentTicket();
         props.loadPage();
@@ -241,7 +241,7 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = {
     //getAllTickets: getAllTicketsAction,
-    resetSavedTicketId: resetSavedTicketIdAction,
+    //resetSavedTicketId: resetSavedTicketIdAction,
     resetStatus: resetStatusAction,
     resetRequestStatus: resetRequestStatusAction,
     resetCurrentTicket: resetCurrentTicketAction,

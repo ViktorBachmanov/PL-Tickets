@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { useParams, Navigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Timestamp } from "firebase/firestore";
 
@@ -38,6 +40,11 @@ function ReadTicket(props: Props) {
     const { id } = useParams();
 
     useEffect(() => {
+        console.log('ReadTicket useEffect');
+        if(props.status === Status.SAVED) {
+            toast.success('Ticket created successfully');
+        }
+
         props.setTitle("");
         if(id) {
             props.loadTicketById(id)
@@ -56,6 +63,8 @@ function ReadTicket(props: Props) {
     }*/
 
 
+
+
     if(props.status === Status.DELETED) {
 
         return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
@@ -72,7 +81,12 @@ function ReadTicket(props: Props) {
 
     //return <h3>End</h3>;
 
-    return <TicketForm mode={Mode.READ} />;  
+    return (
+        <React.Fragment>
+            <TicketForm mode={Mode.READ} />
+            <Toaster /> 
+        </React.Fragment>
+    )
 };
 
 ReadTicket.count = 0;

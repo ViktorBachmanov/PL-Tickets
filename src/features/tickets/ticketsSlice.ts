@@ -47,7 +47,7 @@ export const saveDocInDatabase = createAsyncThunk(
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);
-      dispatch(loadTicketById(docRef.id));
+      //dispatch(loadTicketById(docRef.id));
       dispatch(modifyDocsCounter(true));
       return docRef.id;
     }
@@ -184,6 +184,7 @@ export const ticketsSlice = createSlice({
           .addCase(saveDocInDatabase.rejected, (state, action) => {
             //state.status = 'failed'
             //state.error = action.error.message
+            state.status = Status.NOT_SAVED;
             console.error(action.error.message);
           })
           .addCase(loadTicketById.pending, (state, action) => {
