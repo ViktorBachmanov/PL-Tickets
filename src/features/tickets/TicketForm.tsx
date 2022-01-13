@@ -113,69 +113,117 @@ function TicketForm(props: Props) {
     return(
         <form 
             onSubmit={handleSubmit(onSubmit)}
-            style={{marginTop: "30px"}}
+            css={css`
+                    marginTop: "30px";
+                    border: 1px solid #DFE0EB;
+                    border-radius: 8px;
+                    padding: 32px;
+                `}
         >
-            <Controller
-                name="title"
-                control={control}
-                render={({ field }) => (
-                        <TextField 
-                            {...field}
-                            disabled={isDisabled}
-                        />
-                    )
-                }
-            />
-            <Controller
-                name="priority"
-                control={control}
-                render={({ field }) => (
-                    <FormControl size="small">
-                      <InputLabel>Priority</InputLabel>
-                      <Select label="Priority" {...field} disabled={isDisabled}>
-                        <MenuItem value={Priority.LOW}>Low</MenuItem>
-                        <MenuItem value={Priority.NORMAL}>Normal</MenuItem>
-                        <MenuItem value={Priority.HIGH}>High</MenuItem>
-                      </Select>
-                    </FormControl>
-                  )}
-            />
-            
-            <Controller
-                name="description"
-                control={control}
-                defaultValue=""
-                render={({ field }) => <TextField {...field} disabled={isDisabled}/>}
-            />
-            
-            {isDisabled ||
-                <Box>
-                    <Button 
-                        variant="contained" 
-                        type="submit"
-                        id="save"
-                    >
-                        Save
-                    </Button>
-
-                    <Button 
-                        variant="contained" 
-                        type="submit"
-                        id="complete"
-                    >
-                        Complete
-                    </Button>
-
-                    {mode !== Mode.NEW &&
-                        <Button 
-                            variant="contained"
-                            onClick={() => {props.deleteTicket(props.ticket.id)}}
-                        >
-                            Delete
-                        </Button>
-                    }
+            <Box
+                css={css`
+                    width: 704px;
+                `}
+            >
+                <Box
+                    css={css`
+                        width: 100%;
+                        display: flex;
+                    `}
+                >
+                    <Controller
+                        name="title"
+                        control={control}
+                        render={({ field }) => (
+                                <TextField 
+                                    {...field}
+                                    disabled={isDisabled}
+                                    css={css`
+                                        margin-right: 1.5rem;
+                                        flex: 1 1 auto;
+                                    `}
+                                />
+                            )
+                        }
+                    />
+                    <Controller
+                        name="priority"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl
+                                css={css`
+                                    flex: 1 1 auto;
+                                `}
+                            >
+                                <InputLabel>Priority</InputLabel>
+                                <Select
+                                    label="Priority"
+                                    {...field}
+                                    disabled={isDisabled}                
+                                >
+                                    <MenuItem value={Priority.LOW}>Low</MenuItem>
+                                    <MenuItem value={Priority.NORMAL}>Normal</MenuItem>
+                                    <MenuItem value={Priority.HIGH}>High</MenuItem>
+                                </Select>
+                            </FormControl>
+                        )}
+                    />
                 </Box>
-            }
+                
+                <Controller
+                    name="description"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => <TextField 
+                                                {...field} 
+                                                disabled={isDisabled}
+                                                css={css`
+                                                    width: 100%;
+                                                    margin: 30px 0;
+                                                `}
+                                            />}
+                />
+                
+                {isDisabled ||
+                    <Box
+                        css={css`
+                            width: 100%;
+                            display: flex;
+                        `}
+                    >
+                        <Button 
+                            variant="contained" 
+                            type="submit"
+                            id="save"
+                        >
+                            Save
+                        </Button>
+
+                        <Button 
+                            variant="contained" 
+                            type="submit"
+                            id="complete"
+                            css={css`
+                                margin-left: 1.5rem;
+                            `}
+                        >
+                            Complete
+                        </Button>
+
+                        {mode !== Mode.NEW &&
+                            <Button 
+                                variant="contained"
+                                onClick={() => {props.deleteTicket(props.ticket.id)}}
+                                css={css`
+                                    margin-left: auto;
+                                `}
+                            >
+                                Delete
+                            </Button>
+                        }
+                    </Box>
+                }
+            </Box>
 
             {isCompleted && <Chip label="Completed" />}
         </form>
