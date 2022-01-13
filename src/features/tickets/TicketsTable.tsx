@@ -34,7 +34,8 @@ interface Props {
 }
 
 export default function TicketsTable(props: Props) {
-    const userId = useSelector((state: RootState) => state.user.id)
+    const userId = useSelector((state: RootState) => state.user.id);
+    const lightMode = useSelector((state: RootState) => state.theme.lightStatus);
 
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
@@ -47,12 +48,18 @@ export default function TicketsTable(props: Props) {
         }
 
         const isDeleteAvailable = ticket.authorId === userId && !ticket.isCompleted;
+
+        const completedBackground = lightMode === "light" ? "background: #EBFFE6;"
+                                                            : "background: #004d40;"
         
         return (
             <TableRow 
                 key={ticket.id} 
                 onClick={handleClick}
-                css={css`cursor: pointer;`}
+                css={css`
+                    cursor: pointer;
+                    ${ticket.isCompleted && completedBackground}
+                `}
             >
                 <TableCell>
                     <Avatar alt={authorName.charAt(0)} src={getAvatarUrlByUserId(ticket.authorId)}/>
