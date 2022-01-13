@@ -2,6 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
+import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 import { css } from '@emotion/react'
@@ -14,11 +15,13 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Avatar from '@mui/material/Avatar';
 
+import { RootState } from '../../app/store';
 import { TicketCardData, Priority } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
 import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
 import { getAvatarUrlByUserId } from "../user/utils";
 import { Order } from "../pagination/types";
+import DeleteTicketIcon from "../../components/DeleteTicketIcon";
 
 
 
@@ -31,6 +34,8 @@ interface Props {
 }
 
 export default function TicketsTable(props: Props) {
+    const userId = useSelector((state: RootState) => state.user.id)
+
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
         //console.log(getAvatarUrlByUserId(ticket.authorId));
@@ -40,6 +45,8 @@ export default function TicketsTable(props: Props) {
         function handleClick() {
             navigate(ticket.id);
         }
+
+        const isDeleteAvailable = ticket.authorId === userId && !ticket.isCompleted;
         
         return (
             <TableRow 
@@ -61,7 +68,11 @@ export default function TicketsTable(props: Props) {
                 <TableCell>
                     <PriorityLabel priority={ticket.priority} />
                 </TableCell>
-                <TableCell/>
+                <TableCell>
+                    {isDeleteAvailable && 
+                        <DeleteTicketIcon ticketId={ticket.id} />
+                    }
+                </TableCell>
             </TableRow>
             
         )
