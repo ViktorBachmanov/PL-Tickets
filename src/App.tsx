@@ -1,9 +1,6 @@
 import React from 'react';
-import { useSelector } from "react-redux"
 import { Routes, Route, Navigate } from "react-router-dom"; 
-import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
-import { RootState } from "./app/store"
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
@@ -12,9 +9,6 @@ import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
 import ReadTicket  from './features/tickets/ReadTicket';
 import CreateTicket  from './features/tickets/CreateTicket';
-import { Mode } from "./features/tickets/types";
-
-
 
 
 
