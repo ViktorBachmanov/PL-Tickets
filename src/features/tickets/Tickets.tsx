@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 import { css } from '@emotion/react'
 
@@ -74,6 +76,9 @@ function Tickets(props: Props) {
     };*/
 
     useEffect(() => {
+        if(props.status === Status.DELETED) {
+            toast.success('Ticket has been deleted');
+        }
         //props.resetSavedTicketId();
         props.resetStatus();
         props.resetCurrentTicket();
@@ -138,6 +143,7 @@ function Tickets(props: Props) {
 
     if(props.status === Status.DELETED) {
         setTimeout(() => { 
+            toast.success('Ticket has been deleted');
             props.resetStatus();
             props.loadPage(); 
         }, 0);        
@@ -217,6 +223,8 @@ function Tickets(props: Props) {
                 rowsPerPage={props.ticketsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+
+            <Toaster /> 
 
         </Box>
 

@@ -42,6 +42,7 @@ function ReadTicket(props: Props) {
     useEffect(() => {
         console.log('ReadTicket useEffect');
         if(props.status === Status.SAVED) {
+            props.resetStatus();
             toast.success('Ticket created successfully');
         }
 
@@ -62,7 +63,10 @@ function ReadTicket(props: Props) {
         props.setTitle(props.currentTicket.title);
     }*/
 
-
+    if(props.status === Status.SAVED) {
+        props.resetStatus();
+        props.loadTicketById(id);
+    }
 
 
     if(props.status === Status.DELETED) {
