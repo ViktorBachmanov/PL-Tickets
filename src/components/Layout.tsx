@@ -36,6 +36,7 @@ export default function Layout() {
     return (
         <Box css={css`
             display: flex;
+            min-width: 900px;
         `}
         >
             
@@ -47,7 +48,7 @@ export default function Layout() {
                     overflow: auto;
                     height: 100vh;
                     flex: 1 1 auto;
-                    padding: 30px;
+                    padding: 30px;                    
                     `}
                     >
                 <AppBarTickets/>
