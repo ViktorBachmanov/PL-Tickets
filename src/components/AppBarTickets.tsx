@@ -83,7 +83,6 @@ function AppBarTickets(props: Props) {
 
             <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
 
-            <Toaster />
 
         </Box>
     )

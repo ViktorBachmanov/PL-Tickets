@@ -60,14 +60,11 @@ interface Props {
 }
 
 function Tickets(props: Props) {
-    const { currentPage, ticketsPerPage, priorityOrder, dateOrder } = props;
+    const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets } = props;
     const navigate = useNavigate();
     
 
     useEffect(() => {
-        if(props.status === Status.DELETED) {
-            toast.success('Ticket has been deleted');
-        }
         props.resetStatus();
         props.resetCurrentTicket();
         //props.loadPage();
@@ -82,7 +79,7 @@ function Tickets(props: Props) {
 
     useEffect(() => {  
         props.loadPage();       
-    }, [ currentPage, ticketsPerPage, dateOrder, priorityOrder ]);
+    }, [ currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets ]);
 
 
     const [view, setView] = React.useState(viewRep.list);    
@@ -93,7 +90,6 @@ function Tickets(props: Props) {
         newPage: number,
     ) => {
         
-        //Tickets.isFiltersChanged = true;
         props.setCurrentPage(newPage);
         
     };
@@ -103,37 +99,19 @@ function Tickets(props: Props) {
     ) => {
         const rowsPerPage = parseInt(event.target.value, 10);
         
-        //Tickets.isFiltersChanged = true;
         props.setTicketsPerPage(rowsPerPage);
         
     };
 
     const handleTogglePriorityOrder = () => {
-        //Tickets.isFiltersChanged = true;
         props.togglePriorityOrder();
     }
 
     const handleToggleDateOrder = () => {
-        //Tickets.isFiltersChanged = true;
         props.toggleDateOrder();
     }
 
-    /*
-    if(Tickets.isFiltersChanged) {
-        console.log('Tickets.isFiltersChanged: ', Tickets.isFiltersChanged)
-        Tickets.isFiltersChanged = false;
-        setTimeout(() => { props.loadPage(); }, 0);
-        return <h2>Loading...</h2>;
-    }*/
-
-    if(props.status === Status.DELETED) {
-        setTimeout(() => { 
-            toast.success('Ticket has been deleted');
-            props.resetStatus();
-            props.loadPage(); 
-        }, 0);        
-    }
-
+   
     if(props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
         return <h2>Loading...</h2>;
     } 
@@ -209,7 +187,7 @@ function Tickets(props: Props) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
 
-            <Toaster /> 
+            
 
         </Box>
 

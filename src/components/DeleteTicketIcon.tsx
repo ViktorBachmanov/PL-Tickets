@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from 'react-redux';
-
+import toast from 'react-hot-toast';
 
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,6 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { deleteTicket as deleteTicketAction } from '../features/tickets/ticketsSlice';
+import { ticketsDeletingMessages } from '../features/tickets/constants';
 
 
 interface Props {
@@ -33,7 +34,8 @@ function DeleteTicketIcon(props: Props) {
     function handleConfirmDelete(ev: any) {
         ev.preventDefault();
         ev.stopPropagation();
-        deleteTicket(ticketId);
+        const rslt = deleteTicket(ticketId).unwrap();
+        toast.promise(rslt, ticketsDeletingMessages);
     }
 
     function handleCancel(ev: any) {

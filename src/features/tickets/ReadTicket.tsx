@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { useParams, Navigate } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
+import { useParams } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { Timestamp } from "firebase/firestore";
 
 import { Mode, Status } from "./types";
-import { RequestStatus, RoutesPathes } from "../../constants";
+import { RequestStatus } from "../../constants";
 import { RootState } from '../../app/store';
 
 import { loadTicketById as loadTicketByIdAction,
@@ -60,11 +60,11 @@ function ReadTicket(props: Props) {
         props.loadTicketById(id);
     }
 
-
+    /*
     if(props.status === Status.DELETED) {
 
         return <Navigate to={RoutesPathes.TICKETS} replace={true} />;
-    }
+    }*/
     
 
     if(props.requestStatus === RequestStatus.LOADING) {
@@ -77,7 +77,6 @@ function ReadTicket(props: Props) {
     return (
         <React.Fragment>
             <TicketForm mode={Mode.READ} />
-            <Toaster /> 
         </React.Fragment>
     )
 };

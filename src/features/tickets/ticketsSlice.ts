@@ -222,10 +222,7 @@ export const ticketsSlice = createSlice({
           .addCase(modifyDocsCounter.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             const { val, isIncrement } = action.payload;
-            state.counter = val;
-            if(!isIncrement) {
-              state.status = Status.DELETED;   
-            }       
+            state.counter = val;     
           })
           .addCase(modifyDocsCounter.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;

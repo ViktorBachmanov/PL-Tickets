@@ -3,7 +3,10 @@
 
 import React from "react";
 import { connect } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import toast from 'react-hot-toast';
+
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Chip } from '@mui/material';
 import { css } from '@emotion/react';
 
@@ -11,11 +14,15 @@ import { Timestamp } from "firebase/firestore";
 
 import { Priority, Mode, Status } from "./types";
 import { RootState } from '../../app/store';
+import { RoutesPathes } from "../../constants";
+
 
 import { saveDocInDatabase as saveDocInDatabaseAction,
         resetRequestStatus as resetRequestStatusAction,
         deleteTicket as deleteTicketAction,
      } from './ticketsSlice';
+import { ticketsDeletingMessages } from './constants';
+
 
 import { TicketCardData } from "./types";
 
@@ -92,6 +99,14 @@ function TicketForm(props: Props) {
             }
          });
     };
+
+    const navigate = useNavigate();
+    function handleDeleteTicket() {
+        const rslt = props.deleteTicket(props.ticket.id).unwrap();
+        toast.promise(rslt, ticketsDeletingMessages);
+        
+        navigate(RoutesPathes.TICKETS, { replace: true});
+    }
 
    
 
@@ -199,7 +214,7 @@ function TicketForm(props: Props) {
                         {mode !== Mode.NEW &&
                             <Button 
                                 variant="contained"
-                                onClick={() => {props.deleteTicket(props.ticket.id)}}
+                                onClick={handleDeleteTicket}
                                 css={css`
                                     margin-left: auto;
                                 `}

@@ -57,7 +57,6 @@ function CreateTicket(props: Props) {
     return (
         <React.Fragment>
             <TicketForm mode={Mode.NEW} />
-            <Toaster />
         </React.Fragment>
     )
 };

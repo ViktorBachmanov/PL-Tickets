@@ -3,6 +3,8 @@
 
 import React from 'react';
 import { Outlet } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -54,7 +56,9 @@ export default function Layout() {
                 <AppBarTickets/>
 
 
-                <Outlet/>
+                <Outlet />
+
+                <Toaster /> 
             </Box>
             </ThemeProvider>
 
