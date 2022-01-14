@@ -60,6 +60,7 @@ interface Props {
 }
 
 function Tickets(props: Props) {
+    const { currentPage, ticketsPerPage, priorityOrder, dateOrder } = props;
     const navigate = useNavigate();
     
 
@@ -69,7 +70,7 @@ function Tickets(props: Props) {
         }
         props.resetStatus();
         props.resetCurrentTicket();
-        props.loadPage();
+        //props.loadPage();
         props.getTotalDocs();
         props.setTitle("Tickets");
         
@@ -79,16 +80,20 @@ function Tickets(props: Props) {
     }, []);
 
 
+    useEffect(() => {  
+        props.loadPage();       
+    }, [ currentPage, ticketsPerPage, dateOrder, priorityOrder ]);
+
+
     const [view, setView] = React.useState(viewRep.list);    
 
-    
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
         
-        Tickets.isFiltersChanged = true;
+        //Tickets.isFiltersChanged = true;
         props.setCurrentPage(newPage);
         
     };
@@ -98,28 +103,28 @@ function Tickets(props: Props) {
     ) => {
         const rowsPerPage = parseInt(event.target.value, 10);
         
-        Tickets.isFiltersChanged = true;
+        //Tickets.isFiltersChanged = true;
         props.setTicketsPerPage(rowsPerPage);
         
     };
 
     const handleTogglePriorityOrder = () => {
-        Tickets.isFiltersChanged = true;
+        //Tickets.isFiltersChanged = true;
         props.togglePriorityOrder();
     }
 
     const handleToggleDateOrder = () => {
-        Tickets.isFiltersChanged = true;
+        //Tickets.isFiltersChanged = true;
         props.toggleDateOrder();
     }
 
-
+    /*
     if(Tickets.isFiltersChanged) {
         console.log('Tickets.isFiltersChanged: ', Tickets.isFiltersChanged)
         Tickets.isFiltersChanged = false;
         setTimeout(() => { props.loadPage(); }, 0);
         return <h2>Loading...</h2>;
-    }
+    }*/
 
     if(props.status === Status.DELETED) {
         setTimeout(() => { 
@@ -211,7 +216,7 @@ function Tickets(props: Props) {
     )
 }
 
-Tickets.isFiltersChanged = false;
+//Tickets.isFiltersChanged = false;
 
 function mapStateToProps(state: RootState) {
     return { 
