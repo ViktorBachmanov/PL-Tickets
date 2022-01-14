@@ -1,9 +1,9 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import toast from 'react-hot-toast';
 
@@ -12,16 +12,20 @@ import { css } from '@emotion/react';
 
 import { Timestamp } from "firebase/firestore";
 
-import { Priority, Mode, Status } from "./types";
+import { Priority, Mode } from "./types";
+import { RoutesPathes, RequestStatus } from "../../constants";
 import { RootState } from '../../app/store';
-import { RoutesPathes } from "../../constants";
 
 
 import { saveDocInDatabase as saveDocInDatabaseAction,
         resetRequestStatus as resetRequestStatusAction,
         deleteTicket as deleteTicketAction,
+        loadTicketById as loadTicketByIdAction,
      } from './ticketsSlice';
 import { ticketsDeletingMessages } from './constants';
+
+import { setTitle as setTitleAction } from "../title/titleSlice";
+
 
 
 import { TicketCardData } from "./types";
@@ -37,34 +41,63 @@ interface Props {
     mode: Mode;
     userId: string;
     userName: string | null;
-    tickets: Array<TicketCardData>;
+    //currentTickets: Array<currentTicketCardData>;
     saveDocInDatabase: any;
-    resetRequestStatus: any;
+    //resetRequestStatus: any;
     deleteTicket: any;
-    ticket: TicketCardData;
-    status: Status;
+    currentTicket: TicketCardData;
+    //status: Status;
+    loadTicketById: any;
+    setTitle: any;
+    requestStatus: RequestStatus;
 };
 
 
 function TicketForm(props: Props) {
-    
-    let isCompleted = props.ticket.isCompleted;
+    const { currentTicket, requestStatus } = props;
     let mode = props.mode;
+
+    const { control, handleSubmit, reset } = useForm<IFormInput>({
+        defaultValues: {
+            title: currentTicket.title,
+            description: currentTicket.description,
+            priority: currentTicket.priority,
+        },
+    });
     
-    if(props.userId === props.ticket.authorId && !isCompleted) {
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        if(id) {
+            props.loadTicketById(id)
+                .unwrap()
+                .then((currentTicket: TicketCardData) => { 
+                    props.setTitle(currentTicket.title); 
+                    reset({ 
+                        title: currentTicket.title, 
+                        description: currentTicket.description, 
+                        priority: currentTicket.priority 
+                    });
+                })
+            
+        }
+        else {
+            props.setTitle("New ticket");
+        }
+    }, []);
+
+        
+    let isCompleted = props.currentTicket.isCompleted;    
+    
+    if(props.userId === props.currentTicket.authorId && !isCompleted) {
         mode = Mode.EDIT;
     }    
 
     const isDisabled = mode === Mode.READ ? true : false;
     
 
-    const { control, handleSubmit } = useForm<IFormInput>({
-        defaultValues: {
-            title: props.ticket.title,
-            description: props.ticket.description,
-            priority: props.ticket.priority,
-        },
-    });
+    
 
     
     const onSubmit: SubmitHandler<IFormInput> = (data, ev) => {
@@ -79,16 +112,16 @@ function TicketForm(props: Props) {
         const currentTime = Timestamp.now();
         let createdAt, updatedAt;
 
-        if(!props.ticket.createdAt) {
+        if(!currentTicket.createdAt) {
             updatedAt = createdAt = currentTime;
         }
         else {
-            createdAt = Timestamp.fromMillis(props.ticket.createdAt);
+            createdAt = Timestamp.fromMillis(currentTicket.createdAt);
             updatedAt = currentTime;
         }
         
         props.saveDocInDatabase({
-            id: props.ticket.id,
+            id: currentTicket.id,
             docData: { 
                 ...data,
                 authorId: props.userId,
@@ -101,16 +134,20 @@ function TicketForm(props: Props) {
     };
 
     const navigate = useNavigate();
+
     function handleDeleteTicket() {
-        const rslt = props.deleteTicket(props.ticket.id).unwrap();
+        const rslt = props.deleteTicket(props.currentTicket.id).unwrap();
         toast.promise(rslt, ticketsDeletingMessages);
         
         navigate(RoutesPathes.TICKETS, { replace: true});
     }
 
-   
 
-    
+    if(requestStatus === RequestStatus.LOADING) {
+        return <h2>Loading...</h2>;
+    } 
+
+        
     return(
         <form 
             onSubmit={handleSubmit(onSubmit)}
@@ -121,12 +158,12 @@ function TicketForm(props: Props) {
                     padding: 32px;
                 `}
         >
-            <Box
+            <div
                 css={css`
                     width: 704px;
                 `}
             >
-                <Box
+                <div
                     css={css`
                         width: 100%;
                         display: flex;
@@ -134,7 +171,7 @@ function TicketForm(props: Props) {
                 >
                     <Controller
                         name="title"
-                        control={control}
+                        control={control}                        
                         render={({ field }) => (
                                 <TextField 
                                     {...field}
@@ -169,12 +206,11 @@ function TicketForm(props: Props) {
                             </FormControl>
                         )}
                     />
-                </Box>
+                </div>
                 
                 <Controller
                     name="description"
                     control={control}
-                    defaultValue=""
                     render={({ field }) => <TextField 
                                                 {...field} 
                                                 disabled={isDisabled}
@@ -224,7 +260,7 @@ function TicketForm(props: Props) {
                         }
                     </Box>
                 }
-            </Box>
+            </div>
 
             {isCompleted && <Chip label="Completed" />}
         </form>
@@ -236,16 +272,19 @@ function mapStateToProps(state: RootState) {
     return { 
         userId: state.user.id,
         userName: state.user.name,
-        tickets: state.tickets.list,
-        ticket: state.tickets.currentTicket,
-        status: state.tickets.status,
+        //currentTickets: state.currentTickets.list,
+        currentTicket: state.tickets.currentTicket,
+        //status: state.tickets.status,
+        requestStatus: state.tickets.requestStatus,
      };
 };
 
 const mapDispatchToProps = {
     saveDocInDatabase: saveDocInDatabaseAction,
-    resetRequestStatus: resetRequestStatusAction,
+    //resetRequestStatus: resetRequestStatusAction,
     deleteTicket: deleteTicketAction,
+    loadTicketById: loadTicketByIdAction,
+    setTitle: setTitleAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);

@@ -13,18 +13,18 @@ import { ticketsCollection, countersCollection, docsCounterDocId } from '../../c
 interface initialState {
   requestStatus: RequestStatus;
   list: Array<TicketCardData>;
-  beingSavedTicketId: string;
+  //beingSavedTicketId: string;
   currentTicket: TicketCardData;
-  status: Status;
+  //status: Status;
   counter: number;
 }
 
 const initialState = {
     requestStatus: RequestStatus.IDLE,
     list: [defaultTicketData()],
-    beingSavedTicketId: "",
+    //beingSavedTicketId: "",
     currentTicket: defaultTicketData(),
-    status: Status.NONE,
+    //status: Status.NONE,
     counter: 0,
 };
 
@@ -46,7 +46,7 @@ export const saveDocInDatabase = createAsyncThunk(
       // The value we return becomes the `fulfilled` action payload
       console.log(docRef);
       console.log(docRef.id);
-      //dispatch(loadTicketById(docRef.id));
+      dispatch(loadTicketById(docRef.id));
       dispatch(modifyDocsCounter(true));
       return docRef.id;
     }
@@ -147,15 +147,15 @@ export const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {
-      resetSavedTicketId: (state) => {
+      /*resetSavedTicketId: (state) => {
         state.beingSavedTicketId = "";
-      },
+      },*/
       resetRequestStatus: (state) => {
         state.requestStatus = RequestStatus.IDLE;
       },
-      resetStatus: (state) => {
+      /*resetStatus: (state) => {
         state.status = Status.NONE;
-      },
+      },*/
       resetCurrentTicket: (state) => {
         state.currentTicket = defaultTicketData();
       },
@@ -164,20 +164,20 @@ export const ticketsSlice = createSlice({
         builder
           .addCase(saveDocInDatabase.pending, (state, action) => {
             //state.status = 'loading'
-            state.beingSavedTicketId = "";
-            state.currentTicket = defaultTicketData();
+            //state.beingSavedTicketId = "";
+            //state.currentTicket = defaultTicketData();
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(saveDocInDatabase.fulfilled, (state, action) => {
             //state.status = 'succeeded'
-            state.beingSavedTicketId = action.payload;
-            state.status = Status.SAVED;
+            //state.beingSavedTicketId = action.payload;
+            //state.status = Status.SAVED;
             
           })
           .addCase(saveDocInDatabase.rejected, (state, action) => {
             //state.status = 'failed'
             //state.error = action.error.message
-            state.status = Status.NOT_SAVED;
+            //state.status = Status.NOT_SAVED;
             console.error(action.error.message);
           })
           .addCase(loadTicketById.pending, (state, action) => {
@@ -187,7 +187,7 @@ export const ticketsSlice = createSlice({
           .addCase(loadTicketById.fulfilled, (state, action) => {
             //state.status = 'succeeded'
             state.requestStatus = RequestStatus.IDLE;
-            state.status = Status.LOADED;
+            //state.status = Status.LOADED;
             state.currentTicket = action.payload;
           })
           .addCase(loadTicketById.rejected, (state, action) => {
@@ -199,7 +199,8 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(getTotalDocs.fulfilled, (state, action) => {
-            state.counter = action.payload;            
+            state.counter = action.payload; 
+            state.requestStatus = RequestStatus.IDLE;           
           })
           .addCase(getTotalDocs.rejected, (state, action) => {
             console.error(action.error.message);
@@ -235,7 +236,7 @@ export const ticketsSlice = createSlice({
       }
 });
 
-export const { resetSavedTicketId, resetRequestStatus, resetStatus, resetCurrentTicket } = ticketsSlice.actions;
+export const { /*resetSavedTicketId, */resetRequestStatus, /*resetStatus,*/ resetCurrentTicket } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
 

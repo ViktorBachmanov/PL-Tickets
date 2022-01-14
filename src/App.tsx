@@ -7,8 +7,11 @@ import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
-import ReadTicket  from './features/tickets/ReadTicket';
-import CreateTicket  from './features/tickets/CreateTicket';
+//import ReadTicket  from './features/tickets/ReadTicket';
+//import CreateTicket  from './features/tickets/CreateTicket';
+import TicketForm from './features/tickets/TicketForm';
+import { Mode } from "./features/tickets/types";
+
 
 
 
@@ -26,8 +29,8 @@ function App() {
           <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />
           <Route path={RoutesPathes.TICKETS} element={<Tickets />} />
-          <Route path={RoutesPathes.TICKET_ID} element={<ReadTicket />} />
-          <Route path={RoutesPathes.CREATE} element={<CreateTicket />} />
+          <Route path={RoutesPathes.TICKET_ID} element={<TicketForm mode={Mode.READ} />} />
+          <Route path={RoutesPathes.CREATE} element={<TicketForm mode={Mode.NEW} />} />
         </Route>
       </Routes>
     </div>

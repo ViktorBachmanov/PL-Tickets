@@ -16,7 +16,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { RoutesPathes } from "../../constants";
 
-import { resetStatus as resetStatusAction,
+import { /*resetStatus as resetStatusAction,*/
         resetRequestStatus as resetRequestStatusAction,
         resetCurrentTicket as resetCurrentTicketAction,
         getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
@@ -39,7 +39,7 @@ import TicketsModule from "./TicketsModule";
 
 interface Props {
     
-    resetStatus: any;
+    //resetStatus: any;
     resetRequestStatus: any;
     resetCurrentTicket: any;
     getTotalDocs: any;
@@ -56,7 +56,7 @@ interface Props {
     priorityOrder: Order;
     toggleDateOrder: any;
     dateOrder: Order;
-    status: Status;
+    //status: Status;
 }
 
 function Tickets(props: Props) {
@@ -65,7 +65,7 @@ function Tickets(props: Props) {
     
 
     useEffect(() => {
-        props.resetStatus();
+        //props.resetStatus();
         props.resetCurrentTicket();
         //props.loadPage();
         props.getTotalDocs();
@@ -205,13 +205,13 @@ function mapStateToProps(state: RootState) {
         ticketsPerPage: state.pagination.ticketsPerPage,
         priorityOrder: state.pagination.priorityOrder,
         dateOrder: state.pagination.dateOrder,
-        status: state.tickets.status,
+        //status: state.tickets.status,
     };
 };
 
 const mapDispatchToProps = {
    
-    resetStatus: resetStatusAction,
+    //resetStatus: resetStatusAction,
     resetRequestStatus: resetRequestStatusAction,
     resetCurrentTicket: resetCurrentTicketAction,
     getTotalDocs: getTotalDocsAction,
