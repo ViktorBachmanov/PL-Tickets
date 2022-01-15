@@ -5,6 +5,8 @@ import React from "react";
 import { useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
+import { OrderByDirection } from "firebase/firestore";
+
 import { css } from '@emotion/react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,11 +17,10 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Avatar from '@mui/material/Avatar';
 
 import { RootState } from '../../app/store';
-import { TicketCardData, Priority } from "./types";
+import { TicketCardData } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
 import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
 import { getAvatarUrlByUserId } from "../user/utils";
-import { Order } from "../pagination/types";
 import DeleteTicketIcon from "../../components/DeleteTicketIcon";
 import { LightStatus } from "../theme/types";
 
@@ -27,10 +28,11 @@ import { LightStatus } from "../theme/types";
 
 interface Props {
     tickets: Array<TicketCardData>;
-    priorityOrder: Order;
+    priorityOrder: OrderByDirection;
     togglePriorityOrder: any;
-    dateOrder: Order;
+    dateOrder: OrderByDirection;
     toggleDateOrder: any;
+    setCurrentTicketById: any;
 }
 
 export default function TicketsTable(props: Props) {
@@ -43,6 +45,7 @@ export default function TicketsTable(props: Props) {
         const navigate = useNavigate();
 
         function handleClick() {
+            props.setCurrentTicketById(ticket.id);
             navigate(ticket.id);
         }
 

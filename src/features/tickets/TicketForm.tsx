@@ -21,6 +21,7 @@ import { saveDocInDatabase as saveDocInDatabaseAction,
         resetRequestStatus as resetRequestStatusAction,
         deleteTicket as deleteTicketAction,
         loadTicketById as loadTicketByIdAction,
+        resetCurrentTicket as resetCurrentTicketAction,
      } from './ticketsSlice';
 import { ticketsDeletingMessages, ticketsSavingMessages } from './constants';
 
@@ -46,6 +47,7 @@ interface Props {
     //resetRequestStatus: any;
     deleteTicket: any;
     currentTicket: TicketCardData;
+    resetCurrentTicket: any;
     //status: Status;
     loadTicketById: any;
     setTitle: any;
@@ -70,7 +72,7 @@ function TicketForm(props: Props) {
 
     useEffect(() => {
         if(id) {
-            props.loadTicketById(id)
+            /*props.loadTicketById(id)
                 .unwrap()
                 .then((currentTicket: TicketCardData) => { 
                     props.setTitle(currentTicket.title); 
@@ -79,26 +81,36 @@ function TicketForm(props: Props) {
                         description: currentTicket.description, 
                         priority: currentTicket.priority 
                     });
-                })
-            
+                })*/
+            props.setTitle(currentTicket.title); 
         }
         else {
             props.setTitle("New ticket");
         }
+
+        return function clean() {
+            console.log('TicketForm clean');
+            //props.resetCurrentTicket();
+        }
+    }, [currentTicket]);
+    
+
+    useEffect(() => {
+        return function cleanUnmount() {
+            props.resetCurrentTicket();
+        }
     }, []);
 
         
-    let isCompleted = props.currentTicket.isCompleted;    
+    let isCompleted = currentTicket.isCompleted;    
     
-    if(props.userId === props.currentTicket.authorId && !isCompleted) {
+    if(props.userId === currentTicket.authorId && !isCompleted) {
         mode = Mode.EDIT;
     }    
 
     const isDisabled = mode === Mode.READ ? true : false;
     
-
-    
-
+    const navigate = useNavigate();
     
     const onSubmit: SubmitHandler<IFormInput> = (data, ev) => {
         if(ev) {            
@@ -130,11 +142,15 @@ function TicketForm(props: Props) {
                 updatedAt,
                 isCompleted,
             }
-         });
+         }).unwrap();
          toast.promise(rslt, ticketsSavingMessages);
+
+        rslt.then((id: string) => {
+            navigate(RoutesPathes.TICKETS + '/' + id, { replace: true});
+        });
     };
 
-    const navigate = useNavigate();
+    
 
     function handleDeleteTicket() {
         const rslt = props.deleteTicket(props.currentTicket.id).unwrap();
@@ -286,6 +302,7 @@ const mapDispatchToProps = {
     deleteTicket: deleteTicketAction,
     loadTicketById: loadTicketByIdAction,
     setTitle: setTitleAction,
+    resetCurrentTicket: resetCurrentTicketAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);

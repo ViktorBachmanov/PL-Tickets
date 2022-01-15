@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 
+import { OrderByDirection } from "firebase/firestore";
 
 import { css } from '@emotion/react'
 
@@ -17,18 +18,17 @@ import TablePagination from '@mui/material/TablePagination';
 import { RoutesPathes } from "../../constants";
 
 import { /*resetStatus as resetStatusAction,*/
-        resetRequestStatus as resetRequestStatusAction,
-        resetCurrentTicket as resetCurrentTicketAction,
-        getTotalDocs as getTotalDocsAction } from "./ticketsSlice";
-import { RootState } from '../../app/store';
-import { loadPage as loadPageAction,
+        resetRequestStatus as resetRequestStatusAction,        
+        getTotalDocs as getTotalDocsAction,
+        loadPage as loadPageAction,
         setTicketsPerPage as setTicketsPerPageAction,
         setCurrentPage as setCurrentPageAction,
         togglePriorityOrder as togglePriorityOrderAction,
-        toggleDateOrder as toggleDateOrderAction } from "../pagination/paginationSlice";
+        toggleDateOrder as toggleDateOrderAction,
+        setCurrentTicketById as setCurrentTicketByIdAction, } from "./ticketsSlice";
+import { RootState } from '../../app/store';
 import { setTitle as setTitleAction } from "../title/titleSlice";
-import { Order } from "../pagination/types";
-import { ticketsPerPageOptions } from "../pagination/constants";
+import { ticketsPerPageOptions } from "./constants";
 import { RequestStatus } from "../../constants";
 import TicketsTable from "./TicketsTable";
 import { Status, TicketCardData, viewRep } from "./types";
@@ -41,7 +41,7 @@ interface Props {
     
     //resetStatus: any;
     resetRequestStatus: any;
-    resetCurrentTicket: any;
+    
     getTotalDocs: any;
     loadPage: any;
     totalTickets: number;
@@ -53,10 +53,11 @@ interface Props {
     currentPage: number;
     ticketsPerPage: number;
     togglePriorityOrder: any;
-    priorityOrder: Order;
+    priorityOrder: OrderByDirection;
     toggleDateOrder: any;
-    dateOrder: Order;
+    dateOrder: OrderByDirection;
     //status: Status;
+    setCurrentTicketById: any;
 }
 
 function Tickets(props: Props) {
@@ -66,14 +67,14 @@ function Tickets(props: Props) {
 
     useEffect(() => {
         //props.resetStatus();
-        props.resetCurrentTicket();
+        //props.resetCurrentTicket();
         //props.loadPage();
         props.getTotalDocs();
         props.setTitle("Tickets");
-        
+        /*
         return function clean() {
             props.resetRequestStatus();
-        }
+        }*/
     }, []);
 
 
@@ -128,6 +129,7 @@ function Tickets(props: Props) {
                 dateOrder={props.dateOrder}
                 togglePriorityOrder={handleTogglePriorityOrder}
                 toggleDateOrder={handleToggleDateOrder}
+                setCurrentTicketById={props.setCurrentTicketById}
             />
         )
     }
@@ -198,13 +200,13 @@ function Tickets(props: Props) {
 
 function mapStateToProps(state: RootState) {
     return { 
-        ticketsList: state.pagination.tickets,
+        ticketsList: state.tickets.list,
         totalTickets: state.tickets.counter,
-        requestStatus: state.pagination.status,
-        currentPage: state.pagination.currentPage,
-        ticketsPerPage: state.pagination.ticketsPerPage,
-        priorityOrder: state.pagination.priorityOrder,
-        dateOrder: state.pagination.dateOrder,
+        requestStatus: state.tickets.requestStatus,
+        currentPage: state.tickets.currentPage,
+        ticketsPerPage: state.tickets.ticketsPerPage,
+        priorityOrder: state.tickets.priorityOrder,
+        dateOrder: state.tickets.dateOrder,
         //status: state.tickets.status,
     };
 };
@@ -213,7 +215,7 @@ const mapDispatchToProps = {
    
     //resetStatus: resetStatusAction,
     resetRequestStatus: resetRequestStatusAction,
-    resetCurrentTicket: resetCurrentTicketAction,
+    //resetCurrentTicket: resetCurrentTicketAction,
     getTotalDocs: getTotalDocsAction,
     loadPage: loadPageAction,
     setTitle: setTitleAction,
@@ -221,6 +223,7 @@ const mapDispatchToProps = {
     setCurrentPage: setCurrentPageAction,
     togglePriorityOrder: togglePriorityOrderAction,
     toggleDateOrder: toggleDateOrderAction,
+    setCurrentTicketById: setCurrentTicketByIdAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

@@ -9,3 +9,5 @@ export const ticketsSavingMessages = {
     success: 'Ticket has been saved',
     error: 'Error when saving',
 }
+
+export const ticketsPerPageOptions = [4, 6, 8, 10, 12, 16, 20];

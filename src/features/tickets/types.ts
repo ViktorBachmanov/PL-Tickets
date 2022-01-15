@@ -5,8 +5,8 @@ export enum Priority { LOW, NORMAL, HIGH };
 
 export enum Mode { READ, EDIT, NEW };
 
-
 export enum Status { NONE, SAVED, NOT_SAVED, LOADED };
+
 
 
 

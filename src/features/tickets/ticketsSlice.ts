@@ -1,31 +1,40 @@
 //import { useContext } from "react";
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 
-import { collection, addDoc, setDoc, getDoc, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, setDoc, getDoc, getDocs, 
+        deleteDoc, doc, query, orderBy, limit, startAfter, OrderByDirection } from "firebase/firestore";
 
 import { Priority, Status, TicketCardData, FireDocData } from "./types";
 import { RequestStatus } from "../../constants";
 import { db } from '../../config';
 import { ticketsCollection, countersCollection, docsCounterDocId } from '../../config';
+import { ticketsPerPageOptions } from "./constants";
 
 
 
 interface initialState {
   requestStatus: RequestStatus;
   list: Array<TicketCardData>;
-  //beingSavedTicketId: string;
   currentTicket: TicketCardData;
-  //status: Status;
   counter: number;
+
+  ticketsPerPage: number;
+  currentPage: number;
+  priorityOrder: OrderByDirection;
+  dateOrder: OrderByDirection;
 }
 
-const initialState = {
+const initialState: initialState = {
     requestStatus: RequestStatus.IDLE,
     list: [defaultTicketData()],
-    //beingSavedTicketId: "",
     currentTicket: defaultTicketData(),
-    //status: Status.NONE,
     counter: 0,
+
+    ticketsPerPage: ticketsPerPageOptions[2],
+    currentPage: 0,
+    priorityOrder: "asc",
+    dateOrder: "desc",
 };
 
 
@@ -59,7 +68,7 @@ export const saveDocInDatabase = createAsyncThunk(
 );
 
 export const deleteTicket = createAsyncThunk(
-  'pagination/deleteTicket',
+  'tickets/deleteTicket',
   async (ticketId: string, { dispatch }) => {
     await deleteDoc(doc(db, ticketsCollection, ticketId));
 
@@ -143,6 +152,43 @@ export const getAllTickets = createAsyncThunk(
 );
 
 
+export const loadPage = createAsyncThunk(
+  'tickets/loadPage',
+  async ( empty, { getState }) => {
+    const rootState = getState() as RootState;
+    const { ticketsPerPage, currentPage, priorityOrder, dateOrder } = rootState.tickets;
+    let documentSnapshots;
+
+    if(currentPage === 0) {
+      const onlyQuery = query(collection(db, ticketsCollection), 
+                              orderBy("priority", priorityOrder),
+                              orderBy("updatedAt", dateOrder), limit(ticketsPerPage));
+      documentSnapshots = await getDocs(onlyQuery);
+    }
+    else {
+      const first = query(collection(db, ticketsCollection), 
+                                    orderBy("priority", priorityOrder),
+                                    orderBy("updatedAt", dateOrder), limit(ticketsPerPage * currentPage));
+      documentSnapshots = await getDocs(first);
+      const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+      const next = query(collection(db, ticketsCollection), 
+                        orderBy("priority", priorityOrder),
+                        orderBy("updatedAt", dateOrder), startAfter(lastVisible), limit(ticketsPerPage));
+      documentSnapshots = await getDocs(next);
+    }
+
+    const tickets: Array<TicketCardData> = []; 
+
+    documentSnapshots.forEach((doc) => {
+      tickets.push(createTicketData(doc.id, doc.data() as FireDocData));
+    });
+
+    // The value we return becomes the `fulfilled` action payload
+    return tickets;
+  }
+);
+
+
 export const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
@@ -159,6 +205,25 @@ export const ticketsSlice = createSlice({
       resetCurrentTicket: (state) => {
         state.currentTicket = defaultTicketData();
       },
+      setCurrentTicketById: (state, action: PayloadAction<string>) => {
+        const ticket = getTicketDataById(state.list, action.payload);
+        if(ticket) {
+          state.currentTicket = ticket;
+        }
+      },
+      setTicketsPerPage: (state, action: PayloadAction<number>) => {
+        state.ticketsPerPage = action.payload;
+        state.currentPage = 0;
+      },
+      setCurrentPage: (state, action: PayloadAction<number>) => {
+        state.currentPage = action.payload;
+      },
+      togglePriorityOrder: (state) => {
+        state.priorityOrder = state.priorityOrder === "asc" ? "desc" : "asc";
+      },
+      toggleDateOrder: (state) => {
+        state.dateOrder = state.dateOrder === "asc" ? "desc" : "asc";
+      }
     },
     extraReducers(builder) {
         builder
@@ -233,17 +298,35 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
           })
+          .addCase(loadPage.pending, (state) => {
+            state.requestStatus = RequestStatus.LOADING;
+          })
+          .addCase(loadPage.fulfilled, (state, action) => {
+            state.requestStatus = RequestStatus.IDLE;
+            state.list = action.payload;
+          })
+          .addCase(loadPage.rejected, (state, action) => {
+            //state.status = 'failed'
+            //state.error = action.error.message
+            console.error(action.error.message);
+          });
       }
 });
 
-export const { /*resetSavedTicketId, */resetRequestStatus, /*resetStatus,*/ resetCurrentTicket } = ticketsSlice.actions;
+export const { setCurrentTicketById,
+                resetRequestStatus,
+                resetCurrentTicket,
+                setTicketsPerPage,
+                setCurrentPage,
+                togglePriorityOrder,
+                toggleDateOrder } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
 
 
 // helper functions
 
-export function getTicketDataById(tickets: Array<TicketCardData>, id: string): TicketCardData | undefined {
+function getTicketDataById(tickets: Array<TicketCardData>, id: string): TicketCardData | undefined {
   const ticket: TicketCardData | undefined = tickets.find(ticket => {
     return ticket.id === id;
   });
