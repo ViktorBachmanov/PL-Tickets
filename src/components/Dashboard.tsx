@@ -15,12 +15,14 @@ import { TicketCardData } from "../features/tickets/types";
 
 import BarChart from "./BarChart";
 import SheetList from "./SheetList";
+import { LightStatus } from "../features/theme/types";
 
 
 interface Props {
     setTitle: any;
     getAllTickets: any;
     tickets: Array<TicketCardData>;
+    lightStatus: LightStatus;
 }
 
 
@@ -38,7 +40,7 @@ function Dashboard(props: Props) {
         <Box>
             <SheetList tickets={props.tickets} isForAllUsers={true} />
 
-            <BarChart tickets={props.tickets} />
+            <BarChart tickets={props.tickets} lightStatus={props.lightStatus}/>
 
             <SheetList tickets={props.tickets} isForAllUsers={false} />
         </Box>
@@ -48,7 +50,8 @@ function Dashboard(props: Props) {
 
 function mapStateToProps(state: RootState) {
     return { 
-        tickets: state.tickets.list,      
+        tickets: state.tickets.list,
+        lightStatus: state.theme.lightStatus,    
     };
 };
 

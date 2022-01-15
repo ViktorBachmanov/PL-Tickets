@@ -12,11 +12,18 @@ import { css } from '@emotion/react'
 import { ResponsiveBar, BarDatum } from '@nivo/bar';
 
 import { TicketCardData, Priority } from "../features/tickets/types";
+import { LightStatus } from "../features/theme/types";
 
 
 
 interface Props {
     tickets: Array<TicketCardData>;
+    lightStatus: LightStatus;
+}
+
+
+const darkTheme = {
+    "textColor": "rgb(255, 255, 255)",
 }
 
 
@@ -26,7 +33,7 @@ export default function BarChart(props: Props) {
     return (
         <Box css={css`
                     height: 546px;
-                    margin-top: 1rem;
+                    margin: 1rem 0 2rem;
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                 `}>
@@ -45,6 +52,7 @@ export default function BarChart(props: Props) {
                 padding={0.3}
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
+                theme={props.lightStatus === LightStatus.DARK ? darkTheme : {}}
                 defs={[
                     {
                         id: 'dots',

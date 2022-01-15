@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+//import { RootState, AppThunk } from '../../app/store';
+import { LightStatus } from "./types";
 
 interface ThemeState {
-  lightStatus: 'light' | 'dark' | undefined;
+  //lightStatus: 'light' | 'dark' | undefined;
+  lightStatus: LightStatus;
 }
 
 const initialState: ThemeState = {
-  lightStatus: 'light',
+  lightStatus: LightStatus.LIGHT,
 };
 
 
@@ -20,10 +22,10 @@ export const themeSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.lightStatus = "dark";
+      state.lightStatus = LightStatus.DARK;
     },
     lighten: (state) => {
-      state.lightStatus = "light";
+      state.lightStatus = LightStatus.LIGHT;
     },
     
   },

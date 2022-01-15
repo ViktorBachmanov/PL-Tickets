@@ -21,6 +21,7 @@ import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
 import { getAvatarUrlByUserId } from "../user/utils";
 import { Order } from "../pagination/types";
 import DeleteTicketIcon from "../../components/DeleteTicketIcon";
+import { LightStatus } from "../theme/types";
 
 
 
@@ -47,7 +48,7 @@ export default function TicketsTable(props: Props) {
 
         const isDeleteAvailable = ticket.authorId === userId && !ticket.isCompleted;
 
-        const completedBackground = lightMode === "light" ? "background: #EBFFE6;"
+        const completedBackground = lightMode === LightStatus.LIGHT ? "background: #EBFFE6;"
                                                             : "background: #004d40;"
         
         return (

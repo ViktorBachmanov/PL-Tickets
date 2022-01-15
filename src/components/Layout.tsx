@@ -21,12 +21,13 @@ import SideBar from "./SideBar";
 import AppBarTickets  from "./AppBarTickets";
 import Login from "./Login";
 import createMainTheme from "../mainTheme";
+import { LightStatus } from "../features/theme/types";
 
 
 
 export default function Layout() {
 
-    const lightMode: "light" | "dark" | undefined = useSelector((state: RootState) => state.theme.lightStatus);
+    const lightMode: LightStatus = useSelector((state: RootState) => state.theme.lightStatus);
 
     const loginStatus = useSelector((state: RootState) => state.user.loginStatus);
     if(!loginStatus) {
