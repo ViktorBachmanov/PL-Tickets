@@ -18,6 +18,7 @@ import PriorityLabel from "../../components/PriorityLabel";
 import DeleteTicketIcon from "../../components/DeleteTicketIcon";
 import { getAvatarUrlByUserId } from "../user/utils";
 import { DateTickets, DateAgoTickets } from "../../components/DateTickets";
+import { LightStatus } from "../theme/types";
 
 
 
@@ -28,16 +29,24 @@ interface Props {
 export default function TicketCard(props: Props) {
     const { ticket } = props;
     const userId = useSelector((state: RootState) => state.user.id)
+    const lightMode = useSelector((state: RootState) => state.theme.lightStatus);
+
 
     const authorName = ticket.authorName as string;
-    const authorId = ticket.authorId;;
+    const authorId = ticket.authorId;
 
     const isDeleteAvailable = authorId === userId && !ticket.isCompleted;
+
+    const completedBackground = lightMode === LightStatus.LIGHT ? "background: #EBFFE6;"
+                                                            : "background: #004d40;"
 
     return (
         <Grid item xs={1}>
             <Link to={ticket.id}>
-                <Card css={css`padding: 1rem;`}
+                <Card css={css`
+                        padding: 1rem;
+                        ${ticket.isCompleted && completedBackground}
+                    `}
                 >
                     <Box css={css`
                             display: flex;
