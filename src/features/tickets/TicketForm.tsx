@@ -22,7 +22,7 @@ import { saveDocInDatabase as saveDocInDatabaseAction,
         deleteTicket as deleteTicketAction,
         loadTicketById as loadTicketByIdAction,
      } from './ticketsSlice';
-import { ticketsDeletingMessages } from './constants';
+import { ticketsDeletingMessages, ticketsSavingMessages } from './constants';
 
 import { setTitle as setTitleAction } from "../title/titleSlice";
 
@@ -120,7 +120,7 @@ function TicketForm(props: Props) {
             updatedAt = currentTime;
         }
         
-        props.saveDocInDatabase({
+        const rslt = props.saveDocInDatabase({
             id: currentTicket.id,
             docData: { 
                 ...data,
@@ -131,6 +131,7 @@ function TicketForm(props: Props) {
                 isCompleted,
             }
          });
+         toast.promise(rslt, ticketsSavingMessages);
     };
 
     const navigate = useNavigate();
