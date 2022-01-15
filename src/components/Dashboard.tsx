@@ -17,12 +17,15 @@ import BarChart from "./BarChart";
 import SheetList from "./SheetList";
 import { LightStatus } from "../features/theme/types";
 
+import { RequestStatus } from "../constants";
+
 
 interface Props {
     setTitle: any;
     getAllTickets: any;
     tickets: Array<TicketCardData>;
     lightStatus: LightStatus;
+    requestStatus: RequestStatus;
 }
 
 
@@ -35,6 +38,10 @@ function Dashboard(props: Props) {
         props.setTitle("Dashboard");
         props.getAllTickets();
     }, []);
+
+    if(props.requestStatus === RequestStatus.LOADING) {
+        return <h2>Loading...</h2>;
+    } 
 
     return (
         <Box>
@@ -51,7 +58,8 @@ function Dashboard(props: Props) {
 function mapStateToProps(state: RootState) {
     return { 
         tickets: state.tickets.list,
-        lightStatus: state.theme.lightStatus,    
+        requestStatus: state.tickets.requestStatus,  
+        lightStatus: state.theme.lightStatus, 
     };
 };
 

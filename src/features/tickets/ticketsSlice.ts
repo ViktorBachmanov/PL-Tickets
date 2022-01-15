@@ -294,6 +294,9 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })
+          .addCase(getAllTickets.pending, (state, action) => {
+            state.requestStatus = RequestStatus.LOADING;
+          })
           .addCase(getAllTickets.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
