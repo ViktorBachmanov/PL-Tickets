@@ -40,6 +40,9 @@ export default function BarChart(props: Props) {
             <Typography 
                 variant="subtitle1" 
                 component="div"
+                css={css`
+                    margin: 0.5rem;
+                `}
             >
                 Uncompleted trends
             </Typography>
@@ -52,41 +55,10 @@ export default function BarChart(props: Props) {
                 padding={0.3}
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
+                colors={['#388e3c', '#f57c00', '#d32f2f']}
+                
                 theme={props.lightStatus === LightStatus.DARK ? darkTheme : {}}
-                defs={[
-                    {
-                        id: 'dots',
-                        type: 'patternDots',
-                        background: 'inherit',
-                        color: '#38bcb2',
-                        size: 4,
-                        padding: 1,
-                        stagger: true
-                    },
-                    {
-                        id: 'lines',
-                        type: 'patternLines',
-                        background: 'inherit',
-                        color: '#eed312',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10
-                    }
-                ]}
-                fill={[
-                    {
-                        match: {
-                            id: 'fries'
-                        },
-                        id: 'dots'
-                    },
-                    {
-                        match: {
-                            id: 'sandwich'
-                        },
-                        id: 'lines'
-                    }
-                ]}
+                
                 borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
                 axisTop={null}
                 axisRight={null}
@@ -135,7 +107,6 @@ export default function BarChart(props: Props) {
                 ]}
                 role="application"
                 ariaLabel="Nivo bar chart demo"
-                barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
             />
 
         </Box>
@@ -149,11 +120,8 @@ export default function BarChart(props: Props) {
 interface BarChartObj {
     "day": string;
     "low": number;
-    "lowColor": string;
     "normal": number;
-    "normalColor": string;
     "high": number;
-    "highColor": string;
 }
 
 function createBarChartData(tickets: Array<TicketCardData>, completedFlag = false): Array<BarDatum> {
@@ -202,10 +170,7 @@ function createBarChartObj(day: string): BarChartObj {
     return {
         "day": day,
         "low": 0,
-        "lowColor": "hsl(182, 70%, 50%)",
         "normal": 0,
-        "normalColor": "hsl(17, 70%, 50%)",
         "high": 0,
-        "highColor": "hsl(247, 70%, 50%)",
     }
 }
