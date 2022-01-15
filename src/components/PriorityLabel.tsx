@@ -9,19 +9,24 @@ interface Props {
 }
 
 export default function PriorityLabel(props: Props) {
-    const priority: string = Priority[props.priority];
+    //const priority: string = Priority[props.priority];
+    let priority: string;
 
     let labelColor: "success" | "warning" | "error";
     switch(props.priority) {
         case Priority.LOW:
             labelColor = "success";
+            priority = "LOW";
             break;
         case Priority.NORMAL:
+                     default:
             labelColor = "warning";
+            priority = "NORMAL";
             break;
         case Priority.HIGH:
             labelColor = "error";
-            break;
+            priority = "HIGH";
+            break;   
     }
 
     return (

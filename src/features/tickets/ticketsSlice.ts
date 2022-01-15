@@ -340,9 +340,9 @@ function getTicketDataById(tickets: Array<TicketCardData>, id: string): TicketCa
 export function defaultTicketData(): TicketCardData {
   const defaultTicketData = {
       id: "",
-      title: "Title *",
+      title: "",
       description: "Description",
-      priority: Priority.NORMAL,
+      priority: Priority.NONE,
       authorId: "",
       authorName: "",
       createdAt: 0,

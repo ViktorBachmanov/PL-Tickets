@@ -188,11 +188,14 @@ function TicketForm(props: Props) {
                 >
                     <Controller
                         name="title"
-                        control={control}                        
+                        control={control}
+                        rules={{ required: true, maxLength: 10 }}
                         render={({ field }) => (
                                 <TextField 
                                     {...field}
+                                    label="Ticket Title *"
                                     disabled={isDisabled}
+                                    variant="outlined"
                                     css={css`
                                         margin-right: 1.5rem;
                                         flex: 1 1 auto;
@@ -210,9 +213,9 @@ function TicketForm(props: Props) {
                                     flex: 1 1 auto;
                                 `}
                             >
-                                <InputLabel>Priority</InputLabel>
+                                <InputLabel>Select Priority *</InputLabel>
                                 <Select
-                                    label="Priority"
+                                    label="Select Priority *"
                                     {...field}
                                     disabled={isDisabled}                
                                 >
