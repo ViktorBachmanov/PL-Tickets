@@ -341,7 +341,7 @@ export function defaultTicketData(): TicketCardData {
   const defaultTicketData = {
       id: "",
       title: "",
-      description: "Description",
+      description: "",
       priority: Priority.NONE,
       authorId: "",
       authorName: "",

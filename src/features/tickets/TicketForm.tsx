@@ -59,7 +59,7 @@ function TicketForm(props: Props) {
     const { currentTicket, requestStatus } = props;
     let mode = props.mode;
 
-    const { control, handleSubmit, reset } = useForm<IFormInput>({
+    const { control, handleSubmit } = useForm<IFormInput>({
         defaultValues: {
             title: currentTicket.title,
             description: currentTicket.description,
@@ -72,25 +72,10 @@ function TicketForm(props: Props) {
 
     useEffect(() => {
         if(id) {
-            /*props.loadTicketById(id)
-                .unwrap()
-                .then((currentTicket: TicketCardData) => { 
-                    props.setTitle(currentTicket.title); 
-                    reset({ 
-                        title: currentTicket.title, 
-                        description: currentTicket.description, 
-                        priority: currentTicket.priority 
-                    });
-                })*/
             props.setTitle(currentTicket.title); 
         }
         else {
             props.setTitle("New ticket");
-        }
-
-        return function clean() {
-            console.log('TicketForm clean');
-            //props.resetCurrentTicket();
         }
     }, [currentTicket]);
     
@@ -164,6 +149,8 @@ function TicketForm(props: Props) {
         return <h2>Loading...</h2>;
     } 
 
+    
+
         
     return(
         <form 
@@ -189,11 +176,21 @@ function TicketForm(props: Props) {
                     <Controller
                         name="title"
                         control={control}
-                        rules={{ required: true, maxLength: 10 }}
-                        render={({ field }) => (
+                        rules={{ 
+                            required: "Required field",
+                            maxLength: {
+                                value: 10,
+                                message: "Max length: 10"
+                            }
+                        }}
+                        render={({ 
+                                    field,  
+                                    fieldState: { error } 
+                                }) => (
                                 <TextField 
                                     {...field}
-                                    label="Ticket Title *"
+                                    error={error ? true : false}
+                                    label={error ? error.message : "Ticket Title *"}
                                     disabled={isDisabled}
                                     variant="outlined"
                                     css={css`
@@ -207,15 +204,24 @@ function TicketForm(props: Props) {
                     <Controller
                         name="priority"
                         control={control}
-                        render={({ field }) => (
+                        rules={{ required: "Required field" }}
+                        render={({ 
+                            field,  
+                            fieldState: { error } 
+                        }) => (
                             <FormControl
                                 css={css`
                                     flex: 1 1 auto;
                                 `}
                             >
-                                <InputLabel>Select Priority *</InputLabel>
+                                <InputLabel
+                                    error={error ? true : false}
+                                >
+                                    {error ? error.message : "Select Priority *"}
+                                </InputLabel>
                                 <Select
-                                    label="Select Priority *"
+                                    error={error ? true : false}
+                                    label={error ? error.message : "Select Priority *"}
                                     {...field}
                                     disabled={isDisabled}                
                                 >
@@ -231,16 +237,28 @@ function TicketForm(props: Props) {
                 <Controller
                     name="description"
                     control={control}
-                    render={({ field }) => <TextField 
-                                                {...field} 
-                                                disabled={isDisabled}
-                                                css={css`
-                                                    width: 100%;
-                                                    margin: 30px 0;
-                                                `}
-                                            />}
+                    rules={{ 
+                        maxLength: {
+                            value: 10,
+                            message: "Max length: 10"
+                        }
+                    }}
+                    render={({ 
+                        field,  
+                        fieldState: { error } 
+                    }) => <TextField 
+                                {...field} 
+                                error={error ? true : false}
+                                label={error ? error.message : "Description"}
+                                disabled={isDisabled}
+                                css={css`
+                                    width: 100%;
+                                    margin: 30px 0;
+                                `}
+                            />}
                 />
-                
+
+                                                
                 {isDisabled ||
                     <Box
                         css={css`
