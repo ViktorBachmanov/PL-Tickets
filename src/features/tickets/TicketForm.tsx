@@ -187,8 +187,8 @@ function TicketForm(props: Props) {
                         rules={{ 
                             required: "Required field",
                             maxLength: {
-                                value: 10,
-                                message: "Max length: 10"
+                                value: 50,
+                                message: "Max length is 50 characters"
                             }
                         }}
                         render={({ 
@@ -247,8 +247,8 @@ function TicketForm(props: Props) {
                     control={control}
                     rules={{ 
                         maxLength: {
-                            value: 10,
-                            message: "Max length: 10"
+                            value: 100,
+                            message: "Max length is 100 characters"
                         }
                     }}
                     render={({ 
