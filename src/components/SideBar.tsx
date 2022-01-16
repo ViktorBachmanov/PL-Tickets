@@ -58,7 +58,9 @@ export default function SideBar() {
               <NavLink to={RoutesPathes.DASHBOARD}>
               {({ isActive }) => (
                 <SideListItemButton selected={isActive ? true : false}>
-                    <SideListItemIcon>
+                    <SideListItemIcon
+                      title="Dashboard"
+                    >
                         <PieChartIcon/>
                     </SideListItemIcon>
 
@@ -72,7 +74,9 @@ export default function SideBar() {
               <NavLink to={RoutesPathes.TICKETS}>
               {({ isActive }) => (
                 <SideListItemButton selected={isActive ? true : false}>
-                    <SideListItemIcon>
+                    <SideListItemIcon
+                      title="Tickets"
+                    >
                         <ConfirmationNumberIcon/>
                     </SideListItemIcon>
 
