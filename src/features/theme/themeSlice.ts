@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 //import { RootState, AppThunk } from '../../app/store';
 import { LightStatus } from "./types";
+import { viewRep } from "../../constants";
 
 interface ThemeState {
   //lightStatus: 'light' | 'dark' | undefined;
   lightStatus: LightStatus;
+  view: string;
 }
 
 const initialState: ThemeState = {
   lightStatus: LightStatus.LIGHT,
+  view: viewRep.list,
 };
 
 
@@ -24,6 +27,9 @@ export const themeSlice = createSlice({
       // immutable state based off those changes
       state.lightStatus = LightStatus.DARK;
     },
+    setView: (state, action: PayloadAction<string>) => {
+      state.view = action.payload;
+    },
     lighten: (state) => {
       state.lightStatus = LightStatus.LIGHT;
     },
@@ -32,6 +38,6 @@ export const themeSlice = createSlice({
 
 });
 
-export const { darken, lighten } = themeSlice.actions;
+export const { darken, lighten, setView } = themeSlice.actions;
 
 export default themeSlice.reducer;

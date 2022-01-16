@@ -9,3 +9,8 @@ export enum RoutesPathes {
 };
 
 export enum RequestStatus { IDLE, LOADING, FAILED };
+
+export const viewRep = {
+    list: "list",
+    module: "module"
+}

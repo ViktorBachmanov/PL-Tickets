@@ -8,7 +8,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { css } from '@emotion/react'
 
-import { viewRep } from "./types";
+import { viewRep } from "../../constants";
 
 
 interface Props {

@@ -26,12 +26,13 @@ import { /*resetStatus as resetStatusAction,*/
         togglePriorityOrder as togglePriorityOrderAction,
         toggleDateOrder as toggleDateOrderAction,
         setCurrentTicketById as setCurrentTicketByIdAction, } from "./ticketsSlice";
+import { setView as setViewAction } from "../theme/themeSlice";
 import { RootState } from '../../app/store';
 import { setTitle as setTitleAction } from "../title/titleSlice";
 import { ticketsPerPageOptions } from "./constants";
-import { RequestStatus } from "../../constants";
+import { RequestStatus, viewRep } from "../../constants";
 import TicketsTable from "./TicketsTable";
-import { Status, TicketCardData, viewRep } from "./types";
+import { Status, TicketCardData } from "./types";
 import ViewToggle from "./ViewToggle";
 import TicketsModule from "./TicketsModule";
 
@@ -58,10 +59,12 @@ interface Props {
     dateOrder: OrderByDirection;
     //status: Status;
     setCurrentTicketById: any;
+    view: string;
+    setView: any;
 }
 
 function Tickets(props: Props) {
-    const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets } = props;
+    const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets, view, setView } = props;
     const navigate = useNavigate();
     
 
@@ -81,9 +84,6 @@ function Tickets(props: Props) {
     useEffect(() => {  
         props.loadPage();       
     }, [ currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets ]);
-
-
-    const [view, setView] = React.useState(viewRep.list);    
 
 
     const handleChangePage = (
@@ -207,7 +207,7 @@ function mapStateToProps(state: RootState) {
         ticketsPerPage: state.tickets.ticketsPerPage,
         priorityOrder: state.tickets.priorityOrder,
         dateOrder: state.tickets.dateOrder,
-        //status: state.tickets.status,
+        view: state.theme.view,
     };
 };
 
@@ -224,6 +224,7 @@ const mapDispatchToProps = {
     togglePriorityOrder: togglePriorityOrderAction,
     toggleDateOrder: toggleDateOrderAction,
     setCurrentTicketById: setCurrentTicketByIdAction,
+    setView: setViewAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

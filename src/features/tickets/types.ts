@@ -30,7 +30,3 @@ export interface TicketCardData extends TaskData {
     id: string;
 }
 
-export const viewRep = {
-    list: "list",
-    module: "module"
-}
