@@ -32,8 +32,8 @@ import { setTitle as setTitleAction } from "../title/titleSlice";
 import { ticketsPerPageOptions } from "./constants";
 import { RequestStatus, viewRep } from "../../constants";
 import TicketsTable from "./TicketsTable";
-import { Status, TicketCardData } from "./types";
-import ViewToggle from "./ViewToggle";
+import { TicketCardData } from "./types";
+import ViewToggle from "../theme/ViewToggle";
 import TicketsModule from "./TicketsModule";
 
 
