@@ -12,9 +12,11 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { darken as darkenAction, lighten as lightenAction } from '../features/theme/themeSlice';
 
@@ -59,6 +61,18 @@ function AppBarTickets(props: Props) {
             >
                 {props.title}
             </Typography>
+
+            <TextField
+                label="Search tickets"
+                variant="outlined"
+                InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                }}                  
+            />
 
             <Box>
                 <IconButton onClick={handleLighten}>
