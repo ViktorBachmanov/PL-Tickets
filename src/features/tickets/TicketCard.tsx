@@ -3,7 +3,7 @@
 
 import React from "react";
 import { useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 import Card from '@mui/material/Card';
@@ -24,6 +24,7 @@ import { LightStatus } from "../theme/types";
 
 interface Props {
     ticket: TicketCardData;
+    setCurrentTicketById: any;
 }
 
 export default function TicketCard(props: Props) {
@@ -39,52 +40,61 @@ export default function TicketCard(props: Props) {
 
     const completedBackground = lightMode === LightStatus.LIGHT ? "background: #EBFFE6;"
                                                             : "background: #004d40;"
+    
+    
+    const navigate = useNavigate();
+
+    function handleClick() {
+        props.setCurrentTicketById(ticket.id);
+        navigate(ticket.id);
+    }
 
     return (
         <Grid item xs={1}>
-            <Link to={ticket.id}>
-                <Card css={css`
-                        padding: 1rem;
-                        ${ticket.isCompleted && completedBackground}
+            <Card 
+                onClick={handleClick}
+                css={css`
+                    padding: 1rem;
+                    cursor: pointer;
+                    ${ticket.isCompleted && completedBackground}
+                `}
+            >
+                <Box css={css`
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
                     `}
                 >
-                    <Box css={css`
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                        `}
-                    >
-                        <DateTickets date={ticket.updatedAt} />
-                        <PriorityLabel 
-                            priority={ticket.priority} 
-                        />     
-                        {isDeleteAvailable && 
-                                <DeleteTicketIcon ticketId={ticket.id} />
-                        }
-                    </Box>
+                    <DateTickets date={ticket.updatedAt} />
+                    <PriorityLabel 
+                        priority={ticket.priority} 
+                    />     
+                    {isDeleteAvailable && 
+                            <DeleteTicketIcon ticketId={ticket.id} />
+                    }
+                </Box>
 
-                    <div>{ticket.title}</div>
+                <div>{ticket.title}</div>
 
-                    <DateAgoTickets
-                             date={ticket.updatedAt}
-                        />
+                <DateAgoTickets
+                            date={ticket.updatedAt}
+                    />
 
-                    <Box css={css`
-                            display: flex;
-                            align-items: center;
-                        `}
-                    >
-                        <Avatar 
-                            alt={authorName.charAt(0)}
-                            src={getAvatarUrlByUserId(ticket.authorId)}
-                            css={css`margin: 15px 22px;`}
-                        />
-                        
-                        <div>{ticket.authorName}</div>
-                    </Box>
+                <Box css={css`
+                        display: flex;
+                        align-items: center;
+                    `}
+                >
+                    <Avatar 
+                        alt={authorName.charAt(0)}
+                        src={getAvatarUrlByUserId(ticket.authorId)}
+                        css={css`margin: 15px 22px;`}
+                    />
+                    
+                    <div>{ticket.authorName}</div>
+                </Box>
 
-                </Card>
-            </Link>
+            </Card>
         </Grid>
 
     )

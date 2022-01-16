@@ -10,6 +10,7 @@ import TicketCard from "./TicketCard";
 
 interface Props {
     tickets: Array<TicketCardData>;
+    setCurrentTicketById: any;
 }
 
 
@@ -29,6 +30,7 @@ export default function TicketsModule(props: Props) {
             <TicketCard 
                 key={ticket.id} 
                 ticket={ticket} 
+                setCurrentTicketById={props.setCurrentTicketById}
             />            
     )
 

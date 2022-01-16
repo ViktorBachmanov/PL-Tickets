@@ -137,7 +137,7 @@ function Tickets(props: Props) {
         viewComp = (
             <TicketsModule
                 tickets={props.ticketsList}
-                
+                setCurrentTicketById={props.setCurrentTicketById}
             />
         )
     }
