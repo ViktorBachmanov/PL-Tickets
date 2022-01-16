@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import ticketsReducer from '../features/tickets/ticketsSlice';
 import userReducer from '../features/user/userSlice';
 import themeReducer from '../features/theme/themeSlice';
-import titleReducer from '../features/title/titleSlice';
+import appbarReducer from '../features/appbar/appbarSlice';
 
 
 export const store = configureStore({
@@ -10,7 +10,7 @@ export const store = configureStore({
     tickets: ticketsReducer,
     user: userReducer,
     theme: themeReducer,
-    title: titleReducer,
+    appbar: appbarReducer,
   },
 });
 

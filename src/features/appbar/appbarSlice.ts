@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 
-interface TitleState {
-  value: string;
+interface AppbarState {
+  title: string;
   status: 'idle' | 'loading' | 'failed';
   isSearchDisplay: boolean;
 }
 
-const initialState: TitleState = {
-  value: "",
+const initialState: AppbarState = {
+  title: "",
   status: 'idle',
   isSearchDisplay: false,
 };
 
 
 
-export const titleSlice = createSlice({
-  name: 'title',
+export const appbarSlice = createSlice({
+  name: 'appbar',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -25,7 +25,7 @@ export const titleSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.value = action.payload;
+      state.title = action.payload;
     },
     setSearchDisplay: (state, action: PayloadAction<boolean>) => {
       state.isSearchDisplay = action.payload;
@@ -33,12 +33,12 @@ export const titleSlice = createSlice({
   },
 });
 
-export const { setTitle, setSearchDisplay } = titleSlice.actions;
+export const { setTitle, setSearchDisplay } = appbarSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectTitle = (state: RootState) => state.title.value;
+export const selectTitle = (state: RootState) => state.appbar.title;
 
 
-export default titleSlice.reducer;
+export default appbarSlice.reducer;

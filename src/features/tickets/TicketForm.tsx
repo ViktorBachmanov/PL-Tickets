@@ -25,7 +25,7 @@ import { saveDocInDatabase as saveDocInDatabaseAction,
      } from './ticketsSlice';
 import { ticketsDeletingMessages, ticketsSavingMessages, ticketsCreatingMessages } from './constants';
 
-import { setTitle as setTitleAction } from "../title/titleSlice";
+import { setTitle as setTitleAction } from "../appbar/appbarSlice";
 
 
 

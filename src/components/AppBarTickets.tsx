@@ -86,8 +86,8 @@ function mapStateToProps(state: RootState) {
     return { 
         userAvatarUrl: state.user.avatarUrl,
         userName: state.user.name,
-        title: state.title.value,
-        isSearchDisplay: state.title.isSearchDisplay,
+        title: state.appbar.title,
+        isSearchDisplay: state.appbar.isSearchDisplay,
     };
 };
 

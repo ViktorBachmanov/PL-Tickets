@@ -29,7 +29,7 @@ import { /*resetStatus as resetStatusAction,*/
 import { setView as setViewAction } from "../theme/themeSlice";
 import { RootState } from '../../app/store';
 import { setTitle as setTitleAction,
-        setSearchDisplay as setSearchDisplayAction } from "../title/titleSlice";
+        setSearchDisplay as setSearchDisplayAction } from "../appbar/appbarSlice";
 import { ticketsPerPageOptions } from "./constants";
 import { RequestStatus, viewRep } from "../../constants";
 import TicketsTable from "./TicketsTable";

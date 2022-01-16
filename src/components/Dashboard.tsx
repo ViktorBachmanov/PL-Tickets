@@ -9,7 +9,7 @@ import { RootState } from '../app/store';
 import Box from '@mui/material/Box';
 import { css } from '@emotion/react';
 
-import { setTitle as setTitleAction } from "../features/title/titleSlice";
+import { setTitle as setTitleAction } from "../features/appbar/appbarSlice";
 import { getAllTickets as getAllTicketsAction } from "../features/tickets/ticketsSlice";
 import { TicketCardData } from "../features/tickets/types";
 
