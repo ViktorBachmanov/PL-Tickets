@@ -3,7 +3,7 @@
 
 import React from "react";
 import { connect } from 'react-redux';
-import { RootState } from '../app/store';
+import { RootState } from '../../app/store';
 
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
@@ -15,7 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 
-import LightModeToggle from '../features/theme/LightModeToggle';
+import LightModeToggle from '../theme/LightModeToggle';
 
 
 interface Props {

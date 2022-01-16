@@ -3,22 +3,20 @@
 
 import React from 'react';
 import { Outlet } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-
-import { css } from '@emotion/react'
-
+import { css } from '@emotion/react';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 
 
 import SideBar from "./SideBar";
-import AppBarTickets  from "./AppBarTickets";
+import AppBarTickets  from "../features/appbar/AppBarTickets";
 import Login from "./Login";
 import createMainTheme from "../mainTheme";
 import { LightStatus } from "../features/theme/types";
