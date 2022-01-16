@@ -23,7 +23,7 @@ import { saveDocInDatabase as saveDocInDatabaseAction,
         loadTicketById as loadTicketByIdAction,
         resetCurrentTicket as resetCurrentTicketAction,
      } from './ticketsSlice';
-import { ticketsDeletingMessages, ticketsSavingMessages } from './constants';
+import { ticketsDeletingMessages, ticketsSavingMessages, ticketsCreatingMessages } from './constants';
 
 import { setTitle as setTitleAction } from "../title/titleSlice";
 
@@ -116,6 +116,11 @@ function TicketForm(props: Props) {
             createdAt = Timestamp.fromMillis(currentTicket.createdAt);
             updatedAt = currentTime;
         }
+
+        const toastSuccessfullyMessage = currentTicket.id ? 
+                                            ticketsSavingMessages 
+                                                :
+                                            ticketsCreatingMessages;
         
         const rslt = props.saveDocInDatabase({
             id: currentTicket.id,
@@ -128,13 +133,16 @@ function TicketForm(props: Props) {
                 isCompleted,
             }
          }).unwrap();
-         toast.promise(rslt, ticketsSavingMessages);
+         toast.promise(rslt, toastSuccessfullyMessage);
 
         rslt.then((id: string) => {
             navigate(RoutesPathes.TICKETS + '/' + id, { replace: true});
         });
     };
 
+    const onError = () => {
+        toast.error("Validating error");
+    };
     
 
     function handleDeleteTicket() {
@@ -154,7 +162,7 @@ function TicketForm(props: Props) {
         
     return(
         <form 
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, onError)}
             css={css`
                     marginTop: "30px";
                     border: 1px solid #DFE0EB;

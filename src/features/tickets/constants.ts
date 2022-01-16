@@ -6,8 +6,14 @@ export const ticketsDeletingMessages = {
 
 export const ticketsSavingMessages = {
     loading: 'Ticket saving',
-    success: 'Ticket has been saved',
+    success: 'Saved successfully',
     error: 'Error when saving',
+}
+
+export const ticketsCreatingMessages = {
+    loading: 'Ticket creating',
+    success: 'Created successfully',
+    error: 'Error when creating',
 }
 
 export const ticketsPerPageOptions = [4, 6, 8, 10, 12, 16, 20];

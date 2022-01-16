@@ -275,7 +275,7 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(deleteTicket.fulfilled, (state, action) => {
-            state.requestStatus = RequestStatus.IDLE;
+            //state.requestStatus = RequestStatus.IDLE;
           })
           .addCase(deleteTicket.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
