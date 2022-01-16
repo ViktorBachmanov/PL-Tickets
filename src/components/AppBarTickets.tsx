@@ -4,25 +4,21 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { RootState } from '../app/store';
-import toast, { Toaster } from 'react-hot-toast';
 
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import LightModeIcon from '@mui/icons-material/LightMode';
+
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { darken as darkenAction, lighten as lightenAction } from '../features/theme/themeSlice';
+import LightModeToggle from '../features/theme/LightModeToggle';
+
 
 interface Props {
-    darken: any,
-    lighten: any,
     userAvatarUrl: string | null;
     userName: string | null;
     title: string;
@@ -32,17 +28,6 @@ interface Props {
 function AppBarTickets(props: Props) {
     const userAvatarUrl: string = props.userAvatarUrl as string;
     const userName: string = props.userName as string;
-
-    function handleLighten() {
-        props.lighten();
-        toast('Light theme');
-    }
-
-    function handleDarken() {
-        props.darken();
-        toast('Dark theme');
-    }
-
   
     return (
         <Box
@@ -73,16 +58,8 @@ function AppBarTickets(props: Props) {
                     ),
                 }}                  
             />
-
-            <Box>
-                <IconButton onClick={handleLighten}>
-                    <LightModeIcon />
-                </IconButton>
-
-                <IconButton onClick={handleDarken}>
-                    <Brightness4Icon />
-                </IconButton>
-            </Box>
+            
+            <LightModeToggle />
 
             <Divider 
                 orientation="vertical"
@@ -110,9 +87,5 @@ function mapStateToProps(state: RootState) {
     };
 };
 
-const mapDispatchToProps = {
-    darken: darkenAction,
-    lighten: lightenAction
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppBarTickets);
+export default connect(mapStateToProps)(AppBarTickets);

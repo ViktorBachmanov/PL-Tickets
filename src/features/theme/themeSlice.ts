@@ -20,24 +20,20 @@ export const themeSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    darken: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+    // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.lightStatus = LightStatus.DARK;
-    },
+    setLightStatus: (state, action: PayloadAction<LightStatus>) => {
+      state.lightStatus = action.payload;
+    }, 
     setView: (state, action: PayloadAction<string>) => {
       state.view = action.payload;
-    },
-    lighten: (state) => {
-      state.lightStatus = LightStatus.LIGHT;
-    },
-    
+    },    
   },
 
 });
 
-export const { darken, lighten, setView } = themeSlice.actions;
+export const { setLightStatus, setView } = themeSlice.actions;
 
 export default themeSlice.reducer;
