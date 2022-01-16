@@ -4,11 +4,13 @@ import { RootState, AppThunk } from '../../app/store';
 interface TitleState {
   value: string;
   status: 'idle' | 'loading' | 'failed';
+  isSearchDisplay: boolean;
 }
 
 const initialState: TitleState = {
   value: "",
   status: 'idle',
+  isSearchDisplay: false,
 };
 
 
@@ -25,10 +27,13 @@ export const titleSlice = createSlice({
       // immutable state based off those changes
       state.value = action.payload;
     },
+    setSearchDisplay: (state, action: PayloadAction<boolean>) => {
+      state.isSearchDisplay = action.payload;
+    },
   },
 });
 
-export const { setTitle } = titleSlice.actions;
+export const { setTitle, setSearchDisplay } = titleSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

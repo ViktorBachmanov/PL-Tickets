@@ -28,7 +28,8 @@ import { /*resetStatus as resetStatusAction,*/
         setCurrentTicketById as setCurrentTicketByIdAction, } from "./ticketsSlice";
 import { setView as setViewAction } from "../theme/themeSlice";
 import { RootState } from '../../app/store';
-import { setTitle as setTitleAction } from "../title/titleSlice";
+import { setTitle as setTitleAction,
+        setSearchDisplay as setSearchDisplayAction } from "../title/titleSlice";
 import { ticketsPerPageOptions } from "./constants";
 import { RequestStatus, viewRep } from "../../constants";
 import TicketsTable from "./TicketsTable";
@@ -38,11 +39,8 @@ import TicketsModule from "./TicketsModule";
 
 
 
-interface Props {
-    
-    //resetStatus: any;
+interface Props {    
     resetRequestStatus: any;
-    
     getTotalDocs: any;
     loadPage: any;
     totalTickets: number;
@@ -61,6 +59,7 @@ interface Props {
     setCurrentTicketById: any;
     view: string;
     setView: any;
+    setSearchDisplay: any;
 }
 
 function Tickets(props: Props) {
@@ -74,10 +73,11 @@ function Tickets(props: Props) {
         //props.loadPage();
         props.getTotalDocs();
         props.setTitle("Tickets");
-        /*
+        props.setSearchDisplay(true);
+        
         return function clean() {
-            props.resetRequestStatus();
-        }*/
+            props.setSearchDisplay(false);
+        }
     }, []);
 
 
@@ -225,6 +225,7 @@ const mapDispatchToProps = {
     toggleDateOrder: toggleDateOrderAction,
     setCurrentTicketById: setCurrentTicketByIdAction,
     setView: setViewAction,
+    setSearchDisplay: setSearchDisplayAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

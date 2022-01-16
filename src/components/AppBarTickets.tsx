@@ -22,6 +22,7 @@ interface Props {
     userAvatarUrl: string | null;
     userName: string | null;
     title: string;
+    isSearchDisplay: boolean;
 }
 
 
@@ -47,17 +48,19 @@ function AppBarTickets(props: Props) {
                 {props.title}
             </Typography>
 
-            <TextField
-                label="Search tickets"
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                }}                  
-            />
+            {props.isSearchDisplay &&
+                <TextField
+                    label="Search tickets"
+                    variant="outlined"
+                    InputProps={{
+                        startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                        ),
+                    }}                  
+                />
+            }
             
             <LightModeToggle />
 
@@ -84,6 +87,7 @@ function mapStateToProps(state: RootState) {
         userAvatarUrl: state.user.avatarUrl,
         userName: state.user.name,
         title: state.title.value,
+        isSearchDisplay: state.title.isSearchDisplay,
     };
 };
 
