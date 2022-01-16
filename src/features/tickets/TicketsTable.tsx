@@ -96,20 +96,28 @@ export default function TicketsTable(props: Props) {
                 <TableRow>
                     <TableCell>Ticket details</TableCell>
                     <TableCell>Owner name</TableCell>
-                    <TableCell>
+                    <TableCell
+                        onClick={() => { props.toggleDateOrder(); }}
+                        css={css`
+                            cursor: pointer;
+                        `}
+                    >
                         Date
                         <TableSortLabel
                             active
                             direction={props.dateOrder}
-                            onClick={() => { props.toggleDateOrder(); }}
                         />
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                        onClick={() => { props.togglePriorityOrder(); }}
+                        css={css`
+                            cursor: pointer;
+                        `}
+                    >
                         Priority
                         <TableSortLabel
                             active
                             direction={props.priorityOrder}
-                            onClick={() => { props.togglePriorityOrder(); }}
                         />
                     </TableCell>
                     <TableCell />
