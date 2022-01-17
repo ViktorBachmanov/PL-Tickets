@@ -27,9 +27,9 @@ import { ticketsDeletingMessages, ticketsSavingMessages, ticketsCreatingMessages
 
 import { setTitle as setTitleAction } from "../appbar/appbarSlice";
 
-
-
 import { TicketCardData } from "./types";
+import { LightStatus } from "../theme/types";
+
 
 
 interface IFormInput {
@@ -49,11 +49,12 @@ interface Props {
     loadTicketById: any;
     setTitle: any;
     requestStatus: RequestStatus;
+    lightMode: LightStatus;
 };
 
 
 function TicketForm(props: Props) {
-    const { currentTicket, requestStatus } = props;
+    const { currentTicket, requestStatus, lightMode } = props;
     let mode = props.mode;
 
     const { control, handleSubmit } = useForm<IFormInput>({
@@ -153,9 +154,8 @@ function TicketForm(props: Props) {
     if(requestStatus === RequestStatus.LOADING) {
         return <Loader />;
     } 
-
     
-
+    const background = lightMode === LightStatus.LIGHT ? "white" : "rgba(255, 255, 255, 0.08)";
         
     return(
         <form 
@@ -165,6 +165,7 @@ function TicketForm(props: Props) {
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                     padding: 32px;
+                    background: ${background};
                 `}
         >
             <div
@@ -319,6 +320,7 @@ function mapStateToProps(state: RootState) {
         userName: state.user.name,
         currentTicket: state.tickets.currentTicket,
         requestStatus: state.tickets.requestStatus,
+        lightMode: state.theme.lightStatus,
      };
 };
 
