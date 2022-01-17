@@ -15,6 +15,7 @@ import { Timestamp } from "firebase/firestore";
 import { Priority, Mode } from "./types";
 import { RoutesPathes, RequestStatus } from "../../constants";
 import { RootState } from '../../app/store';
+import Loader from "../../components/Loader";
 
 
 import { saveDocInDatabase as saveDocInDatabaseAction,
@@ -154,7 +155,7 @@ function TicketForm(props: Props) {
 
 
     if(requestStatus === RequestStatus.LOADING) {
-        return <h2>Loading...</h2>;
+        return <Loader />;
     } 
 
     

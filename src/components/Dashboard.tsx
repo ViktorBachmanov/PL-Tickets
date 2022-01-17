@@ -15,9 +15,12 @@ import { TicketCardData } from "../features/tickets/types";
 
 import BarChart from "./BarChart";
 import SheetList from "./SheetList";
+import Loader from "./Loader";
+
 import { LightStatus } from "../features/theme/types";
 
 import { RequestStatus } from "../constants";
+
 
 
 interface Props {
@@ -33,14 +36,13 @@ function Dashboard(props: Props) {
 
     //console.log('Dashboard');
 
-
     useEffect(() => {
         props.setTitle("Dashboard");
         props.getAllTickets();
     }, []);
 
     if(props.requestStatus === RequestStatus.LOADING) {
-        return <h2>Loading...</h2>;
+        return <Loader />;
     } 
 
     return (

@@ -36,7 +36,7 @@ import TicketsTable from "./TicketsTable";
 import { TicketCardData } from "./types";
 import ViewToggle from "../theme/ViewToggle";
 import TicketsModule from "./TicketsModule";
-
+import Loader from "../../components/Loader";
 
 
 interface Props {    
@@ -114,7 +114,7 @@ function Tickets(props: Props) {
 
    
     if(props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
-        return <h2>Loading...</h2>;
+        return <Loader />;
     } 
 
     
@@ -141,6 +141,7 @@ function Tickets(props: Props) {
             />
         )
     }
+
 
     return (
         <Box
@@ -196,7 +197,6 @@ function Tickets(props: Props) {
     )
 }
 
-//Tickets.isFiltersChanged = false;
 
 function mapStateToProps(state: RootState) {
     return { 
