@@ -15,11 +15,32 @@ interface Props {
 
 export function DateTickets(props: Props) {
 
-    const date = new Date(props.date);
+    const fullDate = new Date(props.date);
+
+    //const date = `${fullDate.getMonth()} ${fullDate.getDate()}, ${fullDate.getFullYear()}`;
+    const date = fullDate.toLocaleString('en-US', { 
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
+
+    const time = fullDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
  
     return (
         <Box>
-            {date.toLocaleString()}
+            <Typography
+                variant="subtitle2" 
+                component="div"
+            >
+                {date}
+            </Typography>
+            <Typography
+                variant="subtitle2" 
+                component="div"
+                css={css`color: #C5C7CD;`}
+            >
+                {time}
+            </Typography>
         </Box>
     )
 }
