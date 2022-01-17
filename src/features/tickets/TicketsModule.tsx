@@ -39,6 +39,7 @@ export default function TicketsModule(props: Props) {
                 container 
                 columns={totalColumns}
                 spacing={1}
+                style={{ padding: "30px" }}
             >
                 {tikckets}
         </Grid>
