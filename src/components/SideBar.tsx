@@ -19,9 +19,11 @@ const SideListItemButton = styled(ListItemButton)`
   :hover {
     background: #9fa2b414;
   }
+
+  :active {
+    background: rgba(255, 255, 255, 0.3);
+  }
 `;
-
-
 
 const SideListItemIcon = styled(ListItemIcon)`
   color: #A4A6B3;
@@ -57,23 +59,26 @@ export default function SideBar() {
             <List component="nav">
               <NavLink to={RoutesPathes.DASHBOARD}>
               {({ isActive }) => (
-                <SideListItemButton selected={isActive ? true : false}>
+                <SideListItemButton 
+                  selected={isActive ? true : false}
+                  disableTouchRipple
+                >
                     <SideListItemIcon
                       title="Dashboard"
                     >
                         <PieChartIcon/>
                     </SideListItemIcon>
-
                     <SideListItemText primary="Dashboard" />
-
-
                 </SideListItemButton>)
               }
               </NavLink>
 
               <NavLink to={RoutesPathes.TICKETS}>
               {({ isActive }) => (
-                <SideListItemButton selected={isActive ? true : false}>
+                <SideListItemButton 
+                  selected={isActive ? true : false}
+                  disableTouchRipple
+                >
                     <SideListItemIcon
                       title="Tickets"
                     >

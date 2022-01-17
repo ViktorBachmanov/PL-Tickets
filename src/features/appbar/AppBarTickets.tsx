@@ -52,6 +52,7 @@ function AppBarTickets(props: Props) {
                 <TextField
                     label="Search tickets"
                     variant="outlined"
+                    css={css`margin-right: 50px;`}
                     InputProps={{
                         startAdornment: (
                         <InputAdornment position="start">
@@ -61,6 +62,7 @@ function AppBarTickets(props: Props) {
                     }}                  
                 />
             }
+            
             
             <LightModeToggle />
 
