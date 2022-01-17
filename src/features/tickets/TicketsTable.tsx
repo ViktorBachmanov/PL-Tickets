@@ -64,9 +64,24 @@ export default function TicketsTable(props: Props) {
                 `}
             >
                 <TableCell>
-                    <Avatar alt={authorName.charAt(0)} src={getAvatarUrlByUserId(ticket.authorId)}/>
-                    {ticket.title}
-                    <DateAgoTickets date={ticket.updatedAt} />
+                    <div
+                         css={css`
+                            display: flex;
+                            align-items: center;
+                        `}
+                    >
+                        <Avatar 
+                            alt={authorName.charAt(0)} 
+                            src={getAvatarUrlByUserId(ticket.authorId)}
+                            css={css`
+                                margin-right: 1rem;
+                            `}
+                        />
+                        <div>
+                            {ticket.title}
+                            <DateAgoTickets date={ticket.updatedAt} />
+                        </div>
+                    </div>
                 </TableCell>
                 <TableCell>{authorName}</TableCell>
                 

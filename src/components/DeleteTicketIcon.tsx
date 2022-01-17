@@ -1,6 +1,11 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
 import React, { useState } from "react";
 import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
+
+import { css } from '@emotion/react'
 
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -56,10 +61,12 @@ function DeleteTicketIcon(props: Props) {
         <Box>
             <CheckIcon
                 onClick={handleConfirmDelete}
+                css={css`margin: 0.25rem;`}
             />
 
             <CloseIcon
                 onClick={handleCancel}
+                css={css`margin: 0.25rem;`}
             />
 
         </Box>
