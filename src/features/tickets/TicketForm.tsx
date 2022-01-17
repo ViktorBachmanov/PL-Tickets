@@ -287,6 +287,7 @@ function TicketForm(props: Props) {
                             variant="contained" 
                             type="submit"
                             id="complete"
+                            color="warning"
                             css={css`
                                 margin-left: 1.5rem;
                             `}
@@ -298,6 +299,7 @@ function TicketForm(props: Props) {
                             <Button 
                                 variant="contained"
                                 onClick={handleDeleteTicket}
+                                color="error"
                                 css={css`
                                     margin-left: auto;
                                 `}
