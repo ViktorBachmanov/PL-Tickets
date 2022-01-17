@@ -7,8 +7,6 @@ import Layout from "./components/Layout";
 import { RoutesPathes } from "./constants";
 import Dashboard  from './components/Dashboard';
 import Tickets  from './features/tickets/Tickets';
-//import ReadTicket  from './features/tickets/ReadTicket';
-//import CreateTicket  from './features/tickets/CreateTicket';
 import TicketForm from './features/tickets/TicketForm';
 import { Mode } from "./features/tickets/types";
 

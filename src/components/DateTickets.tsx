@@ -17,7 +17,6 @@ export function DateTickets(props: Props) {
 
     const fullDate = new Date(props.date);
 
-    //const date = `${fullDate.getMonth()} ${fullDate.getDate()}, ${fullDate.getFullYear()}`;
     const date = fullDate.toLocaleString('en-US', { 
         month: 'short',
         day: 'numeric',

@@ -193,15 +193,9 @@ export const ticketsSlice = createSlice({
     name: 'tickets',
     initialState,
     reducers: {
-      /*resetSavedTicketId: (state) => {
-        state.beingSavedTicketId = "";
-      },*/
       resetRequestStatus: (state) => {
         state.requestStatus = RequestStatus.IDLE;
       },
-      /*resetStatus: (state) => {
-        state.status = Status.NONE;
-      },*/
       resetCurrentTicket: (state) => {
         state.currentTicket = defaultTicketData();
       },
@@ -228,38 +222,22 @@ export const ticketsSlice = createSlice({
     extraReducers(builder) {
         builder
           .addCase(saveDocInDatabase.pending, (state, action) => {
-            //state.status = 'loading'
-            //state.beingSavedTicketId = "";
-            //state.currentTicket = defaultTicketData();
             state.requestStatus = RequestStatus.LOADING;
           })
-          .addCase(saveDocInDatabase.fulfilled, (state, action) => {
-            //state.status = 'succeeded'
-            //state.beingSavedTicketId = action.payload;
-            //state.status = Status.SAVED;
-            
-          })
           .addCase(saveDocInDatabase.rejected, (state, action) => {
-            //state.status = 'failed'
-            //state.error = action.error.message
-            //state.status = Status.NOT_SAVED;
             console.error(action.error.message);
           })
           .addCase(loadTicketById.pending, (state, action) => {
-            //state.status = 'loading'
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(loadTicketById.fulfilled, (state, action) => {
-            //state.status = 'succeeded'
             state.requestStatus = RequestStatus.IDLE;
-            //state.status = Status.LOADED;
             state.currentTicket = action.payload;
           })
           .addCase(loadTicketById.rejected, (state, action) => {
             console.error(action.error.message);
           })
           .addCase(getTotalDocs.pending, (state, action) => {
-            //state.status = 'loading'
             state.counter = 0; 
             state.requestStatus = RequestStatus.LOADING;
           })
@@ -271,19 +249,14 @@ export const ticketsSlice = createSlice({
             console.error(action.error.message);
           })
           .addCase(deleteTicket.pending, (state, action) => {
-            //state.status = 'loading'
             state.requestStatus = RequestStatus.LOADING;
-          })
-          .addCase(deleteTicket.fulfilled, (state, action) => {
-            //state.requestStatus = RequestStatus.IDLE;
           })
           .addCase(deleteTicket.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })
           .addCase(modifyDocsCounter.pending, (state, action) => {
-            //state.status = 'loading'
-            state.requestStatus = RequestStatus.LOADING;
+            //state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(modifyDocsCounter.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
@@ -309,8 +282,6 @@ export const ticketsSlice = createSlice({
             state.list = action.payload;
           })
           .addCase(loadPage.rejected, (state, action) => {
-            //state.status = 'failed'
-            //state.error = action.error.message
             console.error(action.error.message);
           });
       }

@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function PriorityLabel(props: Props) {
-    //const priority: string = Priority[props.priority];
     let priority: string;
 
     let labelColor: "success" | "warning" | "error";

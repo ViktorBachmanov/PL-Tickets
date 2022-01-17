@@ -19,7 +19,6 @@ import Loader from "../../components/Loader";
 
 
 import { saveDocInDatabase as saveDocInDatabaseAction,
-        resetRequestStatus as resetRequestStatusAction,
         deleteTicket as deleteTicketAction,
         loadTicketById as loadTicketByIdAction,
         resetCurrentTicket as resetCurrentTicketAction,
@@ -43,13 +42,10 @@ interface Props {
     mode: Mode;
     userId: string;
     userName: string | null;
-    //currentTickets: Array<currentTicketCardData>;
     saveDocInDatabase: any;
-    //resetRequestStatus: any;
     deleteTicket: any;
     currentTicket: TicketCardData;
     resetCurrentTicket: any;
-    //status: Status;
     loadTicketById: any;
     setTitle: any;
     requestStatus: RequestStatus;
@@ -321,16 +317,13 @@ function mapStateToProps(state: RootState) {
     return { 
         userId: state.user.id,
         userName: state.user.name,
-        //currentTickets: state.currentTickets.list,
         currentTicket: state.tickets.currentTicket,
-        //status: state.tickets.status,
         requestStatus: state.tickets.requestStatus,
      };
 };
 
 const mapDispatchToProps = {
     saveDocInDatabase: saveDocInDatabaseAction,
-    //resetRequestStatus: resetRequestStatusAction,
     deleteTicket: deleteTicketAction,
     loadTicketById: loadTicketByIdAction,
     setTitle: setTitleAction,

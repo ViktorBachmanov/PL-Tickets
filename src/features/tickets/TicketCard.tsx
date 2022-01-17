@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import { css } from '@emotion/react'
 
 import { RootState } from '../../app/store';
-import { TicketCardData, Priority } from "./types";
+import { TicketCardData } from "./types";
 import PriorityLabel from "../../components/PriorityLabel";
 import DeleteTicketIcon from "../../components/DeleteTicketIcon";
 import { getAvatarUrlByUserId } from "../user/utils";

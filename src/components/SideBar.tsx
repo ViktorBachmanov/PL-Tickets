@@ -2,7 +2,6 @@
 /** @jsxImportSource @emotion/react */
 
 import * as React from 'react';
-import { css } from '@emotion/react';
 import { NavLink } from "react-router-dom";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -33,24 +32,22 @@ export default function SideBar() {
    
     const breakPoint = 1280;
     
-    const SideListItemText = styled(ListItemText)(
-       `@media (max-width: ${breakPoint}px) {
+    const SideListItemText = styled(ListItemText)`
+      @media (max-width: ${breakPoint}px) {
           display: none;
         };
         color: #A4A6B3;
-      `,
-    );
+      `;
 
-    const ResizedBox = styled(Box)(
-      ({ theme }) => `
-          width: 255px;
-          height: 100vh; 
-          background: #363740;
-          @media (max-width: ${breakPoint}px) {
-            width: 54px;
-          };
-      `,
-    )
+    const ResizedBox = styled(Box)`
+        width: 255px;
+        height: 100vh; 
+        background: #363740;
+        @media (max-width: ${breakPoint}px) {
+          width: 54px;
+        };
+    `;
+    
    
 
     return (

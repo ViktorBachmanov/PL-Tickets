@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-//import { RootState, AppThunk } from '../../app/store';
 import { LightStatus } from "./types";
 import { viewRep } from "../../constants";
 
 interface ThemeState {
-  //lightStatus: 'light' | 'dark' | undefined;
   lightStatus: LightStatus;
   view: string;
 }
