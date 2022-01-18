@@ -12,7 +12,7 @@ export default function createMainTheme(lightMode: LightStatus) {
             mode: lightMode === LightStatus.LIGHT ? "light" : "dark",      
             background: {
                 default: lightMode === LightStatus.LIGHT ? bgLight : bgDark,
-                paper: lightMode === LightStatus.LIGHT ? bgLight : bgDark,
+                paper: lightMode === LightStatus.LIGHT ? "#FFF" : bgDark,
             }
         },
         typography: {

@@ -25,6 +25,8 @@ import { getTotalDocs as getTotalDocsAction,
         toggleDateOrder as toggleDateOrderAction,
         setCurrentTicketById as setCurrentTicketByIdAction, } from "./ticketsSlice";
 import { setView as setViewAction } from "../theme/themeSlice";
+import { LightStatus } from "../theme/types";
+import ViewToggle from "../theme/ViewToggle";
 import { RootState } from '../../app/store';
 import { setTitle as setTitleAction,
         setSearchDisplay as setSearchDisplayAction } from "../appbar/appbarSlice";
@@ -32,7 +34,6 @@ import { ticketsPerPageOptions } from "./constants";
 import { RequestStatus, viewRep } from "../../constants";
 import TicketsTable from "./TicketsTable";
 import { TicketCardData } from "./types";
-import ViewToggle from "../theme/ViewToggle";
 import TicketsModule from "./TicketsModule";
 import Loader from "../../components/Loader";
 
@@ -56,10 +57,20 @@ interface Props {
     view: string;
     setView: any;
     setSearchDisplay: any;
+    lightMode: LightStatus;
 }
 
 function Tickets(props: Props) {
-    const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets, view, setView } = props;
+    const { 
+            currentPage,
+            ticketsPerPage,
+            priorityOrder,
+            dateOrder,
+            totalTickets,
+            view,
+            setView,
+            lightMode } = props;
+
     const navigate = useNavigate();
     
 
@@ -135,12 +146,14 @@ function Tickets(props: Props) {
         )
     }
 
+    const background = lightMode === LightStatus.LIGHT ? "#FFF" : "#102027";
 
     return (
         <Box
             css={css`
                 border: 1px solid #DFE0EB;
                 border-radius: 8px;
+                background: ${background};
             `}
         >
 
@@ -202,6 +215,7 @@ function mapStateToProps(state: RootState) {
         priorityOrder: state.tickets.priorityOrder,
         dateOrder: state.tickets.dateOrder,
         view: state.theme.view,
+        lightMode: state.theme.lightStatus,
     };
 };
 

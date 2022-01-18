@@ -36,29 +36,29 @@ export default function Layout() {
 
     return (
         <Box css={css`
-            display: flex;
-            min-width: 900px;
-        `}
+                display: flex;
+                min-width: 900px;
+            `}
         >
             
             <SideBar/>
 
             <ThemeProvider theme={mainTheme}>
             <CssBaseline/>
-            <Box css={css`
+            <div 
+                css={css`
                     overflow: auto;
                     height: 100vh;
                     flex: 1 1 auto;
-                    padding: 30px;                    
-                    `}
-                    >
-                <AppBarTickets/>
-
+                    padding: 30px;  
+                `}
+            >
+                <AppBarTickets />
 
                 <Outlet />
 
                 <Toaster /> 
-            </Box>
+            </div>
             </ThemeProvider>
 
         </Box>
