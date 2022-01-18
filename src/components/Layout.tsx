@@ -18,7 +18,7 @@ import { RootState } from '../app/store';
 import SideBar from "./SideBar";
 import AppBarTickets  from "../features/appbar/AppBarTickets";
 import Login from "./Login";
-import createMainTheme from "../mainTheme";
+import createMainTheme from "../features/theme/mainTheme";
 import { LightStatus } from "../features/theme/types";
 
 

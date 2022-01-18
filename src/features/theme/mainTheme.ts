@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { LightStatus } from "./features/theme/types";
+import { LightStatus } from "./types";
 
 
 const bgDark = "#102027";
