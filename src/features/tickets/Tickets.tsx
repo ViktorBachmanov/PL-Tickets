@@ -25,6 +25,7 @@ import { getTotalDocs as getTotalDocsAction,
         toggleDateOrder as toggleDateOrderAction,
         setCurrentTicketById as setCurrentTicketByIdAction, } from "./ticketsSlice";
 import { setView as setViewAction } from "../theme/themeSlice";
+import { BgColors } from "../theme/types";
 import { LightStatus } from "../theme/types";
 import ViewToggle from "../theme/ViewToggle";
 import { RootState } from '../../app/store';
@@ -146,7 +147,7 @@ function Tickets(props: Props) {
         )
     }
 
-    const background = lightMode === LightStatus.LIGHT ? "#FFF" : "#102027";
+    const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
 
     return (
         <Box

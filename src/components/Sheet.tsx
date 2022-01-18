@@ -2,11 +2,14 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
+import { useAppSelector } from "../app/hooks";
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { css } from '@emotion/react'
+
+import { BgColors, LightStatus } from "../features/theme/types";
 
 
 interface Props {
@@ -18,6 +21,11 @@ interface Props {
 
 export default function Sheet(props: Props) {
     const { title, value, total } = props;
+
+    const lightMode = useAppSelector(state => state.theme.lightStatus);
+    const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
+
+
     let totalElem;
     if(total) {
         const percent = value / total * 100;
@@ -42,6 +50,7 @@ export default function Sheet(props: Props) {
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                     margin: 0.25rem;
+                    background: ${background};
             `}
         >
             <div>{title}</div>

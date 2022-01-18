@@ -6,6 +6,7 @@ import React from "react";
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import { css } from '@emotion/react'
 
 
@@ -31,7 +32,7 @@ export default function BarChart(props: Props) {
     const daysTickets: Array<BarDatum> = createBarChartData(props.tickets);
 
     return (
-        <Box css={css`
+        <Paper css={css`
                     height: 546px;
                     margin: 1rem 0 2rem;
                     border: 1px solid #DFE0EB;
@@ -109,7 +110,7 @@ export default function BarChart(props: Props) {
                 ariaLabel="Nivo bar chart demo"
             />
 
-        </Box>
+        </Paper>
 
     )
 }

@@ -1,9 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { LightStatus } from "./types";
-
-
-const bgDark = "#102027";
-const bgLight = "#F7F8FC";
+import { LightStatus, BgColors } from "./types";
 
 
 export default function createMainTheme(lightMode: LightStatus) {
@@ -11,8 +7,8 @@ export default function createMainTheme(lightMode: LightStatus) {
         palette: {
             mode: lightMode === LightStatus.LIGHT ? "light" : "dark",      
             background: {
-                default: lightMode === LightStatus.LIGHT ? bgLight : bgDark,
-                paper: lightMode === LightStatus.LIGHT ? "#FFF" : bgDark,
+                default: lightMode === LightStatus.LIGHT ? BgColors.LIGHT : BgColors.DARK,
+                paper: lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK,
             }
         },
         typography: {
