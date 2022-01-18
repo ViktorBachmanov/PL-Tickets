@@ -4,6 +4,8 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { css } from '@emotion/react';
+
+import { SelectChangeEvent } from "@mui/material";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -30,7 +32,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 function Login(props: PropsFromRedux) {
-  function handleSelectFakeUser(ev: any) {
+  function handleSelectFakeUser(ev: SelectChangeEvent<string>) {
     const user = usersData.find((user) => {
       return user.id === ev.target.value;
     });
