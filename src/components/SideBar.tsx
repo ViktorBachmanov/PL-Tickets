@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import * as React from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -11,8 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { styled } from '@mui/material/styles';
-import { RoutesPathes } from "../constants";
-
+import { RoutesPathes } from '../constants';
 
 const SideListItemButton = styled(ListItemButton)`
   :hover {
@@ -25,71 +24,54 @@ const SideListItemButton = styled(ListItemButton)`
 `;
 
 const SideListItemIcon = styled(ListItemIcon)`
-  color: #A4A6B3;
+  color: #a4a6b3;
 `;
 
 export default function SideBar() {
-   
-    const breakPoint = 1280;
-    
-    const SideListItemText = styled(ListItemText)`
-      @media (max-width: ${breakPoint}px) {
-          display: none;
-        };
-        color: #A4A6B3;
-      `;
+  const breakPoint = 1280;
 
-    const ResizedBox = styled(Box)`
-        width: 255px;
-        height: 100vh; 
-        background: #363740;
-        @media (max-width: ${breakPoint}px) {
-          width: 54px;
-        };
-    `;
-    
-   
+  const SideListItemText = styled(ListItemText)`
+    @media (max-width: ${breakPoint}px) {
+      display: none;
+    }
+    color: #a4a6b3;
+  `;
 
-    return (
-     
-        <ResizedBox>
-            <List component="nav">
-              <NavLink to={RoutesPathes.DASHBOARD}>
-              {({ isActive }) => (
-                <SideListItemButton 
-                  selected={isActive ? true : false}
-                  disableTouchRipple
-                >
-                    <SideListItemIcon
-                      title="Dashboard"
-                    >
-                        <PieChartIcon/>
-                    </SideListItemIcon>
-                    <SideListItemText primary="Dashboard" />
-                </SideListItemButton>)
-              }
-              </NavLink>
+  const ResizedBox = styled(Box)`
+    width: 255px;
+    height: 100vh;
+    background: #363740;
+    @media (max-width: ${breakPoint}px) {
+      width: 54px;
+    } ;
+  `;
 
-              <NavLink to={RoutesPathes.TICKETS}>
-              {({ isActive }) => (
-                <SideListItemButton 
-                  selected={isActive ? true : false}
-                  disableTouchRipple
-                >
-                    <SideListItemIcon
-                      title="Tickets"
-                    >
-                        <ConfirmationNumberIcon/>
-                    </SideListItemIcon>
+  return (
+    <ResizedBox>
+      <List component="nav">
+        <NavLink to={RoutesPathes.DASHBOARD}>
+          {({ isActive }) => (
+            <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
+              <SideListItemIcon title="Dashboard">
+                <PieChartIcon />
+              </SideListItemIcon>
+              <SideListItemText primary="Dashboard" />
+            </SideListItemButton>
+          )}
+        </NavLink>
 
-                    <SideListItemText primary="Tickets" />
+        <NavLink to={RoutesPathes.TICKETS}>
+          {({ isActive }) => (
+            <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
+              <SideListItemIcon title="Tickets">
+                <ConfirmationNumberIcon />
+              </SideListItemIcon>
 
-
-                </SideListItemButton>)
-              }
-              </NavLink>
-                
-            </List>
-        </ResizedBox>
-    )
+              <SideListItemText primary="Tickets" />
+            </SideListItemButton>
+          )}
+        </NavLink>
+      </List>
+    </ResizedBox>
+  );
 }

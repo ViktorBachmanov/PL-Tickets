@@ -3,9 +3,9 @@ import { RootState, AppThunk } from '../../app/store';
 
 //import { useNavigate } from 'react-router-dom';
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "./init";
-import { RoutesPathes } from "../../constants";
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from './init';
+import { RoutesPathes } from '../../constants';
 
 export interface userData {
   id: string;
@@ -18,13 +18,11 @@ interface State extends userData {
 }
 
 const initialState: State = {
-  id: "",
-  name: "",
+  id: '',
+  name: '',
   avatarUrl: null,
-  loginStatus: false
-}
-
-
+  loginStatus: false,
+};
 
 const provider = new GoogleAuthProvider();
 
@@ -33,26 +31,20 @@ const provider = new GoogleAuthProvider();
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const loginGoogle = createAsyncThunk(
-  'firebase/loginGoogle',
-  async (arg, { dispatch }) => {    
-      try {
-        const result = await signInWithPopup(auth, provider)
-        console.log(result.user);
-          const payload: userData = {
-            id: result.user.uid, 
-            name: result.user.displayName,
-            avatarUrl: result.user.photoURL
-          }
-          dispatch(userSlice.actions.set(payload));
-        
-      }
-      catch(error) {
-        console.error('GoogleAuthProvider', error);
-      }    
+export const loginGoogle = createAsyncThunk('firebase/loginGoogle', async (arg, { dispatch }) => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log(result.user);
+    const payload: userData = {
+      id: result.user.uid,
+      name: result.user.displayName,
+      avatarUrl: result.user.photoURL,
+    };
+    dispatch(userSlice.actions.set(payload));
+  } catch (error) {
+    console.error('GoogleAuthProvider', error);
   }
-);
-
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -65,18 +57,14 @@ export const userSlice = createSlice({
       state.avatarUrl = action.payload.avatarUrl;
 
       state.loginStatus = true;
-    }
-    
+    },
   },
   extraReducers(builder) {
-    builder
-      .addCase(loginGoogle.rejected, (state, action) => {
-         console.error(action.error.message);
-      })
-  }
-  
+    builder.addCase(loginGoogle.rejected, (state, action) => {
+      console.error(action.error.message);
+    });
+  },
 });
-
 
 export const { set } = userSlice.actions;
 

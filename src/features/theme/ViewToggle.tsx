@@ -6,50 +6,44 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { css } from '@emotion/react'
+import { css } from '@emotion/react';
 
-import { viewRep } from "../../constants";
-
+import { viewRep } from '../../constants';
 
 interface Props {
-    view: string;
-    setView: any;
+  view: string;
+  setView: any;
 }
 
 export default function ViewToggle(props: Props) {
-    
+  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
+    props.setView(nextView);
+  };
 
-    const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-        props.setView(nextView);
-    };
+  return (
+    <div
+      css={css`
+        display: flex;
+        align-items: center;
+      `}
+    >
+      <span
+        css={css`
+          margin: 0.5rem;
+          margin-left: 2rem;
+        `}
+      >
+        View:
+      </span>
+      <ToggleButtonGroup value={props.view} exclusive onChange={handleChange}>
+        <ToggleButton value={viewRep.module} aria-label={viewRep.module}>
+          <ViewModuleIcon />
+        </ToggleButton>
 
-    return (
-        <div css={css`
-                display: flex;
-                align-items: center;
-            `}
-        >
-            <span css={css`
-                        margin: 0.5rem;
-                        margin-left: 2rem;
-                    `}
-            >
-                View:
-            </span>
-            <ToggleButtonGroup
-                value={props.view}
-                exclusive
-                onChange={handleChange}
-            >
-                <ToggleButton value={viewRep.module} aria-label={viewRep.module}>
-                    <ViewModuleIcon />
-                </ToggleButton>
-
-                <ToggleButton value={viewRep.list} aria-label={viewRep.list}>
-                    <ViewListIcon />
-                </ToggleButton>
-                            
-            </ToggleButtonGroup>
-        </div>
-    )
+        <ToggleButton value={viewRep.list} aria-label={viewRep.list}>
+          <ViewListIcon />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </div>
+  );
 }

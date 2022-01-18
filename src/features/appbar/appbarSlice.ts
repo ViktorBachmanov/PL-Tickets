@@ -8,12 +8,10 @@ interface AppbarState {
 }
 
 const initialState: AppbarState = {
-  title: "",
+  title: '',
   status: 'idle',
   isSearchDisplay: false,
 };
-
-
 
 export const appbarSlice = createSlice({
   name: 'appbar',
@@ -39,6 +37,5 @@ export const { setTitle, setSearchDisplay } = appbarSlice.actions;
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectTitle = (state: RootState) => state.appbar.title;
-
 
 export default appbarSlice.reducer;

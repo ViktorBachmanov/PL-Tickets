@@ -1,25 +1,18 @@
 import React from 'react';
-import { Routes, Route, Navigate } from "react-router-dom"; 
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import Login from "./components/Login";
-import NotFound from "./components/NotFound";
-import Layout from "./components/Layout";
-import { RoutesPathes } from "./constants";
-import Dashboard  from './components/Dashboard';
-import Tickets  from './features/tickets/Tickets';
+import Login from './components/Login';
+import NotFound from './components/NotFound';
+import Layout from './components/Layout';
+import { RoutesPathes } from './constants';
+import Dashboard from './components/Dashboard';
+import Tickets from './features/tickets/Tickets';
 import TicketForm from './features/tickets/TicketForm';
-import { Mode } from "./features/tickets/types";
-
-
-
+import { Mode } from './features/tickets/types';
 
 function App() {
-
   return (
-    
     <div className="App">
-      
-      
       <Routes>
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
         <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
