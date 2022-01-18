@@ -1,11 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 //import { useNavigate } from 'react-router-dom';
 
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from './init';
-import { RoutesPathes } from '../../constants';
 
 export interface userData {
   id: string;
