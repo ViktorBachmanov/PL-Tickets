@@ -135,7 +135,7 @@ export const loadTicketById = createAsyncThunk(
 
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
-  async (data: FireDocData) => {
+  async () => {
     const tickets: any = [];    
     const myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
     const documentSnapshots = await getDocs(myQuery);
