@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../app/store';
 
 import toast from 'react-hot-toast';
@@ -16,12 +16,23 @@ import { css } from '@emotion/react';
 import { LightStatus } from './types';
 import { setLightStatus as setLightStatusAction } from './themeSlice';
 
-interface Props {
-  lightMode: LightStatus;
-  setLightMode: any;
+
+function mapStateToProps(state: RootState) {
+  return {
+    lightMode: state.theme.lightStatus,
+  };
 }
 
-function LightModeToggle(props: Props) {
+const mapDispatchToProps = {
+  setLightMode: setLightStatusAction,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+function LightModeToggle(props: PropsFromRedux) {
   const handleChange = (event: React.MouseEvent<HTMLElement>, nextMode: LightStatus) => {
     props.setLightMode(nextMode);
 
@@ -52,14 +63,6 @@ function LightModeToggle(props: Props) {
   );
 }
 
-function mapStateToProps(state: RootState) {
-  return {
-    lightMode: state.theme.lightStatus,
-  };
-}
 
-const mapDispatchToProps = {
-  setLightMode: setLightStatusAction,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LightModeToggle);
+export default connector(LightModeToggle);
