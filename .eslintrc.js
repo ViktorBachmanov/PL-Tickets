@@ -22,6 +22,5 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "prettier/prettier": 2
     }
 };
