@@ -50,6 +50,7 @@ export default function Sheet(props: Props) {
         border: 1px solid #dfe0eb;
         border-radius: 8px;
         margin: 0.25rem;
+        padding: 1rem;
         box-shadow: none;
       `}
     >
