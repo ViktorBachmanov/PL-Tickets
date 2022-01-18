@@ -2,14 +2,15 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
-import { useAppSelector } from "../app/hooks";
+//import { useAppSelector } from "../app/hooks";
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
 import { css } from '@emotion/react'
 
-import { BgColors, LightStatus } from "../features/theme/types";
+//import { BgColors, LightStatus } from "../features/theme/types";
 
 
 interface Props {
@@ -22,8 +23,8 @@ interface Props {
 export default function Sheet(props: Props) {
     const { title, value, total } = props;
 
-    const lightMode = useAppSelector(state => state.theme.lightStatus);
-    const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
+    //const lightMode = useAppSelector(state => state.theme.lightStatus);
+    //const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
 
 
     let totalElem;
@@ -41,7 +42,7 @@ export default function Sheet(props: Props) {
     }
 
     return (
-        <Box
+        <Card
             css={css`
                     display: flex;
                     flex-direction: column;
@@ -50,7 +51,7 @@ export default function Sheet(props: Props) {
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                     margin: 0.25rem;
-                    background: ${background};
+                    box-shadow: none;
             `}
         >
             <div>{title}</div>
@@ -71,6 +72,6 @@ export default function Sheet(props: Props) {
                 {totalElem}
             </Box>
 
-        </Box>
+        </Card>
     )
 }
