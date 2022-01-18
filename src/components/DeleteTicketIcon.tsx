@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useState } from "react";
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import toast from 'react-hot-toast';
 
 import { css } from '@emotion/react'
@@ -16,9 +16,19 @@ import { deleteTicket as deleteTicketAction } from '../features/tickets/ticketsS
 import { ticketsDeletingMessages } from '../features/tickets/constants';
 
 
-interface Props {
+const mapDispatchToProps = {
+    deleteTicket: deleteTicketAction,
+   
+};
+
+const connector = connect(null, mapDispatchToProps);
+
+// The inferred type will look like:
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+type Props = PropsFromRedux & {
     ticketId: string;
-    deleteTicket: any;
 }
 
 
@@ -80,9 +90,4 @@ function DeleteTicketIcon(props: Props) {
 }
 
 
-const mapDispatchToProps = {
-    deleteTicket: deleteTicketAction,
-   
-};
-
-export default connect(null, mapDispatchToProps)(DeleteTicketIcon);
+export default connector(DeleteTicketIcon);
