@@ -2,24 +2,34 @@
 /** @jsxImportSource @emotion/react */
 
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
-import { loginGoogle as loginGoogleAction, set, userData } from '../features/user/userSlice';
+import { loginGoogle as loginGoogleAction, set } from '../features/user/userSlice';
 import { usersData } from '../fakeUsers/data';
 
-function Login(props: any) {
+
+const mapDispatchToProps = {
+  loginGoogle: loginGoogleAction,
+  setUser: set,
+};
+
+const connector = connect(null, mapDispatchToProps)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+function Login(props: PropsFromRedux) {
   function handleSelectFakeUser(ev: any) {
     const user = usersData.find((user) => {
       return user.id === ev.target.value;
@@ -88,9 +98,5 @@ function Login(props: any) {
   );
 }
 
-const mapDispatchToProps = {
-  loginGoogle: loginGoogleAction,
-  setUser: set,
-};
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connector(Login);

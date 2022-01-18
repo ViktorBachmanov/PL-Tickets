@@ -34,7 +34,7 @@ export default function BarChart(props: Props) {
     return (
         <Paper css={css`
                     height: 546px;
-                    margin: 1rem 0 2rem;
+                    margin: 1rem 0 3rem;
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                 `}>

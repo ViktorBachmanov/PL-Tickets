@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -39,29 +39,41 @@ import { TicketCardData } from './types';
 import TicketsModule from './TicketsModule';
 import Loader from '../../components/Loader';
 
-interface Props {
-  getTotalDocs: any;
-  loadPage: any;
-  totalTickets: number;
-  requestStatus: RequestStatus;
-  setTitle: any;
-  ticketsList: Array<TicketCardData>;
-  setTicketsPerPage: any;
-  setCurrentPage: any;
-  currentPage: number;
-  ticketsPerPage: number;
-  togglePriorityOrder: any;
-  priorityOrder: OrderByDirection;
-  toggleDateOrder: any;
-  dateOrder: OrderByDirection;
-  setCurrentTicketById: any;
-  view: string;
-  setView: any;
-  setSearchDisplay: any;
-  lightMode: LightStatus;
+
+function mapStateToProps(state: RootState) {
+  return {
+    ticketsList: state.tickets.list,
+    totalTickets: state.tickets.counter,
+    requestStatus: state.tickets.requestStatus,
+    currentPage: state.tickets.currentPage,
+    ticketsPerPage: state.tickets.ticketsPerPage,
+    priorityOrder: state.tickets.priorityOrder,
+    dateOrder: state.tickets.dateOrder,
+    view: state.theme.view,
+    lightMode: state.theme.lightStatus,
+  };
 }
 
-function Tickets(props: Props) {
+const mapDispatchToProps = {
+  getTotalDocs: getTotalDocsAction,
+  loadPage: loadPageAction,
+  setTitle: setTitleAction,
+  setTicketsPerPage: setTicketsPerPageAction,
+  setCurrentPage: setCurrentPageAction,
+  togglePriorityOrder: togglePriorityOrderAction,
+  toggleDateOrder: toggleDateOrderAction,
+  setCurrentTicketById: setCurrentTicketByIdAction,
+  setView: setViewAction,
+  setSearchDisplay: setSearchDisplayAction,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+// The inferred type will look like:
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+
+function Tickets(props: PropsFromRedux) {
   const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets, view, setView, lightMode } = props;
 
   const navigate = useNavigate();
@@ -175,31 +187,5 @@ function Tickets(props: Props) {
   );
 }
 
-function mapStateToProps(state: RootState) {
-  return {
-    ticketsList: state.tickets.list,
-    totalTickets: state.tickets.counter,
-    requestStatus: state.tickets.requestStatus,
-    currentPage: state.tickets.currentPage,
-    ticketsPerPage: state.tickets.ticketsPerPage,
-    priorityOrder: state.tickets.priorityOrder,
-    dateOrder: state.tickets.dateOrder,
-    view: state.theme.view,
-    lightMode: state.theme.lightStatus,
-  };
-}
 
-const mapDispatchToProps = {
-  getTotalDocs: getTotalDocsAction,
-  loadPage: loadPageAction,
-  setTitle: setTitleAction,
-  setTicketsPerPage: setTicketsPerPageAction,
-  setCurrentPage: setCurrentPageAction,
-  togglePriorityOrder: togglePriorityOrderAction,
-  toggleDateOrder: toggleDateOrderAction,
-  setCurrentTicketById: setCurrentTicketByIdAction,
-  setView: setViewAction,
-  setSearchDisplay: setSearchDisplayAction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tickets);
+export default connector(Tickets);
