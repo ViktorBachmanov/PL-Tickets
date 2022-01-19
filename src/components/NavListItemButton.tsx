@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { SvgIconProps } from "@mui/material/SvgIcon";
 
 
 export const breakPoint = 1280;
@@ -53,7 +54,7 @@ const SideListItemIcon = styled(ListItemIcon)`
 interface Props {
     to: string;
     text: string;
-    icon: any;
+    icon: React.ReactElement<SvgIconProps>;
 }
 
 
