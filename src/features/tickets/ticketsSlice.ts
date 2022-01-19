@@ -5,7 +5,7 @@ import { RootState } from '../../app/store';
 import { collection, addDoc, setDoc, getDoc, getDocs, 
         deleteDoc, doc, query, orderBy, limit, startAfter, OrderByDirection } from "firebase/firestore";
 
-import { Priority, Status, TicketCardData, FireDocData } from "./types";
+import { Priority, TicketCardData, FireDocData } from "./types";
 import { RequestStatus } from "../../constants";
 import { db } from '../../config';
 import { ticketsCollection, countersCollection, docsCounterDocId } from '../../config';
@@ -136,7 +136,7 @@ export const loadTicketById = createAsyncThunk(
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
   async () => {
-    const tickets: any = [];    
+    const tickets: Array<TicketCardData> = [];    
     const myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
     const documentSnapshots = await getDocs(myQuery);
 
@@ -221,23 +221,23 @@ export const ticketsSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-          .addCase(saveDocInDatabase.pending, (state, action) => {
+          .addCase(saveDocInDatabase.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
           })
-          .addCase(saveDocInDatabase.rejected, (state, action) => {
+          .addCase(saveDocInDatabase.rejected, (_state, action) => {
             console.error(action.error.message);
           })
-          .addCase(loadTicketById.pending, (state, action) => {
+          .addCase(loadTicketById.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(loadTicketById.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.currentTicket = action.payload;
           })
-          .addCase(loadTicketById.rejected, (state, action) => {
+          .addCase(loadTicketById.rejected, (_state, action) => {
             console.error(action.error.message);
           })
-          .addCase(getTotalDocs.pending, (state, action) => {
+          .addCase(getTotalDocs.pending, (state) => {
             state.counter = 0; 
             state.requestStatus = RequestStatus.LOADING;
           })
@@ -245,29 +245,26 @@ export const ticketsSlice = createSlice({
             state.counter = action.payload; 
             state.requestStatus = RequestStatus.IDLE;           
           })
-          .addCase(getTotalDocs.rejected, (state, action) => {
+          .addCase(getTotalDocs.rejected, (_state, action) => {
             console.error(action.error.message);
           })
-          .addCase(deleteTicket.pending, (state, action) => {
+          .addCase(deleteTicket.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(deleteTicket.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })
-          .addCase(modifyDocsCounter.pending, (state, action) => {
-            //state.requestStatus = RequestStatus.LOADING;
-          })
           .addCase(modifyDocsCounter.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
-            const { val, isIncrement } = action.payload;
+            const { val } = action.payload;
             state.counter = val;     
           })
           .addCase(modifyDocsCounter.rejected, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })
-          .addCase(getAllTickets.pending, (state, action) => {
+          .addCase(getAllTickets.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
           })
           .addCase(getAllTickets.fulfilled, (state, action) => {
@@ -281,7 +278,7 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
           })
-          .addCase(loadPage.rejected, (state, action) => {
+          .addCase(loadPage.rejected, (_state, action) => {
             console.error(action.error.message);
           });
       }
