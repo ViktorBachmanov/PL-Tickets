@@ -5,13 +5,18 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import SvgIcon from '@mui/material/SvgIcon';
 import { styled } from '@mui/material/styles';
 import { RoutesPathes } from '../constants';
+import { ReactComponent as Logo } from '../logo.svg';
+import { css } from '@emotion/react';
+
 
 
 const breakPoint = 1280;
@@ -23,6 +28,10 @@ const SideListItemText = styled(ListItemText)`
   }
   color: #a4a6b3;
   margin-left: 24px;
+  
+  & * {
+    font-family: 'Mulish', sans-serif;
+  }
 `;
 
 const ResizedBox = styled(Box)`
@@ -55,7 +64,7 @@ const SideListItemButton = styled(ListItemButton)`
 const SideListItemIcon = styled(ListItemIcon)`
   color: #a4a6b3;
   min-width: auto;
-  margin-left: 10px;
+  margin-left: 8px;
 `;
 
 
@@ -64,6 +73,37 @@ export default function SideBar() {
   return (
     <ResizedBox>
       <List component="nav">
+        <ListItem 
+          disablePadding
+          css={css`
+            height: 70px;
+            justify-content: center;
+          `}
+        >
+            <SvgIcon 
+              component={Logo}
+              viewBox="0 0 32 32"
+              css={css`font-size: 32px;`}
+            />
+            <span 
+              css={css`
+                font-family: 'Mulish', sans-serif;
+                font-weight: bold;
+                font-size: 19px;
+                color: #A4A6B3;
+                flex: 0 0 auto;
+                margin-left: 24px;
+
+                @media (max-width: ${breakPoint}px) {
+                  display: none;
+                }
+              `}
+            >
+              Dashboard Kit
+            </span>
+
+        </ListItem>
+
         <NavLink to={RoutesPathes.DASHBOARD}>
           {({ isActive }) => (
             <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
