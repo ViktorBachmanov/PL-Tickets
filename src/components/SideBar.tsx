@@ -2,13 +2,10 @@
 /** @jsxImportSource @emotion/react */
 
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -17,22 +14,9 @@ import { RoutesPathes } from '../constants';
 import { ReactComponent as Logo } from '../logo.svg';
 import { css } from '@emotion/react';
 
+import NavListItemButton, { breakPoint } from "./NavListItemButton";
 
 
-const breakPoint = 1280;
-//const breakPoint = 900;
-
-const SideListItemText = styled(ListItemText)`
-  @media (max-width: ${breakPoint}px) {
-    visibility: hidden;
-  }
-  color: #a4a6b3;
-  margin-left: 24px;
-  
-  & * {
-    font-family: 'Mulish', sans-serif;
-  }
-`;
 
 const ResizedBox = styled(Box)`
   width: 255px;
@@ -43,29 +27,6 @@ const ResizedBox = styled(Box)`
   } ;
 `;
 
-const SideListItemButton = styled(ListItemButton)`
-  :hover {
-    background: #9fa2b414;
-  }
-
-  :active {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  &.Mui-selected {
-    box-shadow: inset 3px 0 #DDE2FF;
-  }
-
-  &.Mui-selected * {
-    color: #DDE2FF;
-  }
-`;
-
-const SideListItemIcon = styled(ListItemIcon)`
-  color: #a4a6b3;
-  min-width: auto;
-  margin-left: 8px;
-`;
 
 
 export default function SideBar() {  
@@ -104,28 +65,18 @@ export default function SideBar() {
 
         </ListItem>
 
-        <NavLink to={RoutesPathes.DASHBOARD}>
-          {({ isActive }) => (
-            <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
-              <SideListItemIcon title="Dashboard">
-                <PieChartIcon />
-              </SideListItemIcon>
-              <SideListItemText primary="Dashboard" />
-            </SideListItemButton>
-          )}
-        </NavLink>
-
-        <NavLink to={RoutesPathes.TICKETS}>
-          {({ isActive }) => (
-            <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
-              <SideListItemIcon title="Tickets">
-                <ConfirmationNumberIcon />
-              </SideListItemIcon>
-
-              <SideListItemText primary="Tickets" />
-            </SideListItemButton>
-          )}
-        </NavLink>
+        <NavListItemButton 
+          to={RoutesPathes.DASHBOARD}
+          text="Dashboard"
+          icon={<PieChartIcon />}
+        />
+          
+        <NavListItemButton 
+          to={RoutesPathes.TICKETS}
+          text="Tickets"
+          icon={<ConfirmationNumberIcon />}
+        />
+          
       </List>
     </ResizedBox>
   );
