@@ -21,6 +21,10 @@ const SideListItemButton = styled(ListItemButton)`
   :active {
     background: rgba(255, 255, 255, 0.3);
   }
+
+  &.Mui-selected {
+    box-shadow: inset 3px 0 #DDE2FF;
+  }
 `;
 
 const SideListItemIcon = styled(ListItemIcon)`
