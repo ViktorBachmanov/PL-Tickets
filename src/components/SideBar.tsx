@@ -13,6 +13,27 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { styled } from '@mui/material/styles';
 import { RoutesPathes } from '../constants';
 
+
+const breakPoint = 1280;
+//const breakPoint = 900;
+
+const SideListItemText = styled(ListItemText)`
+  @media (max-width: ${breakPoint}px) {
+    visibility: hidden;
+  }
+  color: #a4a6b3;
+  margin-left: 24px;
+`;
+
+const ResizedBox = styled(Box)`
+  width: 255px;
+  height: 100vh;
+  background: #363740;
+  @media (max-width: ${breakPoint}px) {
+    width: 70px;
+  } ;
+`;
+
 const SideListItemButton = styled(ListItemButton)`
   :hover {
     background: #9fa2b414;
@@ -25,30 +46,20 @@ const SideListItemButton = styled(ListItemButton)`
   &.Mui-selected {
     box-shadow: inset 3px 0 #DDE2FF;
   }
+
+  &.Mui-selected * {
+    color: #DDE2FF;
+  }
 `;
 
 const SideListItemIcon = styled(ListItemIcon)`
   color: #a4a6b3;
+  min-width: auto;
+  margin-left: 10px;
 `;
 
-export default function SideBar() {
-  const breakPoint = 1280;
 
-  const SideListItemText = styled(ListItemText)`
-    @media (max-width: ${breakPoint}px) {
-      display: none;
-    }
-    color: #a4a6b3;
-  `;
-
-  const ResizedBox = styled(Box)`
-    width: 255px;
-    height: 100vh;
-    background: #363740;
-    @media (max-width: ${breakPoint}px) {
-      width: 54px;
-    } ;
-  `;
+export default function SideBar() {  
 
   return (
     <ResizedBox>
