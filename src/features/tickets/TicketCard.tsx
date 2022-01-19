@@ -3,6 +3,7 @@
 
 import React from "react";
 import { useSelector } from 'react-redux';
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
 
@@ -24,7 +25,7 @@ import { LightStatus } from "../theme/types";
 
 interface Props {
     ticket: TicketCardData;
-    setCurrentTicketById: any;
+    setCurrentTicketById: ActionCreatorWithPayload<string, string>;
 }
 
 export default function TicketCard(props: Props) {

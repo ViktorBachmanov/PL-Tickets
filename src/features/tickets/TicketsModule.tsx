@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -9,7 +10,7 @@ import TicketCard from './TicketCard';
 
 interface Props {
   tickets: Array<TicketCardData>;
-  setCurrentTicketById: any;
+  setCurrentTicketById: ActionCreatorWithPayload<string, string>;
 }
 
 export default function TicketsModule(props: Props) {

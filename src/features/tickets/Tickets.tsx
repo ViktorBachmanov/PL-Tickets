@@ -101,14 +101,14 @@ function Tickets(props: PropsFromRedux) {
 
     props.setTicketsPerPage(rowsPerPage);
   };
-
+/*
   const handleTogglePriorityOrder = () => {
     props.togglePriorityOrder();
   };
 
   const handleToggleDateOrder = () => {
     props.toggleDateOrder();
-  };
+  };*/
 
   if (props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
     return <Loader />;
@@ -122,8 +122,8 @@ function Tickets(props: PropsFromRedux) {
         tickets={props.ticketsList}
         priorityOrder={props.priorityOrder}
         dateOrder={props.dateOrder}
-        togglePriorityOrder={handleTogglePriorityOrder}
-        toggleDateOrder={handleToggleDateOrder}
+        togglePriorityOrder={props.togglePriorityOrder}
+        toggleDateOrder={props.toggleDateOrder}
         setCurrentTicketById={props.setCurrentTicketById}
       />
     );

@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useEffect } from "react";
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import toast from 'react-hot-toast';
@@ -32,24 +32,36 @@ import { LightStatus } from "../theme/types";
 
 
 
+function mapStateToProps(state: RootState) {
+    return { 
+        userId: state.user.id,
+        userName: state.user.name,
+        currentTicket: state.tickets.currentTicket,
+        requestStatus: state.tickets.requestStatus,
+        lightMode: state.theme.lightStatus,
+     };
+}
+
+const mapDispatchToProps = {
+    saveDocInDatabase: saveDocInDatabaseAction,
+    deleteTicket: deleteTicketAction,
+    loadTicketById: loadTicketByIdAction,
+    setTitle: setTitleAction,
+    resetCurrentTicket: resetCurrentTicketAction,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {
+    mode: Mode;
+}
+
 interface IFormInput {
     title: string;
     priority: Priority;
     description: string;    
-}
-
-interface Props {
-    mode: Mode;
-    userId: string;
-    userName: string | null;
-    saveDocInDatabase: any;
-    deleteTicket: any;
-    currentTicket: TicketCardData;
-    resetCurrentTicket: any;
-    loadTicketById: any;
-    setTitle: any;
-    requestStatus: RequestStatus;
-    lightMode: LightStatus;
 }
 
 
@@ -314,23 +326,4 @@ function TicketForm(props: Props) {
 }
 
 
-function mapStateToProps(state: RootState) {
-    return { 
-        userId: state.user.id,
-        userName: state.user.name,
-        currentTicket: state.tickets.currentTicket,
-        requestStatus: state.tickets.requestStatus,
-        lightMode: state.theme.lightStatus,
-     };
-}
-
-const mapDispatchToProps = {
-    saveDocInDatabase: saveDocInDatabaseAction,
-    deleteTicket: deleteTicketAction,
-    loadTicketById: loadTicketByIdAction,
-    setTitle: setTitleAction,
-    resetCurrentTicket: resetCurrentTicketAction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);
-
+export default connector(TicketForm);

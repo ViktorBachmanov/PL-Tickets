@@ -3,6 +3,7 @@
 
 import React from "react";
 import { useSelector } from 'react-redux';
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { useNavigate } from "react-router-dom";
 
 import { OrderByDirection } from "firebase/firestore";
@@ -29,10 +30,10 @@ import { LightStatus } from "../theme/types";
 interface Props {
     tickets: Array<TicketCardData>;
     priorityOrder: OrderByDirection;
-    togglePriorityOrder: any;
+    togglePriorityOrder: ActionCreatorWithoutPayload<string>;
     dateOrder: OrderByDirection;
-    toggleDateOrder: any;
-    setCurrentTicketById: any;
+    toggleDateOrder: ActionCreatorWithoutPayload<string>;
+    setCurrentTicketById: ActionCreatorWithPayload<string, string>;
 }
 
 export default function TicketsTable(props: Props) {
