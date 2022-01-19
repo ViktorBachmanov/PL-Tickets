@@ -4,9 +4,6 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
-
-import { OrderByDirection } from 'firebase/firestore';
 
 import { css } from '@emotion/react';
 
@@ -35,7 +32,6 @@ import { setTitle as setTitleAction, setSearchDisplay as setSearchDisplayAction 
 import { ticketsPerPageOptions } from './constants';
 import { RequestStatus, viewRep } from '../../constants';
 import TicketsTable from './TicketsTable';
-import { TicketCardData } from './types';
 import TicketsModule from './TicketsModule';
 import Loader from '../../components/Loader';
 
@@ -101,14 +97,6 @@ function Tickets(props: PropsFromRedux) {
 
     props.setTicketsPerPage(rowsPerPage);
   };
-/*
-  const handleTogglePriorityOrder = () => {
-    props.togglePriorityOrder();
-  };
-
-  const handleToggleDateOrder = () => {
-    props.toggleDateOrder();
-  };*/
 
   if (props.requestStatus === RequestStatus.LOADING || !props.totalTickets) {
     return <Loader />;

@@ -27,7 +27,6 @@ import { ticketsDeletingMessages, ticketsSavingMessages, ticketsCreatingMessages
 
 import { setTitle as setTitleAction } from "../appbar/appbarSlice";
 
-import { TicketCardData } from "./types";
 import { LightStatus } from "../theme/types";
 
 
@@ -62,6 +61,10 @@ interface IFormInput {
     title: string;
     priority: Priority;
     description: string;    
+}
+
+interface NativeEvent extends Event {
+    submitter: HTMLElement;
 }
 
 
@@ -109,7 +112,7 @@ function TicketForm(props: Props) {
     
     const onSubmit: SubmitHandler<IFormInput> = (data, ev) => {
         if(ev) {            
-            const myEv = ev.nativeEvent as any;     // avoid ts error 2339 "property 'submitter' does not exist on type 'object'"
+            const myEv = ev.nativeEvent as NativeEvent;     // avoid ts error 2339 "property 'submitter' does not exist on type 'object'"
 
             if(myEv.submitter.id === "complete") {
                 isCompleted = true;
