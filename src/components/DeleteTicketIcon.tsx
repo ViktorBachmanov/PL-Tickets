@@ -40,20 +40,20 @@ function DeleteTicketIcon(props: Props) {
 
     const [view, setView] = useState(ViewMode.NORMAL);
 
-    function handleOnClick(ev: any) {
+    function handleOnClick(ev: React.MouseEvent) {
         ev.preventDefault();
         ev.stopPropagation();
         setView(ViewMode.CONFIRM);
     }
 
-    function handleConfirmDelete(ev: any) {
+    function handleConfirmDelete(ev: React.MouseEvent) {
         ev.preventDefault();
         ev.stopPropagation();
         const rslt = deleteTicket(ticketId).unwrap();
         toast.promise(rslt, ticketsDeletingMessages);
     }
 
-    function handleCancel(ev: any) {
+    function handleCancel(ev: React.MouseEvent) {
         ev.preventDefault();
         ev.stopPropagation();
         setView(ViewMode.NORMAL);

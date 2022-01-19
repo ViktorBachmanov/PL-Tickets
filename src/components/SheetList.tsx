@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 import { css } from '@emotion/react';
 
