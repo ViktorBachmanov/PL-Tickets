@@ -32,7 +32,7 @@ type Props = PropsFromRedux & {
 }
 
 
-enum ViewMode { NORMAL, CONFIRM };
+enum ViewMode { NORMAL, CONFIRM }
 
 
 function DeleteTicketIcon(props: Props) {

@@ -91,7 +91,7 @@ function mapStateToProps(state: RootState) {
         title: state.appbar.title,
         isSearchDisplay: state.appbar.isSearchDisplay,
     };
-};
+}
 
 
 export default connect(mapStateToProps)(AppBarTickets);

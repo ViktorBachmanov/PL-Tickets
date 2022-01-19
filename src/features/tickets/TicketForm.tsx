@@ -50,7 +50,7 @@ interface Props {
     setTitle: any;
     requestStatus: RequestStatus;
     lightMode: LightStatus;
-};
+}
 
 
 function TicketForm(props: Props) {
@@ -311,7 +311,7 @@ function TicketForm(props: Props) {
             {isCompleted && <Chip label="Completed" />}
         </form>
     );     
-};
+}
 
 
 function mapStateToProps(state: RootState) {
@@ -322,7 +322,7 @@ function mapStateToProps(state: RootState) {
         requestStatus: state.tickets.requestStatus,
         lightMode: state.theme.lightStatus,
      };
-};
+}
 
 const mapDispatchToProps = {
     saveDocInDatabase: saveDocInDatabaseAction,

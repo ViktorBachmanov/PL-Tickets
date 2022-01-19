@@ -6,9 +6,9 @@ export enum RoutesPathes {
     TICKETS = "/tickets",
     TICKET_ID = "/tickets/:id",
     CREATE = "/tickets/new"
-};
+}
 
-export enum RequestStatus { IDLE, LOADING, FAILED };
+export enum RequestStatus { IDLE, LOADING, FAILED }
 
 export const viewRep = {
     list: "list",
