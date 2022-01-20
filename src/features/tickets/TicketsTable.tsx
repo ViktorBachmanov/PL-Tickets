@@ -41,10 +41,10 @@ export default function TicketsTable(props: Props) {
     const userId = useSelector((state: RootState) => state.user.id);
     const lightMode = useSelector((state: RootState) => state.theme.lightStatus);
 
+    const navigate = useNavigate();
+
     const rows = props.tickets.map(ticket => {
         const authorName = ticket.authorName as string;
-
-        const navigate = useNavigate();
 
         function handleClick() {
             props.setCurrentTicketById(ticket.id);

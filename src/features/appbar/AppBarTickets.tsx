@@ -2,8 +2,10 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../app/store';
+
+import { debounce } from "lodash";
 
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
@@ -16,19 +18,44 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 
 import LightModeToggle from '../theme/LightModeToggle';
+import { setSearchText as setSearchTextAction } from "./appbarSlice";
 
 
+function mapStateToProps(state: RootState) {
+    return { 
+        userAvatarUrl: state.user.avatarUrl,
+        userName: state.user.name,
+        title: state.appbar.title,
+        isSearchDisplay: state.appbar.isSearchDisplay,
+    };
+}
+
+const mapDispatchToProps = {
+    setSearchText: setSearchTextAction,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>  
+
+/*
 interface Props {
     userAvatarUrl: string | null;
     userName: string | null;
     title: string;
     isSearchDisplay: boolean;
-}
+}*/
 
 
-function AppBarTickets(props: Props) {
+function AppBarTickets(props: PropsFromRedux) {
     const userAvatarUrl: string = props.userAvatarUrl as string;
     const userName: string = props.userName as string;
+
+    function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
+        props.setSearchText(ev.target.value);
+    }
+
+    const debouncedChangeHandler = debounce(handleChange, 400);
   
     return (
         <Box
@@ -54,6 +81,7 @@ function AppBarTickets(props: Props) {
                     label="Search tickets"
                     variant="outlined"
                     css={css`margin-right: 50px;`}
+                    onChange={debouncedChangeHandler}
                     InputProps={{
                         startAdornment: (
                         <InputAdornment position="start">
@@ -85,14 +113,5 @@ function AppBarTickets(props: Props) {
     )
 }
 
-function mapStateToProps(state: RootState) {
-    return { 
-        userAvatarUrl: state.user.avatarUrl,
-        userName: state.user.name,
-        title: state.appbar.title,
-        isSearchDisplay: state.appbar.isSearchDisplay,
-    };
-}
 
-
-export default connect(mapStateToProps)(AppBarTickets);
+export default connector(AppBarTickets);

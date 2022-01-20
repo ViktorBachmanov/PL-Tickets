@@ -24,16 +24,19 @@ import {
   setCurrentTicketById as setCurrentTicketByIdAction,
 } from './ticketsSlice';
 import { setView as setViewAction } from '../theme/themeSlice';
-import { BgColors } from '../theme/types';
-import { LightStatus } from '../theme/types';
+import { BgColors, LightStatus } from '../theme/types';
 import ViewToggle from '../theme/ViewToggle';
 import { RootState } from '../../app/store';
-import { setTitle as setTitleAction, setSearchDisplay as setSearchDisplayAction } from '../appbar/appbarSlice';
+import { setTitle as setTitleAction, 
+        setSearchDisplay as setSearchDisplayAction,
+        resetSearchText as resetSearchTextAction,
+       } from '../appbar/appbarSlice';
 import { ticketsPerPageOptions } from './constants';
 import { RequestStatus, viewRep } from '../../constants';
 import TicketsTable from './TicketsTable';
 import TicketsModule from './TicketsModule';
 import Loader from '../../components/Loader';
+import { TicketCardData } from "./types";
 
 
 function mapStateToProps(state: RootState) {
@@ -47,6 +50,7 @@ function mapStateToProps(state: RootState) {
     dateOrder: state.tickets.dateOrder,
     view: state.theme.view,
     lightMode: state.theme.lightStatus,
+    searchText: state.appbar.searchText,
   };
 }
 
@@ -61,16 +65,20 @@ const mapDispatchToProps = {
   setCurrentTicketById: setCurrentTicketByIdAction,
   setView: setViewAction,
   setSearchDisplay: setSearchDisplayAction,
+  resetSearchText: resetSearchTextAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-// The inferred type will look like:
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 function Tickets(props: PropsFromRedux) {
-  const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets, view, setView, lightMode } = props;
+  const { ticketsList, currentPage, ticketsPerPage, priorityOrder, 
+        dateOrder, totalTickets, view, setView, lightMode, searchText } = props;
+
+  const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
+  
 
   const navigate = useNavigate();
 
@@ -81,12 +89,22 @@ function Tickets(props: PropsFromRedux) {
 
     return function clean() {
       props.setSearchDisplay(false);
+      props.resetSearchText();
     };
   }, []);
 
   useEffect(() => {
-    props.loadPage();
+    props.loadPage().unwrap()
+          .then(tickets => {
+            setVisibleTickets(filterTickets(tickets, searchText));
+          });
   }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets]);
+
+
+  useEffect(() => {
+    setVisibleTickets(filterTickets(ticketsList, searchText));
+  }, [searchText]);
+
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     props.setCurrentPage(newPage);
@@ -107,7 +125,7 @@ function Tickets(props: PropsFromRedux) {
   if (view === viewRep.list) {
     viewComp = (
       <TicketsTable
-        tickets={props.ticketsList}
+        tickets={visibleTickets}
         priorityOrder={props.priorityOrder}
         dateOrder={props.dateOrder}
         togglePriorityOrder={props.togglePriorityOrder}
@@ -116,7 +134,7 @@ function Tickets(props: PropsFromRedux) {
       />
     );
   } else {
-    viewComp = <TicketsModule tickets={props.ticketsList} setCurrentTicketById={props.setCurrentTicketById} />;
+    viewComp = <TicketsModule tickets={visibleTickets} setCurrentTicketById={props.setCurrentTicketById} />;
   }
 
   const background = lightMode === LightStatus.LIGHT ? '#FFF' : BgColors.DARK;
@@ -177,3 +195,12 @@ function Tickets(props: PropsFromRedux) {
 
 
 export default connector(Tickets);
+
+
+// helper functions
+
+function filterTickets(tickets: Array<TicketCardData>, text: string): Array<TicketCardData> {
+  return tickets.filter(ticket => {
+    return ticket.title.match(RegExp(text, "i"));
+  });
+}
