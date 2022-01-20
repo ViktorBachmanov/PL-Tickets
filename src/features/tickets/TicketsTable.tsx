@@ -10,6 +10,7 @@ import { OrderByDirection } from "firebase/firestore";
 
 import { css } from '@emotion/react'
 import Table from '@mui/material/Table';
+import Box from '@mui/material/Box';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
@@ -115,19 +116,25 @@ export default function TicketsTable(props: Props) {
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>Ticket details</TableCell>
-                    <TableCell>Owner name</TableCell>
+                    <TableCell>
+                        <Box color="text.secondary">Ticket details</Box>
+                    </TableCell>
+                    <TableCell>
+                        <Box color="text.secondary">Owner name</Box>
+                    </TableCell>
                     <TableCell
                         onClick={() => { props.toggleDateOrder(); }}
                         css={css`
                             cursor: pointer;
                         `}
                     >
+                        <Box style={{display: "flex"}} color="text.secondary">
                         Date
                         <TableSortLabel
                             active
                             direction={props.dateOrder}
                         />
+                        </Box>
                     </TableCell>
                     <TableCell
                         onClick={() => { props.togglePriorityOrder(); }}
@@ -137,11 +144,13 @@ export default function TicketsTable(props: Props) {
                             cursor: pointer;
                         `}
                     >
+                        <Box style={{display: "flex"}} color="text.secondary">
                         Priority
                         <TableSortLabel
                             active
                             direction={props.priorityOrder}
                         />
+                        </Box>
                     </TableCell>
 
                     <TableCell 
