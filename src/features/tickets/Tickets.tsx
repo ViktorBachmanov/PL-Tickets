@@ -28,7 +28,9 @@ import { BgColors } from '../theme/types';
 import { LightStatus } from '../theme/types';
 import ViewToggle from '../theme/ViewToggle';
 import { RootState } from '../../app/store';
-import { setTitle as setTitleAction, setSearchDisplay as setSearchDisplayAction } from '../appbar/appbarSlice';
+import { setTitle as setTitleAction, 
+        setSearchDisplay as setSearchDisplayAction,
+       } from '../appbar/appbarSlice';
 import { ticketsPerPageOptions } from './constants';
 import { RequestStatus, viewRep } from '../../constants';
 import TicketsTable from './TicketsTable';
@@ -47,6 +49,7 @@ function mapStateToProps(state: RootState) {
     dateOrder: state.tickets.dateOrder,
     view: state.theme.view,
     lightMode: state.theme.lightStatus,
+    searchText: state.appbar.searchText,
   };
 }
 
@@ -65,12 +68,15 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-// The inferred type will look like:
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 
 function Tickets(props: PropsFromRedux) {
-  const { currentPage, ticketsPerPage, priorityOrder, dateOrder, totalTickets, view, setView, lightMode } = props;
+  const { ticketsList, currentPage, ticketsPerPage, priorityOrder, 
+        dateOrder, totalTickets, view, setView, lightMode, searchText } = props;
+
+  //const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
+  
 
   const navigate = useNavigate();
 
@@ -87,6 +93,20 @@ function Tickets(props: PropsFromRedux) {
   useEffect(() => {
     props.loadPage();
   }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets]);
+
+  //let visibleTickets = ticketsList;
+  //useEffect(() => {
+    let visibleTickets = ticketsList.filter(ticket => {
+      //console.log(searchText);
+      const rslt = ticket.title.match(searchText);
+      //console.log(rslt);
+      return rslt;
+    });
+    console.log(visibleTickets);
+  //}, [searchText]);
+  if(!visibleTickets) {
+    visibleTickets = ticketsList;
+  }
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     props.setCurrentPage(newPage);
@@ -107,7 +127,7 @@ function Tickets(props: PropsFromRedux) {
   if (view === viewRep.list) {
     viewComp = (
       <TicketsTable
-        tickets={props.ticketsList}
+        tickets={visibleTickets}
         priorityOrder={props.priorityOrder}
         dateOrder={props.dateOrder}
         togglePriorityOrder={props.togglePriorityOrder}
@@ -116,7 +136,7 @@ function Tickets(props: PropsFromRedux) {
       />
     );
   } else {
-    viewComp = <TicketsModule tickets={props.ticketsList} setCurrentTicketById={props.setCurrentTicketById} />;
+    viewComp = <TicketsModule tickets={visibleTickets} setCurrentTicketById={props.setCurrentTicketById} />;
   }
 
   const background = lightMode === LightStatus.LIGHT ? '#FFF' : BgColors.DARK;

@@ -5,12 +5,14 @@ interface AppbarState {
   title: string;
   status: 'idle' | 'loading' | 'failed';
   isSearchDisplay: boolean;
+  searchText: string;
 }
 
 const initialState: AppbarState = {
   title: '',
   status: 'idle',
   isSearchDisplay: false,
+  searchText: "",
 };
 
 export const appbarSlice = createSlice({
@@ -28,10 +30,13 @@ export const appbarSlice = createSlice({
     setSearchDisplay: (state, action: PayloadAction<boolean>) => {
       state.isSearchDisplay = action.payload;
     },
+    setSearchText: (state, action: PayloadAction<string>) => {
+      state.searchText = action.payload;
+    },
   },
 });
 
-export const { setTitle, setSearchDisplay } = appbarSlice.actions;
+export const { setTitle, setSearchDisplay, setSearchText } = appbarSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
