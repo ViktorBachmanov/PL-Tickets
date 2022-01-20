@@ -33,10 +33,13 @@ export const appbarSlice = createSlice({
     setSearchText: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
     },
+    resetSearchText: (state) => {
+      state.searchText = "";
+    },
   },
 });
 
-export const { setTitle, setSearchDisplay, setSearchText } = appbarSlice.actions;
+export const { setTitle, setSearchDisplay, setSearchText, resetSearchText } = appbarSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

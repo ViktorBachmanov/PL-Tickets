@@ -29,6 +29,7 @@ import ViewToggle from '../theme/ViewToggle';
 import { RootState } from '../../app/store';
 import { setTitle as setTitleAction, 
         setSearchDisplay as setSearchDisplayAction,
+        resetSearchText as resetSearchTextAction,
        } from '../appbar/appbarSlice';
 import { ticketsPerPageOptions } from './constants';
 import { RequestStatus, viewRep } from '../../constants';
@@ -64,6 +65,7 @@ const mapDispatchToProps = {
   setCurrentTicketById: setCurrentTicketByIdAction,
   setView: setViewAction,
   setSearchDisplay: setSearchDisplayAction,
+  resetSearchText: resetSearchTextAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -87,6 +89,7 @@ function Tickets(props: PropsFromRedux) {
 
     return function clean() {
       props.setSearchDisplay(false);
+      props.resetSearchText();
     };
   }, []);
 

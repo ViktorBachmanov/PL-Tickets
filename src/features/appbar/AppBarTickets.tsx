@@ -5,6 +5,8 @@ import React from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../app/store';
 
+import { debounce } from "lodash";
+
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -52,6 +54,8 @@ function AppBarTickets(props: PropsFromRedux) {
     function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
         props.setSearchText(ev.target.value);
     }
+
+    const debouncedChangeHandler = debounce(handleChange, 400);
   
     return (
         <Box
@@ -77,7 +81,7 @@ function AppBarTickets(props: PropsFromRedux) {
                     label="Search tickets"
                     variant="outlined"
                     css={css`margin-right: 50px;`}
-                    onChange={handleChange}
+                    onChange={debouncedChangeHandler}
                     InputProps={{
                         startAdornment: (
                         <InputAdornment position="start">
