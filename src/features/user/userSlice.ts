@@ -32,7 +32,7 @@ const provider = new GoogleAuthProvider();
 export const loginGoogle = createAsyncThunk('firebase/loginGoogle', async (arg, { dispatch }) => {
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log(result.user);
+    //console.log(result.user);
     const payload: userData = {
       id: result.user.uid,
       name: result.user.displayName,
@@ -58,7 +58,7 @@ export const userSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(loginGoogle.rejected, (state, action) => {
+    builder.addCase(loginGoogle.rejected, (_state, action) => {
       console.error(action.error.message);
     });
   },

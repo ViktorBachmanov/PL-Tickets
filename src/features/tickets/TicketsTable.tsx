@@ -90,10 +90,15 @@ export default function TicketsTable(props: Props) {
                     <DateTickets date={ticket.updatedAt}/>
                 </TableCell>
 
-                <TableCell>
+                <TableCell
+                    align="center"
+                    padding="none"
+                >
                     <PriorityLabel priority={ticket.priority} />
                 </TableCell>
-                <TableCell>
+                <TableCell 
+                    align="center"
+                >
                     {isDeleteAvailable && 
                         <DeleteTicketIcon ticketId={ticket.id} />
                     }
@@ -126,6 +131,8 @@ export default function TicketsTable(props: Props) {
                     </TableCell>
                     <TableCell
                         onClick={() => { props.togglePriorityOrder(); }}
+                        padding="none"
+                        align="center"
                         css={css`
                             cursor: pointer;
                         `}
@@ -136,7 +143,12 @@ export default function TicketsTable(props: Props) {
                             direction={props.priorityOrder}
                         />
                     </TableCell>
-                    <TableCell />
+
+                    <TableCell 
+                        css={css`
+                            min-width: 100px;
+                            `}
+                    />
                 </TableRow>
             </TableHead>
 

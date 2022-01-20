@@ -68,14 +68,20 @@ function DeleteTicketIcon(props: Props) {
     )
 
     const confirmElem = (
-        <Box>
+        <Box
+            css={css`
+                display: flex;
+            `}
+        >
             <CheckIcon
                 onClick={handleConfirmDelete}
+                color="success"
                 css={css`margin: 0.25rem;`}
             />
 
             <CloseIcon
                 onClick={handleCancel}
+                color="error"
                 css={css`margin: 0.25rem;`}
             />
 
