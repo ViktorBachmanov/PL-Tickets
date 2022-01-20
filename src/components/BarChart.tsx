@@ -34,8 +34,7 @@ export default function BarChart(props: Props) {
 
     return (
         <Paper css={css`
-                    height: 546px;
-                    margin: 1rem 0 3rem;
+                    margin: 1rem 0;
                     border: 1px solid #DFE0EB;
                     border-radius: 8px;
                 `}>
@@ -52,6 +51,7 @@ export default function BarChart(props: Props) {
             <Typography 
                 variant="subtitle2" 
                 component="div"
+                color="text.secondary"
                 css={css`
                     margin: 0.5rem;
                 `}
@@ -59,6 +59,7 @@ export default function BarChart(props: Props) {
                 for last {props.period} days
             </Typography>
 
+            <div style={{height: "540px"}}>
             <ResponsiveBar
                 data={daysTickets}
                 keys={[ "low", "normal", "high" ]}
@@ -120,6 +121,7 @@ export default function BarChart(props: Props) {
                 role="application"
                 ariaLabel="Nivo bar chart demo"
             />
+            </div>
 
         </Paper>
 

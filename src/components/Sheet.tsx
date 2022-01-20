@@ -54,7 +54,13 @@ export default function Sheet(props: Props) {
         box-shadow: none;
       `}
     >
-      <div>{title}</div>
+      <Typography
+          variant="subtitle1"
+          component="div"
+          color="text.secondary"
+      >
+          {title}
+      </Typography>
 
       <Box
         css={css`
@@ -62,7 +68,10 @@ export default function Sheet(props: Props) {
           align-items: flex-end;
         `}
       >
-        <Typography variant="h5" component="div">
+        <Typography
+          variant="h5"
+          component="div"
+        >
           {value}
         </Typography>
 
