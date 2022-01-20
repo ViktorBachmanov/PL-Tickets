@@ -134,8 +134,8 @@ export const loadTicketById = createAsyncThunk(
   }
 );
 
-export const getAllTickets = createAsyncThunk(
-  'tickets/getAllTickets',
+export const getTicketsForLastDays = createAsyncThunk(
+  'tickets/getTicketsForLastDays',
   // period = last days
   async (period?: number) => {
     const tickets: Array<TicketCardData> = []; 
@@ -277,14 +277,14 @@ export const ticketsSlice = createSlice({
             state.requestStatus = RequestStatus.IDLE;
             console.error(action.error.message);
           })
-          .addCase(getAllTickets.pending, (state) => {
+          .addCase(getTicketsForLastDays.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
           })
-          .addCase(getAllTickets.fulfilled, (state, action) => {
+          .addCase(getTicketsForLastDays.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
           })
-          .addCase(getAllTickets.rejected, (_state, action) => {
+          .addCase(getTicketsForLastDays.rejected, (_state, action) => {
             console.error(action.error.message);
           })
           .addCase(loadPage.pending, (state) => {

@@ -20,6 +20,7 @@ import { LightStatus } from "../features/theme/types";
 interface Props {
     tickets: Array<TicketCardData>;
     lightStatus: LightStatus;
+    period: number;
 }
 
 
@@ -46,6 +47,16 @@ export default function BarChart(props: Props) {
                 `}
             >
                 Uncompleted trends
+            </Typography>
+
+            <Typography 
+                variant="subtitle2" 
+                component="div"
+                css={css`
+                    margin: 0.5rem;
+                `}
+            >
+                for last {props.period} days
             </Typography>
 
             <ResponsiveBar

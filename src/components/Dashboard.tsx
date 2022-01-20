@@ -9,7 +9,7 @@ import { RootState } from '../app/store';
 import Box from '@mui/material/Box';
 
 import { setTitle as setTitleAction } from '../features/appbar/appbarSlice';
-import { getAllTickets as getAllTicketsAction } from '../features/tickets/ticketsSlice';
+import { getTicketsForLastDays as getTicketsForLastDaysAction } from '../features/tickets/ticketsSlice';
 
 import BarChart from './BarChart';
 import SheetList from './SheetList';
@@ -28,7 +28,7 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = {
   setTitle: setTitleAction,
-  getAllTickets: getAllTicketsAction,
+  getTicketsForLastDays: getTicketsForLastDaysAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -36,12 +36,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 // The inferred type will look like:
 type PropsFromRedux = ConnectedProps<typeof connector>
 
+const period = 14;
 
 function Dashboard(props: PropsFromRedux) {
 
   useEffect(() => {
     props.setTitle('Dashboard');
-    props.getAllTickets(8);
+    props.getTicketsForLastDays(period);
   }, []);
 
   if (props.requestStatus === RequestStatus.LOADING) {
@@ -52,7 +53,7 @@ function Dashboard(props: PropsFromRedux) {
     <Box>
       <SheetList tickets={props.tickets} isForAllUsers={true} />
 
-      <BarChart tickets={props.tickets} lightStatus={props.lightStatus} />
+      <BarChart tickets={props.tickets} lightStatus={props.lightStatus} period={period}/>
 
       <SheetList tickets={props.tickets} isForAllUsers={false} />
     </Box>
