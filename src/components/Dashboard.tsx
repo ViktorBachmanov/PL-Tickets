@@ -41,7 +41,7 @@ function Dashboard(props: PropsFromRedux) {
 
   useEffect(() => {
     props.setTitle('Dashboard');
-    props.getAllTickets();
+    props.getAllTickets(8);
   }, []);
 
   if (props.requestStatus === RequestStatus.LOADING) {

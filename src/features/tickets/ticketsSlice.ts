@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
 import { collection, addDoc, setDoc, getDoc, getDocs, 
-        deleteDoc, doc, query, orderBy, limit, startAfter, OrderByDirection } from "firebase/firestore";
+        deleteDoc, doc, query, orderBy, limit, startAfter, 
+        OrderByDirection, Timestamp, where } from "firebase/firestore";
 
 import { Priority, TicketCardData, FireDocData } from "./types";
 import { RequestStatus } from "../../constants";
@@ -135,9 +136,21 @@ export const loadTicketById = createAsyncThunk(
 
 export const getAllTickets = createAsyncThunk(
   'tickets/getAllTickets',
-  async () => {
-    const tickets: Array<TicketCardData> = [];    
-    const myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
+  // period = last days
+  async (period?: number) => {
+    const tickets: Array<TicketCardData> = []; 
+
+    let myQuery;
+    
+    if(period) {
+      const date = Date.now() - period * 24 * 60 * 60 * 1000; // milliseconds
+      const timestamp = new Timestamp(date / 1000, 0);
+      myQuery = query(collection(db, ticketsCollection), 
+                        where("updatedAt", ">=", timestamp), orderBy("updatedAt"));
+    }
+    else {
+      myQuery = query(collection(db, ticketsCollection), orderBy("updatedAt"));
+    }
     const documentSnapshots = await getDocs(myQuery);
 
     documentSnapshots.forEach((doc) => {
@@ -270,6 +283,9 @@ export const ticketsSlice = createSlice({
           .addCase(getAllTickets.fulfilled, (state, action) => {
             state.requestStatus = RequestStatus.IDLE;
             state.list = action.payload;
+          })
+          .addCase(getAllTickets.rejected, (_state, action) => {
+            console.error(action.error.message);
           })
           .addCase(loadPage.pending, (state) => {
             state.requestStatus = RequestStatus.LOADING;
