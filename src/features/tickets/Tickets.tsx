@@ -75,7 +75,7 @@ function Tickets(props: PropsFromRedux) {
   const { ticketsList, currentPage, ticketsPerPage, priorityOrder, 
         dateOrder, totalTickets, view, setView, lightMode, searchText } = props;
 
-  //const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
+  const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
   
 
   const navigate = useNavigate();
@@ -94,19 +94,14 @@ function Tickets(props: PropsFromRedux) {
     props.loadPage();
   }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets]);
 
-  //let visibleTickets = ticketsList;
-  //useEffect(() => {
-    let visibleTickets = ticketsList.filter(ticket => {
-      //console.log(searchText);
-      const rslt = ticket.title.match(searchText);
-      //console.log(rslt);
-      return rslt;
+
+  useEffect(() => {
+    const filteredTickets = ticketsList.filter(ticket => {
+      return ticket.title.match(RegExp(searchText, "i"));
     });
-    console.log(visibleTickets);
-  //}, [searchText]);
-  if(!visibleTickets) {
-    visibleTickets = ticketsList;
-  }
+    setVisibleTickets(filteredTickets);
+  }, [searchText]);
+
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     props.setCurrentPage(newPage);
