@@ -24,8 +24,7 @@ import {
   setCurrentTicketById as setCurrentTicketByIdAction,
 } from './ticketsSlice';
 import { setView as setViewAction } from '../theme/themeSlice';
-import { BgColors } from '../theme/types';
-import { LightStatus } from '../theme/types';
+import { BgColors, LightStatus } from '../theme/types';
 import ViewToggle from '../theme/ViewToggle';
 import { RootState } from '../../app/store';
 import { setTitle as setTitleAction, 
@@ -36,6 +35,7 @@ import { RequestStatus, viewRep } from '../../constants';
 import TicketsTable from './TicketsTable';
 import TicketsModule from './TicketsModule';
 import Loader from '../../components/Loader';
+import { TicketCardData } from "./types";
 
 
 function mapStateToProps(state: RootState) {
@@ -91,15 +91,15 @@ function Tickets(props: PropsFromRedux) {
   }, []);
 
   useEffect(() => {
-    props.loadPage();
+    props.loadPage().unwrap()
+          .then(tickets => {
+            setVisibleTickets(filterTickets(tickets, searchText));
+          });
   }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets]);
 
 
   useEffect(() => {
-    const filteredTickets = ticketsList.filter(ticket => {
-      return ticket.title.match(RegExp(searchText, "i"));
-    });
-    setVisibleTickets(filteredTickets);
+    setVisibleTickets(filterTickets(ticketsList, searchText));
   }, [searchText]);
 
 
@@ -192,3 +192,12 @@ function Tickets(props: PropsFromRedux) {
 
 
 export default connector(Tickets);
+
+
+// helper functions
+
+function filterTickets(tickets: Array<TicketCardData>, text: string): Array<TicketCardData> {
+  return tickets.filter(ticket => {
+    return ticket.title.match(RegExp(text, "i"));
+  });
+}
