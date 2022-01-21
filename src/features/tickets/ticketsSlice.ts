@@ -54,8 +54,6 @@ export const saveDocInDatabase = createAsyncThunk(
     if(!payload.id) { 
       const docRef = await addDoc(collection(db, ticketsCollection), payload.docData);
       // The value we return becomes the `fulfilled` action payload
-      console.log(docRef);
-      console.log(docRef.id);
       dispatch(loadTicketById(docRef.id));
       dispatch(modifyDocsCounter(true));
       return docRef.id;
