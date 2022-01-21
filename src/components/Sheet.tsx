@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 
 import { css } from '@emotion/react';
 
-
 interface Props {
   title: string;
   value: number;
@@ -49,12 +48,8 @@ export default function Sheet(props: Props) {
         box-shadow: none;
       `}
     >
-      <Typography
-          variant="subtitle1"
-          component="div"
-          color="text.secondary"
-      >
-          {title}
+      <Typography variant="subtitle1" component="div" color="text.secondary">
+        {title}
       </Typography>
 
       <Box
@@ -63,10 +58,7 @@ export default function Sheet(props: Props) {
           align-items: flex-end;
         `}
       >
-        <Typography
-          variant="h5"
-          component="div"
-        >
+        <Typography variant="h5" component="div">
           {value}
         </Typography>
 

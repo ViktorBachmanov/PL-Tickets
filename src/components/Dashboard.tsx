@@ -17,7 +17,6 @@ import Loader from './Loader';
 
 import { RequestStatus } from '../constants';
 
-
 function mapStateToProps(state: RootState) {
   return {
     tickets: state.tickets.list,
@@ -33,7 +32,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const period = 14;
 
@@ -53,12 +52,11 @@ function Dashboard(props: PropsFromRedux) {
     <Box>
       <SheetList tickets={props.tickets} isForAllUsers={true} />
 
-      <BarChart tickets={props.tickets} lightStatus={props.lightStatus} period={period}/>
+      <BarChart tickets={props.tickets} lightStatus={props.lightStatus} period={period} />
 
       <SheetList tickets={props.tickets} isForAllUsers={false} />
     </Box>
   );
 }
-
 
 export default connector(Dashboard);

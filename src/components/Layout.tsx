@@ -45,12 +45,12 @@ export default function Layout() {
           css={css`
             overflow: auto;
             height: 100vh;
-            flex: 1 1 auto;            
+            flex: 1 1 auto;
           `}
         >
           <AppBarTickets />
 
-          <div style={{padding: "30px"}}>
+          <div style={{ padding: '30px' }}>
             <Outlet />
           </div>
 

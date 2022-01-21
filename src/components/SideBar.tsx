@@ -14,9 +14,7 @@ import { RoutesPathes } from '../constants';
 import { ReactComponent as Logo } from '../logo.svg';
 import { css } from '@emotion/react';
 
-import NavListItemButton, { breakPoint } from "./NavListItemButton";
-
-
+import NavListItemButton, { breakPoint } from './NavListItemButton';
 
 const ResizedBox = styled(Box)`
   width: 255px;
@@ -27,14 +25,11 @@ const ResizedBox = styled(Box)`
   } ;
 `;
 
-
-
-export default function SideBar() {  
-
+export default function SideBar() {
   return (
     <ResizedBox>
       <List component="nav">
-        <ListItem 
+        <ListItem
           disablePadding
           css={css`
             height: 70px;
@@ -42,42 +37,34 @@ export default function SideBar() {
             margin-bottom: 1.5rem;
           `}
         >
-            <SvgIcon 
-              component={Logo}
-              viewBox="0 0 32 32"
-              css={css`font-size: 32px;`}
-            />
-            <span 
-              css={css`
-                font-family: 'Mulish', sans-serif;
-                font-weight: bold;
-                font-size: 19px;
-                color: #A4A6B3;
-                flex: 0 0 auto;
-                margin-left: 24px;
+          <SvgIcon
+            component={Logo}
+            viewBox="0 0 32 32"
+            css={css`
+              font-size: 32px;
+            `}
+          />
+          <span
+            css={css`
+              font-family: 'Mulish', sans-serif;
+              font-weight: bold;
+              font-size: 19px;
+              color: #a4a6b3;
+              flex: 0 0 auto;
+              margin-left: 24px;
 
-                @media (max-width: ${breakPoint}px) {
-                  display: none;
-                }
-              `}
-            >
-              Dashboard Kit
-            </span>
-
+              @media (max-width: ${breakPoint}px) {
+                display: none;
+              }
+            `}
+          >
+            Dashboard Kit
+          </span>
         </ListItem>
 
-        <NavListItemButton 
-          to={RoutesPathes.DASHBOARD}
-          text="Dashboard"
-          icon={<PieChartIcon />}
-        />
-          
-        <NavListItemButton 
-          to={RoutesPathes.TICKETS}
-          text="Tickets"
-          icon={<ConfirmationNumberIcon />}
-        />
-          
+        <NavListItemButton to={RoutesPathes.DASHBOARD} text="Dashboard" icon={<PieChartIcon />} />
+
+        <NavListItemButton to={RoutesPathes.TICKETS} text="Tickets" icon={<ConfirmationNumberIcon />} />
       </List>
     </ResizedBox>
   );

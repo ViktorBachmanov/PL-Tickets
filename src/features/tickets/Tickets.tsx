@@ -27,17 +27,17 @@ import { setView as setViewAction } from '../theme/themeSlice';
 import { BgColors, LightStatus } from '../theme/types';
 import ViewToggle from '../theme/ViewToggle';
 import { RootState } from '../../app/store';
-import { setTitle as setTitleAction, 
-        setSearchDisplay as setSearchDisplayAction,
-        resetSearchText as resetSearchTextAction,
-       } from '../appbar/appbarSlice';
+import {
+  setTitle as setTitleAction,
+  setSearchDisplay as setSearchDisplayAction,
+  resetSearchText as resetSearchTextAction,
+} from '../appbar/appbarSlice';
 import { ticketsPerPageOptions } from './constants';
 import { RequestStatus, viewRep } from '../../constants';
 import TicketsTable from './TicketsTable';
 import TicketsModule from './TicketsModule';
 import Loader from '../../components/Loader';
-import { TicketCardData } from "./types";
-
+import { TicketCardData } from './types';
 
 function mapStateToProps(state: RootState) {
   return {
@@ -70,16 +70,28 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Tickets(props: PropsFromRedux) {
-  const { ticketsList, currentPage, ticketsPerPage, priorityOrder, 
-        dateOrder, totalTickets, view, setView, lightMode, searchText,
-        getTotalDocs, setTitle, setSearchDisplay, resetSearchText, loadPage } = props;
+  const {
+    ticketsList,
+    currentPage,
+    ticketsPerPage,
+    priorityOrder,
+    dateOrder,
+    totalTickets,
+    view,
+    setView,
+    lightMode,
+    searchText,
+    getTotalDocs,
+    setTitle,
+    setSearchDisplay,
+    resetSearchText,
+    loadPage,
+  } = props;
 
   const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
-  
 
   const navigate = useNavigate();
 
@@ -95,17 +107,16 @@ function Tickets(props: PropsFromRedux) {
   }, [getTotalDocs, setTitle, setSearchDisplay, resetSearchText]);
 
   useEffect(() => {
-    loadPage().unwrap()
-          .then(tickets => {
-            setVisibleTickets(filterTickets(tickets, searchText));
-          });
+    loadPage()
+      .unwrap()
+      .then((tickets) => {
+        setVisibleTickets(filterTickets(tickets, searchText));
+      });
   }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets, loadPage, searchText]);
-
 
   useEffect(() => {
     setVisibleTickets(filterTickets(ticketsList, searchText));
   }, [searchText, ticketsList]);
-
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     props.setCurrentPage(newPage);
@@ -194,14 +205,12 @@ function Tickets(props: PropsFromRedux) {
   );
 }
 
-
 export default connector(Tickets);
-
 
 // helper functions
 
 function filterTickets(tickets: Array<TicketCardData>, text: string): Array<TicketCardData> {
-  return tickets.filter(ticket => {
-    return ticket.title.match(RegExp(text, "i"));
+  return tickets.filter((ticket) => {
+    return ticket.title.match(RegExp(text, 'i'));
   });
 }

@@ -6,7 +6,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-
 interface Props {
   date: number; // milliseconds
 }
@@ -27,11 +26,7 @@ export function DateTickets(props: Props) {
       <Typography variant="subtitle2" component="div">
         {date}
       </Typography>
-      <Typography
-        variant="subtitle2"
-        color="text.secondary"
-        component="div"
-      >
+      <Typography variant="subtitle2" color="text.secondary" component="div">
         {time}
       </Typography>
     </Box>
@@ -57,11 +52,7 @@ export function DateAgoTickets(props: Props) {
   }
 
   return (
-    <Typography
-      variant="subtitle2"
-      color="text.secondary"
-      component="div"
-    >
+    <Typography variant="subtitle2" color="text.secondary" component="div">
       {text}
     </Typography>
   );

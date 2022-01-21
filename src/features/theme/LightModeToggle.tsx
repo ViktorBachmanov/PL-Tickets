@@ -16,7 +16,6 @@ import { css } from '@emotion/react';
 import { LightStatus } from './types';
 import { setLightStatus as setLightStatusAction } from './themeSlice';
 
-
 function mapStateToProps(state: RootState) {
   return {
     lightMode: state.theme.lightStatus,
@@ -29,8 +28,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LightModeToggle(props: PropsFromRedux) {
   const handleChange = (event: React.MouseEvent<HTMLElement>, nextMode: LightStatus) => {
@@ -62,7 +60,5 @@ function LightModeToggle(props: PropsFromRedux) {
     </div>
   );
 }
-
-
 
 export default connector(LightModeToggle);

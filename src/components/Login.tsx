@@ -5,7 +5,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { css } from '@emotion/react';
 
-import { SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -20,16 +20,14 @@ import Select from '@mui/material/Select';
 import { loginGoogle as loginGoogleAction, set } from '../features/user/userSlice';
 import { usersData } from '../fakeUsers/data';
 
-
 const mapDispatchToProps = {
   loginGoogle: loginGoogleAction,
   setUser: set,
 };
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Login(props: PropsFromRedux) {
   function handleSelectFakeUser(ev: SelectChangeEvent<string>) {
@@ -99,6 +97,5 @@ function Login(props: PropsFromRedux) {
     </Dialog>
   );
 }
-
 
 export default connector(Login);

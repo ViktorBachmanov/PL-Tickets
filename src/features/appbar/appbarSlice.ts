@@ -12,7 +12,7 @@ const initialState: AppbarState = {
   title: '',
   status: 'idle',
   isSearchDisplay: false,
-  searchText: "",
+  searchText: '',
 };
 
 export const appbarSlice = createSlice({
@@ -34,7 +34,7 @@ export const appbarSlice = createSlice({
       state.searchText = action.payload;
     },
     resetSearchText: (state) => {
-      state.searchText = "";
+      state.searchText = '';
     },
   },
 });
