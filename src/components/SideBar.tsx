@@ -39,6 +39,7 @@ export default function SideBar() {
           css={css`
             height: 70px;
             justify-content: center;
+            margin-bottom: 1.5rem;
           `}
         >
             <SvgIcon 
