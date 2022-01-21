@@ -16,6 +16,7 @@ import { Priority, Mode } from "./types";
 import { RoutesPathes, RequestStatus } from "../../constants";
 import { RootState } from '../../app/store';
 import Loader from "../../components/Loader";
+import DeleteTicketDialog from "../../components/DeleteTicketDialog";
 
 
 import { saveDocInDatabase as saveDocInDatabaseAction,
@@ -308,16 +309,7 @@ function TicketForm(props: Props) {
                         </Button>
 
                         {mode !== Mode.NEW &&
-                            <Button 
-                                variant="contained"
-                                onClick={handleDeleteTicket}
-                                color="error"
-                                css={css`
-                                    margin-left: auto;
-                                `}
-                            >
-                                Delete
-                            </Button>
+                            <DeleteTicketDialog handleDelete={handleDeleteTicket}/>
                         }
                     </Box>
                 }
