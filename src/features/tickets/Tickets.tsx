@@ -75,7 +75,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 function Tickets(props: PropsFromRedux) {
   const { ticketsList, currentPage, ticketsPerPage, priorityOrder, 
-        dateOrder, totalTickets, view, setView, lightMode, searchText } = props;
+        dateOrder, totalTickets, view, setView, lightMode, searchText,
+        getTotalDocs, setTitle, setSearchDisplay, resetSearchText, loadPage } = props;
 
   const [visibleTickets, setVisibleTickets] = React.useState(ticketsList);
   
@@ -83,27 +84,27 @@ function Tickets(props: PropsFromRedux) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    props.getTotalDocs();
-    props.setTitle('Tickets');
-    props.setSearchDisplay(true);
+    getTotalDocs();
+    setTitle('Tickets');
+    setSearchDisplay(true);
 
     return function clean() {
-      props.setSearchDisplay(false);
-      props.resetSearchText();
+      setSearchDisplay(false);
+      resetSearchText();
     };
-  }, []);
+  }, [getTotalDocs, setTitle, setSearchDisplay, resetSearchText]);
 
   useEffect(() => {
-    props.loadPage().unwrap()
+    loadPage().unwrap()
           .then(tickets => {
             setVisibleTickets(filterTickets(tickets, searchText));
           });
-  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets]);
+  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets, loadPage, searchText]);
 
 
   useEffect(() => {
     setVisibleTickets(filterTickets(ticketsList, searchText));
-  }, [searchText]);
+  }, [searchText, ticketsList]);
 
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
