@@ -9,6 +9,7 @@ import { debounce } from "lodash";
 
 import { css } from '@emotion/react';
 import Box from '@mui/material/Box';
+//import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
@@ -53,11 +54,11 @@ function AppBarTickets(props: PropsFromRedux) {
     return (
         <Box
             css={css`
-                height: 50px;
+                padding: 30px;
                 display: flex;
+                flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
-                margin-bottom: 2rem;
             `}
         >
             <Typography 
@@ -92,15 +93,14 @@ function AppBarTickets(props: PropsFromRedux) {
                 orientation="vertical"
                 variant="middle"
                 flexItem 
-                css={css`margin: 0 20px;`}
+                css={css`margin: 0 30px;`}
             />
 
-            <span css={css`margin: 0 14px;`}>
+            <span css={css`margin-right: 1rem`}>
                 {userName}
             </span>
 
             <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
-
 
         </Box>
     )
