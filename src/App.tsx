@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login';
-import NotFound from './components/NotFound';
 import Layout from './components/Layout';
 import { RoutesPathes } from './constants';
 import Dashboard from './components/Dashboard';
@@ -15,7 +14,6 @@ function App() {
     <div className="App">
       <Routes>
         <Route path={RoutesPathes.LOGIN} element={<Login />} />
-        <Route path={RoutesPathes.NOT_FOUND} element={<NotFound />} />
         <Route path={RoutesPathes.ROOT} element={<Layout />}>
           <Route index element={<Navigate to={RoutesPathes.DASHBOARD} replace={true} />} />
           <Route path={RoutesPathes.DASHBOARD} element={<Dashboard />} />

@@ -2,7 +2,6 @@
 /** @jsxImportSource @emotion/react */
 
 import React from 'react';
-//import { useAppSelector } from "../app/hooks";
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -10,7 +9,6 @@ import Typography from '@mui/material/Typography';
 
 import { css } from '@emotion/react';
 
-//import { BgColors, LightStatus } from "../features/theme/types";
 
 interface Props {
   title: string;
@@ -20,9 +18,6 @@ interface Props {
 
 export default function Sheet(props: Props) {
   const { title, value, total } = props;
-
-  //const lightMode = useAppSelector(state => state.theme.lightStatus);
-  //const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
 
   let totalElem;
   if (total) {

@@ -38,13 +38,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>  
 
-/*
-interface Props {
-    userAvatarUrl: string | null;
-    userName: string | null;
-    title: string;
-    isSearchDisplay: boolean;
-}*/
 
 
 function AppBarTickets(props: PropsFromRedux) {

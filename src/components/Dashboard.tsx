@@ -33,7 +33,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-// The inferred type will look like:
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 const period = 14;

@@ -12,7 +12,6 @@ import { SvgIconProps } from "@mui/material/SvgIcon";
 
 
 export const breakPoint = 1280;
-//export const breakPoint = 900;
 
 const SideListItemText = styled(ListItemText)`
   @media (max-width: ${breakPoint}px) {

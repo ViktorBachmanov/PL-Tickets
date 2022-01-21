@@ -17,13 +17,11 @@ import { ticketsDeletingMessages } from '../features/tickets/constants';
 
 
 const mapDispatchToProps = {
-    deleteTicket: deleteTicketAction,
-   
+    deleteTicket: deleteTicketAction,   
 };
 
 const connector = connect(null, mapDispatchToProps);
 
-// The inferred type will look like:
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 
