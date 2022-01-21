@@ -57,6 +57,9 @@ export default function TicketCard(props: Props) {
                 css={css`
                     padding: 1rem;
                     cursor: pointer;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
                     ${ticket.isCompleted && completedBackground}
                 `}
             >
@@ -85,6 +88,7 @@ export default function TicketCard(props: Props) {
                 <Box css={css`
                         display: flex;
                         align-items: center;
+                        margin-top: auto;
                     `}
                 >
                     <Avatar 
