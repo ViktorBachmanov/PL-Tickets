@@ -69,7 +69,7 @@ interface NativeEvent extends Event {
 
 
 function TicketForm(props: Props) {
-    const { currentTicket, requestStatus, lightMode } = props;
+    const { currentTicket, requestStatus, lightMode, setTitle, resetCurrentTicket } = props;
     let mode = props.mode;
 
     const { control, handleSubmit } = useForm<IFormInput>({
@@ -85,19 +85,19 @@ function TicketForm(props: Props) {
 
     useEffect(() => {
         if(id) {
-            props.setTitle(currentTicket.title); 
+            setTitle(currentTicket.title); 
         }
         else {
-            props.setTitle("New ticket");
+            setTitle("New ticket");
         }
-    }, [currentTicket]);
+    }, [currentTicket, id, setTitle]);
     
 
     useEffect(() => {
         return function cleanUnmount() {
-            props.resetCurrentTicket();
+            resetCurrentTicket();
         }
-    }, []);
+    }, [resetCurrentTicket]);
 
         
     let isCompleted = currentTicket.isCompleted;    

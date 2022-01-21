@@ -39,11 +39,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 const period = 14;
 
 function Dashboard(props: PropsFromRedux) {
+  const { setTitle, getTicketsForLastDays } = props;
 
   useEffect(() => {
-    props.setTitle('Dashboard');
-    props.getTicketsForLastDays(period);
-  }, []);
+    setTitle('Dashboard');
+    getTicketsForLastDays(period);
+  }, [setTitle, getTicketsForLastDays]);
 
   if (props.requestStatus === RequestStatus.LOADING) {
     return <Loader />;
