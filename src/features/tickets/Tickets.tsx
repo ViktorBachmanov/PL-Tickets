@@ -106,12 +106,8 @@ function Tickets(props: PropsFromRedux) {
   }, [setTitle, setSearchDisplay, resetSearchText]);
 
   useEffect(() => {
-    loadPage()
-      .unwrap()
-      .then((tickets) => {
-        setVisibleTickets(filterTickets(tickets, searchText));
-      });
-  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, loadPage, searchText, totalTickets]);
+    loadPage();
+  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, loadPage, totalTickets]);
 
   useEffect(() => {
     setVisibleTickets(filterTickets(ticketsList, searchText));
