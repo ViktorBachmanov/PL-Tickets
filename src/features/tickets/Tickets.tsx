@@ -15,7 +15,6 @@ import TablePagination from '@mui/material/TablePagination';
 import { RoutesPathes } from '../../constants';
 
 import {
-  getTotalDocs as getTotalDocsAction,
   loadPage as loadPageAction,
   setTicketsPerPage as setTicketsPerPageAction,
   setCurrentPage as setCurrentPageAction,
@@ -57,7 +56,6 @@ function mapStateToProps(state: RootState) {
 }
 
 const mapDispatchToProps = {
-  getTotalDocs: getTotalDocsAction,
   loadPage: loadPageAction,
   setTitle: setTitleAction,
   setTicketsPerPage: setTicketsPerPageAction,
@@ -87,7 +85,6 @@ function Tickets(props: PropsFromRedux) {
     setView,
     lightMode,
     searchText,
-    getTotalDocs,
     setTitle,
     setSearchDisplay,
     resetSearchText,
@@ -99,7 +96,6 @@ function Tickets(props: PropsFromRedux) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getTotalDocs();
     setTitle('Tickets');
     setSearchDisplay(true);
 
@@ -107,7 +103,7 @@ function Tickets(props: PropsFromRedux) {
       setSearchDisplay(false);
       resetSearchText();
     };
-  }, [getTotalDocs, setTitle, setSearchDisplay, resetSearchText]);
+  }, [setTitle, setSearchDisplay, resetSearchText]);
 
   useEffect(() => {
     loadPage()
@@ -115,7 +111,7 @@ function Tickets(props: PropsFromRedux) {
       .then((tickets) => {
         setVisibleTickets(filterTickets(tickets, searchText));
       });
-  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, totalTickets, loadPage, searchText]);
+  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, loadPage, searchText, totalTickets]);
 
   useEffect(() => {
     setVisibleTickets(filterTickets(ticketsList, searchText));
@@ -201,7 +197,7 @@ function Tickets(props: PropsFromRedux) {
 
       <TablePagination
         component="div"
-        count={props.totalTickets}
+        count={totalTickets}
         page={props.currentPage}
         onPageChange={handleChangePage}
         rowsPerPageOptions={ticketsPerPageOptions}

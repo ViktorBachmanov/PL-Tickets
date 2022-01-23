@@ -21,7 +21,7 @@ import Login from './Login';
 import { setLightStatus as setLightStatusAction } from '../features/theme/themeSlice';
 import createMainTheme from '../features/theme/mainTheme';
 import { LightStatus } from '../features/theme/types';
-
+import { getTotalDocs as getTotalDocsAction } from '../features/tickets/ticketsSlice';
 
 function mapStateToProps(state: RootState) {
   return {
@@ -32,6 +32,7 @@ function mapStateToProps(state: RootState) {
 
 const mapDispatchToProps = {
   setLightStatus: setLightStatusAction,
+  getTotalDocs: getTotalDocsAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -39,7 +40,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Layout(props: PropsFromRedux) {
-  const { loginStatus, lightMode, setLightStatus } = props;
+  const { loginStatus, lightMode, setLightStatus, getTotalDocs } = props;
 
   //console.log('Layout');
 
@@ -48,7 +49,8 @@ function Layout(props: PropsFromRedux) {
   const systemLightMode = isPrefersDarkMode ? LightStatus.DARK : LightStatus.LIGHT;
   React.useEffect(() => {
     setLightStatus(systemLightMode);
-  }, [systemLightMode, setLightStatus]); 
+    getTotalDocs();
+  }, [systemLightMode, setLightStatus, getTotalDocs]); 
 
   const mainTheme = React.useMemo(
     () => createMainTheme(lightMode),
