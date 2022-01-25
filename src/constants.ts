@@ -14,3 +14,5 @@ export const viewRep = {
     list: "list",
     module: "module"
 }
+
+export enum Storage { LIGHT_STATUS = 'lightStatus' }

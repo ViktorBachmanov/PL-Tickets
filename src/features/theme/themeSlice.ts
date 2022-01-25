@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LightStatus } from './types';
-import { viewRep } from '../../constants';
+import { viewRep, Storage } from '../../constants';
 
 interface ThemeState {
   lightStatus: LightStatus;
@@ -8,7 +8,7 @@ interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  lightStatus: window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT,
+  lightStatus: getInitialLightStatus(),
   view: viewRep.list,
 };
 
@@ -33,3 +33,15 @@ export const themeSlice = createSlice({
 export const { setLightStatus, setView } = themeSlice.actions;
 
 export default themeSlice.reducer;
+
+
+// helper functions
+
+function getInitialLightStatus(): LightStatus {
+  const storageLightStatus = localStorage.getItem(Storage.LIGHT_STATUS);
+  if(storageLightStatus) {
+    return parseInt(storageLightStatus) as LightStatus;
+  } else {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT;
+  }
+}
