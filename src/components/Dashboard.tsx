@@ -21,7 +21,7 @@ import { RequestStatus } from '../constants';
 
 function mapStateToProps(state: RootState) {
   return {
-    loginStatus: state.user.loginStatus,
+    userId: state.user.id,
     tickets: state.tickets.list,
     requestStatus: state.tickets.requestStatus,
     lightStatus: state.theme.lightStatus,
@@ -40,14 +40,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const period = 14;
 
 function Dashboard(props: PropsFromRedux) {
-  const { loginStatus, setTitle, getTicketsForLastDays } = props;
+  const { userId, setTitle, getTicketsForLastDays } = props;
 
   useEffect(() => {
     setTitle('Dashboard');
     getTicketsForLastDays(period);
   }, [setTitle, getTicketsForLastDays]);
 
-  if (!loginStatus) {
+  if (!userId) {
     return <Login />;
   }
 

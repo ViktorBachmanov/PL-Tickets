@@ -41,7 +41,7 @@ import { TicketCardData } from './types';
 
 function mapStateToProps(state: RootState) {
   return {
-    loginStatus: state.user.loginStatus,
+    userId: state.user.id,
     ticketsList: state.tickets.list,
     totalTickets: state.tickets.counter,
     requestStatus: state.tickets.requestStatus,
@@ -74,7 +74,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Tickets(props: PropsFromRedux) {
   const {
-    loginStatus,
+    userId,
     ticketsList,
     currentPage,
     ticketsPerPage,
@@ -146,7 +146,7 @@ function Tickets(props: PropsFromRedux) {
 
   const background = lightMode === LightStatus.LIGHT ? '#FFF' : BgColors.DARK;
 
-  if (!loginStatus) {
+  if (!userId) {
     return <Login />;
   }
 

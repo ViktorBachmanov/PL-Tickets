@@ -22,7 +22,7 @@ import { getTotalDocs as getTotalDocsAction } from '../features/tickets/ticketsS
 
 function mapStateToProps(state: RootState) {
   return {
-    loginStatus: state.user.loginStatus,
+    userId: state.user.id,
     lightMode: state.theme.lightStatus,  
   };
 }
@@ -36,7 +36,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Layout(props: PropsFromRedux) {
-  const { loginStatus, lightMode, getTotalDocs } = props;
+  const { userId, lightMode, getTotalDocs } = props;
 
   React.useEffect(() => {
     getTotalDocs();
@@ -48,7 +48,7 @@ function Layout(props: PropsFromRedux) {
   );
 
 
-  if (!loginStatus) {
+  if (!userId) {
     return <Login />;
   }
 

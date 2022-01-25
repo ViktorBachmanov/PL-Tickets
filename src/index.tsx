@@ -14,7 +14,7 @@ window.addEventListener("beforeunload", () => {
   console.log('beforeunload');
   localStorage.setItem(Storage.LIGHT_STATUS, String(store.getState().theme.lightStatus));
   localStorage.setItem(Storage.VIEW_REP, store.getState().theme.view);
-  sessionStorage.setItem(Storage.LOGIN_STATUS, String(store.getState().user.loginStatus));
+  sessionStorage.setItem(Storage.USER_DATA, JSON.stringify(store.getState().user));
 })
 
 ReactDOM.render(

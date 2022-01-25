@@ -11,16 +11,16 @@ export interface userData {
   avatarUrl: string | null;
 }
 
-interface State extends userData {
-  loginStatus: boolean;
+
+let initialState: userData;
+const storageState = sessionStorage.getItem(Storage.USER_DATA);
+if(storageState) {
+  initialState = JSON.parse(storageState);
+} else {
+  initialState = getDefaultState();
 }
 
-const initialState: State = {
-  id: '',
-  name: '',
-  avatarUrl: null,
-  loginStatus: getInitialLoginStatus(),
-};
+
 
 const provider = new GoogleAuthProvider();
 
@@ -53,8 +53,6 @@ export const userSlice = createSlice({
       state.id = action.payload.id;
       state.name = action.payload.name;
       state.avatarUrl = action.payload.avatarUrl;
-
-      state.loginStatus = true;
     },
   },
   extraReducers(builder) {
@@ -71,11 +69,10 @@ export default userSlice.reducer;
 
 // helper functions
 
-function getInitialLoginStatus(): boolean {
-  const storageLoginStatus = sessionStorage.getItem(Storage.LOGIN_STATUS);
-  if(storageLoginStatus) {
-    return storageLoginStatus === 'true' ? true : false;
-  } else {
-    return false;
-  }
+function getDefaultState(): userData {
+  return {
+    id: '',
+    name: '',
+    avatarUrl: null,
+  };
 }
