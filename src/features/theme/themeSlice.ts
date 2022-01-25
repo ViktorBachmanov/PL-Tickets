@@ -9,7 +9,7 @@ interface ThemeState {
 
 const initialState: ThemeState = {
   lightStatus: getInitialLightStatus(),
-  view: viewRep.list,
+  view: localStorage.getItem(Storage.VIEW_REP) || viewRep.list,
 };
 
 export const themeSlice = createSlice({
