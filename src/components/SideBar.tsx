@@ -18,10 +18,12 @@ import NavListItemButton, { breakPoint } from './NavListItemButton';
 
 const ResizedBox = styled(Box)`
   width: 255px;
+  min-width: 255px;
   height: 100vh;
   background: #363740;
   @media (max-width: ${breakPoint}px) {
     width: 70px;
+    min-width: 70px;
   } ;
 `;
 
