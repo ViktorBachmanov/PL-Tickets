@@ -7,10 +7,14 @@ interface ThemeState {
   view: string;
 }
 
-const initialState: ThemeState = {
-  lightStatus: getInitialLightStatus(),
-  view: localStorage.getItem(Storage.VIEW_REP) || viewRep.list,
-};
+let initialState: ThemeState;
+
+const storageState = localStorage.getItem(Storage.THEME_DATA);
+if(storageState) {
+  initialState = JSON.parse(storageState);
+} else {
+  initialState = getDefaultState();
+}
 
 export const themeSlice = createSlice({
   name: 'theme',
@@ -37,11 +41,10 @@ export default themeSlice.reducer;
 
 // helper functions
 
-function getInitialLightStatus(): LightStatus {
-  const storageLightStatus = localStorage.getItem(Storage.LIGHT_STATUS);
-  if(storageLightStatus) {
-    return parseInt(storageLightStatus) as LightStatus;
-  } else {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT;
+
+function getDefaultState(): ThemeState {
+  return {
+    lightStatus: window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT,
+    view: viewRep.list
   }
 }

@@ -16,7 +16,6 @@ export const viewRep = {
 }
 
 export enum Storage { 
-    LIGHT_STATUS = 'lightStatus', 
-    VIEW_REP = 'viewRep',
     USER_DATA ='userData',
+    THEME_DATA = 'themeData'
  }
