@@ -13,6 +13,7 @@ import { Storage } from './constants';
 window.addEventListener("beforeunload", () => {
   console.log('beforeunload');
   localStorage.setItem(Storage.LIGHT_STATUS, String(store.getState().theme.lightStatus));
+  sessionStorage.setItem(Storage.LOGIN_STATUS, String(store.getState().user.loginStatus));
 })
 
 ReactDOM.render(

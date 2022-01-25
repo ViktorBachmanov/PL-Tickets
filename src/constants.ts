@@ -15,4 +15,4 @@ export const viewRep = {
     module: "module"
 }
 
-export enum Storage { LIGHT_STATUS = 'lightStatus' }
+export enum Storage { LIGHT_STATUS = 'lightStatus', LOGIN_STATUS ='loginStatus' }

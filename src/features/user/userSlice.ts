@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-//import { useNavigate } from 'react-router-dom';
+import { Storage } from '../../constants';
 
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from './init';
@@ -19,7 +19,7 @@ const initialState: State = {
   id: '',
   name: '',
   avatarUrl: null,
-  loginStatus: false,
+  loginStatus: getInitialLoginStatus(),
 };
 
 const provider = new GoogleAuthProvider();
@@ -67,3 +67,15 @@ export const userSlice = createSlice({
 export const { set } = userSlice.actions;
 
 export default userSlice.reducer;
+
+
+// helper functions
+
+function getInitialLoginStatus(): boolean {
+  const storageLoginStatus = sessionStorage.getItem(Storage.LOGIN_STATUS);
+  if(storageLoginStatus) {
+    return storageLoginStatus === 'true' ? true : false;
+  } else {
+    return false;
+  }
+}

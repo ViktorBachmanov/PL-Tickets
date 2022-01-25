@@ -38,8 +38,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function Layout(props: PropsFromRedux) {
   const { loginStatus, lightMode, getTotalDocs } = props;
 
-  console.log('Layout');
-
   React.useEffect(() => {
     getTotalDocs();
   }, [getTotalDocs]);
