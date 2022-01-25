@@ -8,7 +8,7 @@ interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  lightStatus: LightStatus.LIGHT,
+  lightStatus: window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT,
   view: viewRep.list,
 };
 

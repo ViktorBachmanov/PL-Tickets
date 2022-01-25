@@ -9,7 +9,6 @@ import { Toaster } from 'react-hot-toast';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { css } from '@emotion/react';
 
@@ -18,9 +17,7 @@ import { RootState } from '../app/store';
 import SideBar from './SideBar';
 import AppBarTickets from '../features/appbar/AppBarTickets';
 import Login from './Login';
-import { setLightStatus as setLightStatusAction } from '../features/theme/themeSlice';
 import createMainTheme from '../features/theme/mainTheme';
-import { LightStatus } from '../features/theme/types';
 import { getTotalDocs as getTotalDocsAction } from '../features/tickets/ticketsSlice';
 
 function mapStateToProps(state: RootState) {
@@ -31,7 +28,6 @@ function mapStateToProps(state: RootState) {
 }
 
 const mapDispatchToProps = {
-  setLightStatus: setLightStatusAction,
   getTotalDocs: getTotalDocsAction,
 };
 
@@ -40,17 +36,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function Layout(props: PropsFromRedux) {
-  const { loginStatus, lightMode, setLightStatus, getTotalDocs } = props;
+  const { loginStatus, lightMode, getTotalDocs } = props;
 
-  //console.log('Layout');
+  console.log('Layout');
 
-  const isPrefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  //console.log('isPrefersDarkMode: ', isPrefersDarkMode);
-  const systemLightMode = isPrefersDarkMode ? LightStatus.DARK : LightStatus.LIGHT;
   React.useEffect(() => {
-    setLightStatus(systemLightMode);
     getTotalDocs();
-  }, [systemLightMode, setLightStatus, getTotalDocs]); 
+  }, [getTotalDocs]);
 
   const mainTheme = React.useMemo(
     () => createMainTheme(lightMode),
