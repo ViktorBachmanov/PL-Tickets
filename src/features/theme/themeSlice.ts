@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LightStatus } from './types';
-import { viewRep, Storage } from '../../constants';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { LightStatus } from "./types";
+import { viewRep, Storage } from "../../constants";
 
 interface ThemeState {
   lightStatus: LightStatus;
@@ -10,14 +10,14 @@ interface ThemeState {
 let initialState: ThemeState;
 
 const storageState = localStorage.getItem(Storage.THEME_DATA);
-if(storageState) {
+if (storageState) {
   initialState = JSON.parse(storageState);
 } else {
   initialState = getDefaultState();
 }
 
 export const themeSlice = createSlice({
-  name: 'theme',
+  name: "theme",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -38,13 +38,13 @@ export const { setLightStatus, setView } = themeSlice.actions;
 
 export default themeSlice.reducer;
 
-
 // helper functions
-
 
 function getDefaultState(): ThemeState {
   return {
-    lightStatus: window.matchMedia('(prefers-color-scheme: dark)').matches ? LightStatus.DARK : LightStatus.LIGHT,
-    view: viewRep.list
-  }
+    lightStatus: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? LightStatus.DARK
+      : LightStatus.LIGHT,
+    view: viewRep.list,
+  };
 }

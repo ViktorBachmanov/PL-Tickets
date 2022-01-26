@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 const LoaderSpan = styled.span`
   display: inline-block;
@@ -47,10 +47,10 @@ export default function Loader() {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 'calc(100vh - 200px)',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "calc(100vh - 200px)",
       }}
     >
       <LoaderSpan></LoaderSpan>

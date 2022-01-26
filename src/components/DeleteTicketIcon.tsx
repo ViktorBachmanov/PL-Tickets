@@ -2,96 +2,89 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useState } from "react";
-import { connect, ConnectedProps } from 'react-redux';
-import toast from 'react-hot-toast';
+import { connect, ConnectedProps } from "react-redux";
+import toast from "react-hot-toast";
 
-import { css } from '@emotion/react'
+import { css } from "@emotion/react";
 
-import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import Box from "@mui/material/Box";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
-import { deleteTicket as deleteTicketAction } from '../features/tickets/ticketsSlice';
-import { ticketsDeletingMessages } from '../features/tickets/constants';
-
+import { deleteTicket as deleteTicketAction } from "../features/tickets/ticketsSlice";
+import { ticketsDeletingMessages } from "../features/tickets/constants";
 
 const mapDispatchToProps = {
-    deleteTicket: deleteTicketAction,   
+  deleteTicket: deleteTicketAction,
 };
 
 const connector = connect(null, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & {
-    ticketId: string;
+  ticketId: string;
+};
+
+enum ViewMode {
+  NORMAL,
+  CONFIRM,
 }
-
-
-enum ViewMode { NORMAL, CONFIRM }
-
 
 function DeleteTicketIcon(props: Props) {
-    const { ticketId, deleteTicket } = props;
+  const { ticketId, deleteTicket } = props;
 
-    const [view, setView] = useState(ViewMode.NORMAL);
+  const [view, setView] = useState(ViewMode.NORMAL);
 
-    function handleOnClick(ev: React.MouseEvent) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        setView(ViewMode.CONFIRM);
-    }
+  function handleOnClick(ev: React.MouseEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    setView(ViewMode.CONFIRM);
+  }
 
-    function handleConfirmDelete(ev: React.MouseEvent) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        const rslt = deleteTicket(ticketId).unwrap();
-        toast.promise(rslt, ticketsDeletingMessages);
-    }
+  function handleConfirmDelete(ev: React.MouseEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const rslt = deleteTicket(ticketId).unwrap();
+    toast.promise(rslt, ticketsDeletingMessages);
+  }
 
-    function handleCancel(ev: React.MouseEvent) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        setView(ViewMode.NORMAL);
-    }
+  function handleCancel(ev: React.MouseEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    setView(ViewMode.NORMAL);
+  }
 
-    
+  const normalElem = <DeleteIcon onClick={handleOnClick} />;
 
-    const normalElem = (
-        <DeleteIcon 
-            onClick={handleOnClick}
-        />
-    )
+  const confirmElem = (
+    <Box
+      css={css`
+        display: flex;
+      `}
+    >
+      <CheckIcon
+        onClick={handleConfirmDelete}
+        color="success"
+        css={css`
+          margin: 0.25rem;
+        `}
+      />
 
-    const confirmElem = (
-        <Box
-            css={css`
-                display: flex;
-            `}
-        >
-            <CheckIcon
-                onClick={handleConfirmDelete}
-                color="success"
-                css={css`margin: 0.25rem;`}
-            />
+      <CloseIcon
+        onClick={handleCancel}
+        color="error"
+        css={css`
+          margin: 0.25rem;
+        `}
+      />
+    </Box>
+  );
 
-            <CloseIcon
-                onClick={handleCancel}
-                color="error"
-                css={css`margin: 0.25rem;`}
-            />
+  const viewElem = view === ViewMode.NORMAL ? normalElem : confirmElem;
 
-        </Box>
-
-    )
-
-    const viewElem = view === ViewMode.NORMAL ? normalElem : confirmElem;
-
-
-    return viewElem;
+  return viewElem;
 }
-
 
 export default connector(DeleteTicketIcon);

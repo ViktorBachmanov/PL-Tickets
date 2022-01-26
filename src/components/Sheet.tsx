@@ -1,13 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
+import React from "react";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 interface Props {
   title: string;

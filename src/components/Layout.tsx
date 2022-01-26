@@ -1,29 +1,29 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
-import Box from '@mui/material/Box';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import Box from "@mui/material/Box";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { RootState } from '../app/store';
+import { RootState } from "../app/store";
 
-import SideBar from './SideBar';
-import AppBarTickets from '../features/appbar/AppBarTickets';
-import Login from './Login';
-import createMainTheme from '../features/theme/mainTheme';
-import { getTotalDocs as getTotalDocsAction } from '../features/tickets/ticketsSlice';
+import SideBar from "./SideBar";
+import AppBarTickets from "../features/appbar/AppBarTickets";
+import Login from "./Login";
+import createMainTheme from "../features/theme/mainTheme";
+import { getTotalDocs as getTotalDocsAction } from "../features/tickets/ticketsSlice";
 
 function mapStateToProps(state: RootState) {
   return {
     userId: state.user.id,
-    lightMode: state.theme.lightStatus,  
+    lightMode: state.theme.lightStatus,
   };
 }
 
@@ -47,11 +47,9 @@ function Layout(props: PropsFromRedux) {
     [lightMode]
   );
 
-
   if (!userId) {
     return <Login />;
   }
-
 
   return (
     <Box
@@ -73,7 +71,7 @@ function Layout(props: PropsFromRedux) {
         >
           <AppBarTickets />
 
-          <div style={{ padding: '30px' }}>
+          <div style={{ padding: "30px" }}>
             <Outlet />
           </div>
 
@@ -83,6 +81,5 @@ function Layout(props: PropsFromRedux) {
     </Box>
   );
 }
-
 
 export default connector(Layout);

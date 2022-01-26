@@ -1,18 +1,18 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TablePagination from '@mui/material/TablePagination';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import TablePagination from "@mui/material/TablePagination";
 
-import { RoutesPathes } from '../../constants';
+import { RoutesPathes } from "../../constants";
 
 import {
   loadPage as loadPageAction,
@@ -21,23 +21,23 @@ import {
   togglePriorityOrder as togglePriorityOrderAction,
   toggleDateOrder as toggleDateOrderAction,
   setCurrentTicketById as setCurrentTicketByIdAction,
-} from './ticketsSlice';
-import { setView as setViewAction } from '../theme/themeSlice';
-import { BgColors, LightStatus } from '../theme/types';
-import ViewToggle from '../theme/ViewToggle';
-import { RootState } from '../../app/store';
+} from "./ticketsSlice";
+import { setView as setViewAction } from "../theme/themeSlice";
+import { BgColors, LightStatus } from "../theme/types";
+import ViewToggle from "../theme/ViewToggle";
+import { RootState } from "../../app/store";
 import {
   setTitle as setTitleAction,
   setSearchDisplay as setSearchDisplayAction,
   resetSearchText as resetSearchTextAction,
-} from '../appbar/appbarSlice';
-import { ticketsPerPageOptions } from './constants';
-import { RequestStatus, viewRep } from '../../constants';
-import TicketsTable from './TicketsTable';
-import TicketsModule from './TicketsModule';
-import Loader from '../../components/Loader';
-import Login from '../../components/Login';
-import { TicketCardData } from './types';
+} from "../appbar/appbarSlice";
+import { ticketsPerPageOptions } from "./constants";
+import { RequestStatus, viewRep } from "../../constants";
+import TicketsTable from "./TicketsTable";
+import TicketsModule from "./TicketsModule";
+import Loader from "../../components/Loader";
+import Login from "../../components/Login";
+import { TicketCardData } from "./types";
 
 function mapStateToProps(state: RootState) {
   return {
@@ -96,7 +96,7 @@ function Tickets(props: PropsFromRedux) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTitle('Tickets');
+    setTitle("Tickets");
     setSearchDisplay(true);
 
     return function clean() {
@@ -107,17 +107,29 @@ function Tickets(props: PropsFromRedux) {
 
   useEffect(() => {
     loadPage();
-  }, [currentPage, ticketsPerPage, dateOrder, priorityOrder, loadPage, totalTickets]);
+  }, [
+    currentPage,
+    ticketsPerPage,
+    dateOrder,
+    priorityOrder,
+    loadPage,
+    totalTickets,
+  ]);
 
   useEffect(() => {
     setVisibleTickets(filterTickets(ticketsList, searchText));
   }, [searchText, ticketsList]);
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     props.setCurrentPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const rowsPerPage = parseInt(event.target.value, 10);
 
     props.setTicketsPerPage(rowsPerPage);
@@ -141,10 +153,15 @@ function Tickets(props: PropsFromRedux) {
       />
     );
   } else {
-    viewComp = <TicketsModule tickets={visibleTickets} setCurrentTicketById={props.setCurrentTicketById} />;
+    viewComp = (
+      <TicketsModule
+        tickets={visibleTickets}
+        setCurrentTicketById={props.setCurrentTicketById}
+      />
+    );
   }
 
-  const background = lightMode === LightStatus.LIGHT ? '#FFF' : BgColors.DARK;
+  const background = lightMode === LightStatus.LIGHT ? "#FFF" : BgColors.DARK;
 
   if (!userId) {
     return <Login />;
@@ -208,8 +225,11 @@ export default connector(Tickets);
 
 // helper functions
 
-function filterTickets(tickets: Array<TicketCardData>, text: string): Array<TicketCardData> {
+function filterTickets(
+  tickets: Array<TicketCardData>,
+  text: string
+): Array<TicketCardData> {
   return tickets.filter((ticket) => {
-    return ticket.title.match(RegExp(text, 'i'));
+    return ticket.title.match(RegExp(text, "i"));
   });
 }

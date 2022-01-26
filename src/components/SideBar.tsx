@@ -1,20 +1,20 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
-import PieChartIcon from '@mui/icons-material/PieChart';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import SvgIcon from '@mui/material/SvgIcon';
-import { styled } from '@mui/material/styles';
-import { RoutesPathes } from '../constants';
-import { ReactComponent as Logo } from '../logo.svg';
-import { css } from '@emotion/react';
+import PieChartIcon from "@mui/icons-material/PieChart";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import SvgIcon from "@mui/material/SvgIcon";
+import { styled } from "@mui/material/styles";
+import { RoutesPathes } from "../constants";
+import { ReactComponent as Logo } from "../logo.svg";
+import { css } from "@emotion/react";
 
-import NavListItemButton, { breakPoint } from './NavListItemButton';
+import NavListItemButton, { breakPoint } from "./NavListItemButton";
 
 const ResizedBox = styled(Box)`
   width: 255px;
@@ -48,7 +48,7 @@ export default function SideBar() {
           />
           <span
             css={css`
-              font-family: 'Mulish', sans-serif;
+              font-family: "Mulish", sans-serif;
               font-weight: bold;
               font-size: 19px;
               color: #a4a6b3;
@@ -64,9 +64,17 @@ export default function SideBar() {
           </span>
         </ListItem>
 
-        <NavListItemButton to={RoutesPathes.DASHBOARD} text="Dashboard" icon={<PieChartIcon />} />
+        <NavListItemButton
+          to={RoutesPathes.DASHBOARD}
+          text="Dashboard"
+          icon={<PieChartIcon />}
+        />
 
-        <NavListItemButton to={RoutesPathes.TICKETS} text="Tickets" icon={<ConfirmationNumberIcon />} />
+        <NavListItemButton
+          to={RoutesPathes.TICKETS}
+          text="Tickets"
+          icon={<ConfirmationNumberIcon />}
+        />
       </List>
     </ResizedBox>
   );

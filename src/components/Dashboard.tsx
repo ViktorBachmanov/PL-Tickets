@@ -1,23 +1,22 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { useEffect } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
-import { RootState } from '../app/store';
+import { RootState } from "../app/store";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import { setTitle as setTitleAction } from '../features/appbar/appbarSlice';
-import { getTicketsForLastDays as getTicketsForLastDaysAction } from '../features/tickets/ticketsSlice';
+import { setTitle as setTitleAction } from "../features/appbar/appbarSlice";
+import { getTicketsForLastDays as getTicketsForLastDaysAction } from "../features/tickets/ticketsSlice";
 
-import BarChart from './BarChart';
-import SheetList from './SheetList';
-import Loader from './Loader';
-import Login from './Login';
+import BarChart from "./BarChart";
+import SheetList from "./SheetList";
+import Loader from "./Loader";
+import Login from "./Login";
 
-
-import { RequestStatus } from '../constants';
+import { RequestStatus } from "../constants";
 
 function mapStateToProps(state: RootState) {
   return {
@@ -43,7 +42,7 @@ function Dashboard(props: PropsFromRedux) {
   const { userId, setTitle, getTicketsForLastDays } = props;
 
   useEffect(() => {
-    setTitle('Dashboard');
+    setTitle("Dashboard");
     getTicketsForLastDays(period);
   }, [setTitle, getTicketsForLastDays]);
 
@@ -59,7 +58,11 @@ function Dashboard(props: PropsFromRedux) {
     <Box>
       <SheetList tickets={props.tickets} isForAllUsers={true} />
 
-      <BarChart tickets={props.tickets} lightStatus={props.lightStatus} period={period} />
+      <BarChart
+        tickets={props.tickets}
+        lightStatus={props.lightStatus}
+        period={period}
+      />
 
       <SheetList tickets={props.tickets} isForAllUsers={false} />
     </Box>

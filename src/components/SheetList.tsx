@@ -1,17 +1,17 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Sheet from './Sheet';
+import Sheet from "./Sheet";
 
-import { TicketCardData, Priority } from '../features/tickets/types';
+import { TicketCardData, Priority } from "../features/tickets/types";
 
 interface Props {
   tickets: Array<TicketCardData>;
@@ -55,9 +55,9 @@ export default function SheetList(props: Props) {
 
   const totalUncompleted = low + normal + high;
 
-  let titlePrefix = '';
+  let titlePrefix = "";
   if (isForAllUsers) {
-    titlePrefix = 'Total ';
+    titlePrefix = "Total ";
   }
 
   return (
@@ -66,10 +66,14 @@ export default function SheetList(props: Props) {
         display: flex;
       `}
     >
-      <Sheet title={titlePrefix + 'Low'} value={low} />
-      <Sheet title={titlePrefix + 'Normal'} value={normal} />
-      <Sheet title={titlePrefix + 'High'} value={high} />
-      <Sheet title={titlePrefix + 'Uncompleted'} value={totalUncompleted} total={total} />
+      <Sheet title={titlePrefix + "Low"} value={low} />
+      <Sheet title={titlePrefix + "Normal"} value={normal} />
+      <Sheet title={titlePrefix + "High"} value={high} />
+      <Sheet
+        title={titlePrefix + "Uncompleted"}
+        value={totalUncompleted}
+        total={total}
+      />
     </Box>
   );
 }

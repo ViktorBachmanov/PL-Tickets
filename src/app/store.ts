@@ -1,8 +1,8 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import ticketsReducer from '../features/tickets/ticketsSlice';
-import userReducer from '../features/user/userSlice';
-import themeReducer from '../features/theme/themeSlice';
-import appbarReducer from '../features/appbar/appbarSlice';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import ticketsReducer from "../features/tickets/ticketsSlice";
+import userReducer from "../features/user/userSlice";
+import themeReducer from "../features/theme/themeSlice";
+import appbarReducer from "../features/appbar/appbarSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,4 +15,9 @@ export const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;

@@ -2,109 +2,113 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../app/store';
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../app/store";
 
 import { debounce } from "lodash";
 
-import { css } from '@emotion/react';
-import Box from '@mui/material/Box';
+import { css } from "@emotion/react";
+import Box from "@mui/material/Box";
 //import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
-import LightModeToggle from '../theme/LightModeToggle';
+import LightModeToggle from "../theme/LightModeToggle";
 import { setSearchText as setSearchTextAction } from "./appbarSlice";
 
-
 function mapStateToProps(state: RootState) {
-    return { 
-        userAvatarUrl: state.user.avatarUrl,
-        userName: state.user.name,
-        title: state.appbar.title,
-        isSearchDisplay: state.appbar.isSearchDisplay,
-    };
+  return {
+    userAvatarUrl: state.user.avatarUrl,
+    userName: state.user.name,
+    title: state.appbar.title,
+    isSearchDisplay: state.appbar.isSearchDisplay,
+  };
 }
 
 const mapDispatchToProps = {
-    setSearchText: setSearchTextAction,
+  setSearchText: setSearchTextAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>  
-
-
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function AppBarTickets(props: PropsFromRedux) {
-    const userAvatarUrl: string = props.userAvatarUrl as string;
-    const userName: string = props.userName as string;
+  const userAvatarUrl: string = props.userAvatarUrl as string;
+  const userName: string = props.userName as string;
 
-    function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
-        props.setSearchText(ev.target.value);
-    }
+  function handleChange(ev: React.ChangeEvent<HTMLInputElement>) {
+    props.setSearchText(ev.target.value);
+  }
 
-    const debouncedChangeHandler = debounce(handleChange, 400);
-  
-    return (
-        <Box
-            css={css`
-                padding: 30px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-end;
-            `}
-        >
-            <Typography 
-                variant="h5" 
-                component="div"
-                fontWeight={700}
-                css={css`margin-right: auto;`}
-            >
-                {props.title}
-            </Typography>
+  const debouncedChangeHandler = debounce(handleChange, 400);
 
-            {props.isSearchDisplay &&
-                <TextField
-                    label="Search tickets"
-                    variant="outlined"
-                    css={css`margin-right: 50px;`}
-                    onChange={debouncedChangeHandler}
-                    InputProps={{
-                        startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                        ),
-                    }}                  
-                />
-            }
-            
-            
-            <LightModeToggle />
+  return (
+    <Box
+      css={css`
+        padding: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+      `}
+    >
+      <Typography
+        variant="h5"
+        component="div"
+        fontWeight={700}
+        css={css`
+          margin-right: auto;
+        `}
+      >
+        {props.title}
+      </Typography>
 
-            <Divider 
-                orientation="vertical"
-                variant="middle"
-                flexItem 
-                css={css`margin: 0 30px;`}
-            />
+      {props.isSearchDisplay && (
+        <TextField
+          label="Search tickets"
+          variant="outlined"
+          css={css`
+            margin-right: 50px;
+          `}
+          onChange={debouncedChangeHandler}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
 
-            <span css={css`margin-right: 1rem`}>
-                {userName}
-            </span>
+      <LightModeToggle />
 
-            <Avatar alt={userName.charAt(0)} src={userAvatarUrl}/>
+      <Divider
+        orientation="vertical"
+        variant="middle"
+        flexItem
+        css={css`
+          margin: 0 30px;
+        `}
+      />
 
-        </Box>
-    )
+      <span
+        css={css`
+          margin-right: 1rem;
+        `}
+      >
+        {userName}
+      </span>
+
+      <Avatar alt={userName.charAt(0)} src={userAvatarUrl} />
+    </Box>
+  );
 }
-
 
 export default connector(AppBarTickets);

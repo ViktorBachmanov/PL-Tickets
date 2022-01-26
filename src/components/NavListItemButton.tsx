@@ -1,14 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import * as React from "react";
+import { NavLink } from "react-router-dom";
 
-import { styled } from '@mui/material/styles';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import { SvgIconProps } from '@mui/material/SvgIcon';
+import { styled } from "@mui/material/styles";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import { SvgIconProps } from "@mui/material/SvgIcon";
 
 export const breakPoint = 1280;
 
@@ -20,7 +20,7 @@ const SideListItemText = styled(ListItemText)`
   margin-left: 24px;
 
   & * {
-    font-family: 'Mulish', sans-serif;
+    font-family: "Mulish", sans-serif;
   }
 `;
 
@@ -60,7 +60,10 @@ export default function NavListItemButton(props: Props): React.ReactElement {
   return (
     <NavLink to={to}>
       {({ isActive }) => (
-        <SideListItemButton selected={isActive ? true : false} disableTouchRipple>
+        <SideListItemButton
+          selected={isActive ? true : false}
+          disableTouchRipple
+        >
           <SideListItemIcon title={text}>{icon}</SideListItemIcon>
           <SideListItemText primary={text} />
         </SideListItemButton>

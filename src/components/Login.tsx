@@ -1,24 +1,27 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { css } from '@emotion/react';
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { css } from "@emotion/react";
 
-import { SelectChangeEvent } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import { SelectChangeEvent } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
-import { loginGoogle as loginGoogleAction, set } from '../features/user/userSlice';
-import { usersData } from '../fakeUsers/data';
+import {
+  loginGoogle as loginGoogleAction,
+  set,
+} from "../features/user/userSlice";
+import { usersData } from "../fakeUsers/data";
 
 const mapDispatchToProps = {
   loginGoogle: loginGoogleAction,
@@ -85,8 +88,8 @@ function Login(props: PropsFromRedux) {
               label="fakeUsers"
               defaultValue=""
               inputProps={{
-                name: 'fake-users',
-                id: 'fake-users',
+                name: "fake-users",
+                id: "fake-users",
               }}
             >
               {fakeUsers}

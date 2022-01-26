@@ -1,22 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 interface AppbarState {
   title: string;
-  status: 'idle' | 'loading' | 'failed';
+  status: "idle" | "loading" | "failed";
   isSearchDisplay: boolean;
   searchText: string;
 }
 
 const initialState: AppbarState = {
-  title: '',
-  status: 'idle',
+  title: "",
+  status: "idle",
   isSearchDisplay: false,
-  searchText: '',
+  searchText: "",
 };
 
 export const appbarSlice = createSlice({
-  name: 'appbar',
+  name: "appbar",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -34,12 +34,13 @@ export const appbarSlice = createSlice({
       state.searchText = action.payload;
     },
     resetSearchText: (state) => {
-      state.searchText = '';
+      state.searchText = "";
     },
   },
 });
 
-export const { setTitle, setSearchDisplay, setSearchText, resetSearchText } = appbarSlice.actions;
+export const { setTitle, setSearchDisplay, setSearchText, resetSearchText } =
+  appbarSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
