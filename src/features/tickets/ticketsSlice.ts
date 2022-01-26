@@ -7,7 +7,7 @@ import { collection, addDoc, setDoc, getDoc, getDocs,
         OrderByDirection, Timestamp, where } from "firebase/firestore";
 
 import { Priority, TicketCardData, FireDocData } from "./types";
-import { RequestStatus } from "../../constants";
+import { RequestStatus, Storage } from "../../constants";
 import { db } from '../../config';
 import { ticketsCollection, countersCollection, docsCounterDocId } from '../../config';
 import { ticketsPerPageOptions } from "./constants";
@@ -26,7 +26,7 @@ interface initialState {
   dateOrder: OrderByDirection;
 }
 
-const initialState: initialState = {
+let initialState: initialState = {
     requestStatus: RequestStatus.IDLE,
     list: [defaultTicketData()],
     currentTicket: defaultTicketData(),
@@ -38,7 +38,13 @@ const initialState: initialState = {
     dateOrder: "desc",
 };
 
-
+const storageStateOptions = localStorage.getItem(Storage.PAGINATION_ORDER_DATA);
+if(storageStateOptions) {
+  initialState = {
+    ...initialState,
+    ...JSON.parse(storageStateOptions)
+  }
+}
 
 
 
@@ -348,3 +354,4 @@ export function createTicketData(id: string, docData: FireDocData): TicketCardDa
     updatedAt: docData.updatedAt.toMillis(),
   };
 }
+

@@ -10,8 +10,18 @@ import { store } from './app/store';
 import { Storage } from './constants';
 
 
+
 window.addEventListener("beforeunload", () => {
   localStorage.setItem(Storage.THEME_DATA, JSON.stringify(store.getState().theme));
+
+  localStorage.setItem(Storage.PAGINATION_ORDER_DATA, 
+      JSON.stringify({
+        ticketsPerPage: store.getState().tickets.ticketsPerPage,
+        currentPage: store.getState().tickets.currentPage,
+        dateOrder: store.getState().tickets.dateOrder,
+        priorityOrder: store.getState().tickets.priorityOrder
+      })
+  );
 
   sessionStorage.setItem(Storage.USER_DATA, JSON.stringify(store.getState().user));
 })

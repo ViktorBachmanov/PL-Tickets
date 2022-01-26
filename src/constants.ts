@@ -17,5 +17,6 @@ export const viewRep = {
 
 export enum Storage { 
     USER_DATA ='userData',
-    THEME_DATA = 'themeData'
+    THEME_DATA = 'themeData',
+    PAGINATION_ORDER_DATA = 'paginationOrderData'
  }
