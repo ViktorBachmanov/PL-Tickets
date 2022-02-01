@@ -71,3 +71,16 @@ export default function NavListItemButton(props: Props): React.ReactElement {
     </NavLink>
   );
 }
+
+export function CodeListItemButton(props: Props): React.ReactElement {
+  const { to, text, icon } = props;
+
+  return (
+    <a href={to}>
+      <SideListItemButton disableTouchRipple style={{ marginTop: "2rem" }}>
+        <SideListItemIcon title={text}>{icon}</SideListItemIcon>
+        <SideListItemText primary={text} />
+      </SideListItemButton>
+    </a>
+  );
+}

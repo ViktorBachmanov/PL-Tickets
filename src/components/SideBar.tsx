@@ -8,13 +8,17 @@ import ListItem from "@mui/material/ListItem";
 
 import PieChartIcon from "@mui/icons-material/PieChart";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import SvgIcon from "@mui/material/SvgIcon";
 import { styled } from "@mui/material/styles";
 import { RoutesPathes } from "../constants";
 import { ReactComponent as Logo } from "../logo.svg";
 import { css } from "@emotion/react";
 
-import NavListItemButton, { breakPoint } from "./NavListItemButton";
+import NavListItemButton, {
+  breakPoint,
+  CodeListItemButton,
+} from "./NavListItemButton";
 
 const ResizedBox = styled(Box)`
   width: 255px;
@@ -74,6 +78,12 @@ export default function SideBar() {
           to={RoutesPathes.TICKETS}
           text="Tickets"
           icon={<ConfirmationNumberIcon />}
+        />
+
+        <CodeListItemButton
+          to={"https://github.com/ViktorBachmanov/PL-Tickets"}
+          text="Source code"
+          icon={<GitHubIcon />}
         />
       </List>
     </ResizedBox>
