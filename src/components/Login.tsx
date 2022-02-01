@@ -62,7 +62,7 @@ function Login(props: PropsFromRedux) {
             align-items: center;
           `}
         >
-          <Button variant="contained" onClick={props.loginGoogle}>
+          <Button variant="contained" onClick={props.loginGoogle} disabled>
             with Google
           </Button>
 
