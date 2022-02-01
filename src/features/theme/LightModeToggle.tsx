@@ -35,6 +35,10 @@ function LightModeToggle(props: PropsFromRedux) {
     event: React.MouseEvent<HTMLElement>,
     nextMode: LightStatus
   ) => {
+    if (nextMode === null) {
+      return;
+    }
+
     props.setLightMode(nextMode);
 
     if (nextMode === LightStatus.LIGHT) {
