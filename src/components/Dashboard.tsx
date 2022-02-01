@@ -43,7 +43,7 @@ function Dashboard(props: PropsFromRedux) {
 
   useEffect(() => {
     setTitle("Dashboard");
-    getTicketsForLastDays(period);
+    getTicketsForLastDays(/*period*/);
   }, [setTitle, getTicketsForLastDays]);
 
   if (!userId) {

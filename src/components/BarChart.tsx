@@ -43,7 +43,7 @@ export default function BarChart(props: Props) {
         Uncompleted trends
       </Typography>
 
-      <Typography
+      {/*<Typography
         variant="subtitle2"
         component="div"
         color="text.secondary"
@@ -52,7 +52,7 @@ export default function BarChart(props: Props) {
         `}
       >
         for last {props.period} days
-      </Typography>
+      </Typography>*/}
 
       <div style={{ height: "540px" }}>
         <ResponsiveBar
