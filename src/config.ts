@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+
 export const firebaseConfig = {
-  apiKey: "AIzaSyBo2qI8BxR8Nd8NEXYe34-zVwZtsmR8VEk",
-  authDomain: "tickets-96e9d.firebaseapp.com",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   projectId: "tickets-96e9d",
   storageBucket: "tickets-96e9d.appspot.com",
   messagingSenderId: "713325504899",
-  appId: "1:713325504899:web:b0dc60eceab1ddffe7eeb6",
+  appId: process.env.REACT_APP_ID,
   measurementId: "G-Y7KDJME5QX",
 };
 
